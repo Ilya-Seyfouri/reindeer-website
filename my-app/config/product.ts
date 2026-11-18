@@ -54,7 +54,7 @@ export type Bundle = {
 export const site = {
   name: "Rudy & Co.",
   shortName: "Rudy & Co",
-  url: "https://rudyandco.com", // [PLACEHOLDER] your live domain
+  url: "https://rudyco.uk",
   description:
     "The soft reindeer costume for dogs. One size with an adjustable fit, goes on in seconds, machine washable.",
   currency: "USD",

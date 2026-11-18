@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { Logo } from "@/components/layout/Logo";
 import { PaymentIcons } from "@/components/layout/PaymentIcons";
+import { ForestSkyline } from "@/components/ui/Prints";
 import { site } from "@/config/product";
 
 const groups = [
@@ -24,7 +25,9 @@ const groups = [
 
 export function Footer() {
   return (
-    <footer className="on-dark bg-cocoa-deep text-white">
+    <>
+    <ForestSkyline className="-mb-px" />
+    <footer className="on-dark print-festive bg-cocoa-deep text-white">
       <div className="wrap grid gap-12 pt-16 pb-10 md:grid-cols-[1.4fr_1fr_1fr] md:gap-10 md:pt-20">
         <div className="flex flex-col gap-4">
           <Logo tone="light" className="-ml-0.5 w-fit" />
@@ -66,5 +69,6 @@ export function Footer() {
         </div>
       </div>
     </footer>
+    </>
   );
 }

@@ -171,6 +171,47 @@ export const AntlersIcon = (p: IconProps) => (
   </Svg>
 );
 
+export const PawIcon = (p: IconProps) => (
+  <Svg {...p}>
+    <path
+      d="M12 13c-2.6 0-5 2.4-5 4.6 0 1.5 1.1 2.4 2.5 2.4 1 0 1.6-.5 2.5-.5s1.5.5 2.5.5c1.4 0 2.5-.9 2.5-2.4 0-2.2-2.4-4.6-5-4.6Z"
+      fill="currentColor"
+      stroke="none"
+    />
+    <ellipse cx="6" cy="10.5" rx="1.7" ry="2.1" fill="currentColor" stroke="none" />
+    <ellipse cx="9.4" cy="6.6" rx="1.8" ry="2.3" fill="currentColor" stroke="none" />
+    <ellipse cx="14.6" cy="6.6" rx="1.8" ry="2.3" fill="currentColor" stroke="none" />
+    <ellipse cx="18" cy="10.5" rx="1.7" ry="2.1" fill="currentColor" stroke="none" />
+  </Svg>
+);
+
+export const SnowflakeIcon = (p: IconProps) => (
+  <Svg {...p}>
+    <path d="M12 3v18M4.2 7.5l15.6 9M4.2 16.5l15.6-9" />
+    <path d="m9.5 4.5 2.5 2 2.5-2M9.5 19.5l2.5-2 2.5 2M4.6 10.4l3.1-.5-1.1-3M19.4 13.6l-3.1.5 1.1 3M4.6 13.6l3.1.5-1.1 3M19.4 10.4l-3.1-.5 1.1-3" />
+  </Svg>
+);
+
+export const GiftIcon = (p: IconProps) => (
+  <Svg {...p}>
+    <rect x="3.5" y="8" width="17" height="4" rx="1" />
+    <path d="M5 12v7.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V12M12 8v12.5" />
+    <path d="M12 8C10.5 5 7 4.5 7 6.5S10 8 12 8Zm0 0c1.5-3 5-3.5 5-1.5S14 8 12 8Z" />
+  </Svg>
+);
+
+export const TreeIcon = (p: IconProps) => (
+  <Svg {...p}>
+    <path d="M12 3 7.5 9h2.5L6 14h3l-4 5h14l-4-5h3l-4-5h2.5L12 3ZM12 19v2.5" />
+  </Svg>
+);
+
+export const SparkleIcon = (p: IconProps) => (
+  <Svg {...p}>
+    <path d="M12 3c.6 4.6 2.4 6.4 7 7-4.6.6-6.4 2.4-7 7-.6-4.6-2.4-6.4-7-7 4.6-.6 6.4-2.4 7-7Z" />
+  </Svg>
+);
+
 export const StarIcon =({ size = 20, ...p }: IconProps) => (
   <svg width={size} height={size} viewBox="0 0 20 20" aria-hidden="true" focusable="false" {...p}>
     <path

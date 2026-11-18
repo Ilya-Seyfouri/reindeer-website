@@ -6,13 +6,13 @@ import { useState } from "react";
 import { useCart } from "@/components/cart/CartProvider";
 import { Logo } from "@/components/layout/Logo";
 import { Drawer } from "@/components/ui/Drawer";
-import { ArrowRightIcon, BagIcon, MenuIcon } from "@/components/ui/icons";
+import { ArrowRightIcon, BagIcon, MenuIcon, SparkleIcon } from "@/components/ui/icons";
 import { site } from "@/config/product";
 
 const nav = [
   { href: "/", label: "Shop" },
-  { href: "/contact", label: "Contact Us" },
   { href: "/track", label: "Track Order" },
+  { href: "/contact", label: "Contact Us" },
   { href: "/waiting-list", label: "Waiting List" },
 ];
 
@@ -20,9 +20,13 @@ const menuExtra = [{ href: "/refund-policy", label: "Refund policy" }];
 
 export function AnnouncementBar() {
   return (
-    <div className="on-dark bg-cocoa text-white">
-      <p className="wrap py-2.5 text-center text-[1.0625rem] leading-snug sm:text-lg">
-        <strong>{site.announcement.lead}</strong> {site.announcement.text}
+    <div className="on-dark print-festive bg-cocoa text-white">
+      <p className="wrap flex items-center justify-center gap-2.5 py-2.5 text-center text-[1.0625rem] leading-snug sm:text-lg">
+        <SparkleIcon size={16} className="hidden shrink-0 text-fawn sm:block" />
+        <span>
+          <strong>{site.announcement.lead}</strong> {site.announcement.text}
+        </span>
+        <SparkleIcon size={16} className="hidden shrink-0 text-fawn sm:block" />
       </p>
     </div>
   );

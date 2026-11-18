@@ -7,21 +7,25 @@
 ------------------------------------------------------------------- */
 @theme {
   --color-white: oklch(1 0 0);
-  --color-ink: oklch(0.24 0.035 52);
-  --color-ink-soft: oklch(0.4 0.035 52);
-  --color-line: oklch(0.88 0.02 62);
-  --color-line-strong: oklch(0.78 0.03 60);
+  --color-ink: oklch(0.24 0.04 30);
+  --color-ink-soft: oklch(0.4 0.045 42);
+  --color-line: oklch(0.89 0.022 60);
+  --color-line-strong: oklch(0.79 0.032 58);
 
-  --color-fawn: oklch(0.82 0.07 64);
-  --color-fawn-deep: oklch(0.74 0.085 61);
-  --color-fawn-soft: oklch(0.945 0.026 66);
-  --color-caramel: oklch(0.6 0.12 64);
-  --color-caramel-deep: oklch(0.5 0.11 60);
+  --color-fawn: oklch(0.83 0.035 65);
+  --color-fawn-deep: oklch(0.75 0.045 60);
+  --color-fawn-soft: oklch(0.95 0.018 70);
+  --color-caramel: oklch(0.52 0.16 20);
+  --color-caramel-deep: oklch(0.4 0.14 18);
 
-  --color-cocoa: oklch(0.3 0.05 50);
-  --color-cocoa-hover: oklch(0.37 0.06 52);
-  --color-cocoa-deep: oklch(0.22 0.035 50);
-  --color-on-cocoa-soft: oklch(0.87 0.03 64);
+  --color-cocoa: oklch(0.33 0.12 18);
+  --color-cocoa-hover: oklch(0.4 0.14 19);
+  --color-cocoa-deep: oklch(0.25 0.09 18);
+  --color-on-cocoa-soft: oklch(0.9 0.03 50);
+
+  /* Brand board: burgundy, chocolate, cream, beige, Rudolph red */
+  --color-chocolate: oklch(0.37 0.05 45);
+  --color-rudolph: oklch(0.62 0.2 22);
 
   --color-danger: oklch(0.5 0.17 28);
   --color-success: oklch(0.47 0.1 150);
@@ -220,14 +224,14 @@
     color: var(--color-white);
     box-shadow:
       0 1px 0 oklch(1 0 0 / 0.12) inset,
-      0 6px 18px -8px oklch(0.3 0.05 50 / 0.55);
+      0 6px 18px -8px oklch(0.33 0.12 18 / 0.55);
   }
   @media (hover: hover) {
     .btn-primary:hover:not(:disabled) {
       background: var(--color-cocoa-hover);
       box-shadow:
         0 1px 0 oklch(1 0 0 / 0.12) inset,
-        0 10px 24px -10px oklch(0.3 0.05 50 / 0.6);
+        0 10px 24px -10px oklch(0.33 0.12 18 / 0.6);
       transform: translateY(-1px);
     }
   }
@@ -295,6 +299,22 @@
     text-decoration: underline dotted var(--color-caramel);
     text-decoration-thickness: 2px;
     text-underline-offset: 0.22em;
+  }
+
+  /* Brand print: cream trees, paws and sparkles on a dark band */
+  .print-festive {
+    position: relative;
+    isolation: isolate;
+  }
+  .print-festive::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    pointer-events: none;
+    background-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160' fill='%23F7EDE1'><path d='M28 10l-8 11h4l-7 9h22l-7-9h4z'/><rect x='26.5' y='30' width='3' height='5'/><g transform='translate(100 22)'><ellipse cx='0' cy='9' rx='6' ry='5'/><circle cx='-7' cy='2' r='2.3'/><circle cx='-2.5' cy='-3' r='2.4'/><circle cx='2.5' cy='-3' r='2.4'/><circle cx='7' cy='2' r='2.3'/></g><path d='M70 70c1 7 3 9 10 10-7 1-9 3-10 10-1-7-3-9-10-10 7-1 9-3 10-10z'/><path d='M135 100l-7 10h3.5l-6 8h19l-6-8h3.5z'/><rect x='133.5' y='118' width='3' height='4'/><g transform='translate(35 125)'><ellipse cx='0' cy='7' rx='5' ry='4'/><circle cx='-5.5' cy='1.5' r='1.9'/><circle cx='-2' cy='-2.5' r='2'/><circle cx='2' cy='-2.5' r='2'/><circle cx='5.5' cy='1.5' r='1.9'/></g><path d='M140 40c.6 4 1.6 5 5.6 5.6-4 .6-5 1.6-5.6 5.6-.6-4-1.6-5-5.6-5.6 4-.6 5-1.6 5.6-5.6z'/><circle cx='95' cy='140' r='1.6'/><circle cx='12' cy='75' r='1.4'/><circle cx='115' cy='70' r='1.2'/></svg>");
+    background-size: 160px 160px;
+    opacity: 0.09;
   }
 
   /* Long-form policy text */
@@ -449,7 +469,7 @@ dialog.drawer.drawer-left[open] {
   }
 }
 dialog.drawer::backdrop {
-  background: oklch(0.22 0.035 50 / 0.45);
+  background: oklch(0.25 0.09 18 / 0.45);
   opacity: 0;
   transition:
     opacity 300ms var(--ease-out-quart),

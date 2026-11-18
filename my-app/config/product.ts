@@ -96,9 +96,8 @@ export const product = {
   maxQuantity: 20,
   /** The quick lines under the product title */
   highlights: [
-    { icon: "feather", strong: "Soft brushed fleece", light: "gentle on fur" },
-    { icon: "clock", strong: "On in 10 seconds", light: "no wrestling" },
-    { icon: "ruler", strong: "One size fits most", light: "adjustable strap" }, // [PLACEHOLDER] match your fit range
+    { icon: "clock", strong: "On in 5 seconds", light: "no wrestling" },
+    { icon: "paw", strong: "One size fits most", light: "adjustable strap" }, // [PLACEHOLDER] match your fit range
     { icon: "wash", strong: "Machine washable", light: "cool wash, air dry" },
   ],
   /** Product gallery, in order. The first one is the big photo shoppers see first. */
@@ -273,7 +272,7 @@ export const comparison = {
   rows: [
     { icon: "leaf", feature: "Non-toxic, pet-safe fabric and dyes", others: "Often unknown" },
     { icon: "ruler", feature: "One adjustable size fits every dog", others: "Guess the size" },
-    { icon: "clock", feature: "On in about 10 seconds", others: "Buckles and zips" },
+    { icon: "clock", feature: "On in about 5 seconds", others: "Buckles and zips" },
     { icon: "wash", feature: "Machine washable", others: "Hand wash only" },
     { icon: "antlers", feature: "Antlers that stay upright", others: "Droop and flop" },
     { icon: "shield", feature: `${guarantee.days}-day money-back guarantee`, others: "Final sale" },

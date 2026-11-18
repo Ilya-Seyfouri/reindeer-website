@@ -43,6 +43,7 @@
   /* Semantic stacking order */
   --z-base: 1;
   --z-sticky: 20;
+  --z-snow: 25;
   --z-header: 30;
   --z-drawer: 50;
   --z-toast: 60;

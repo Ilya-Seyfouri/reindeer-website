@@ -33,7 +33,7 @@ const icons = {
 
 export function Hero() {
   return (
-    <section id="buy" aria-labelledby="product-title" className="wrap pt-0 pb-16 sm:pt-8 md:pb-24 lg:pt-12">
+    <section id="buy" data-section="product" aria-labelledby="product-title" className="wrap pt-0 pb-16 sm:pt-8 md:pb-24 lg:pt-12">
       <div className="mx-auto grid max-w-[38rem] gap-7 md:gap-10 lg:max-w-none lg:grid-cols-[1.12fr_1fr] lg:gap-14 xl:gap-16">
         <div className="enter min-w-0 lg:sticky lg:top-[calc(var(--header-h)+1.5rem)] lg:self-start">
           <Gallery />

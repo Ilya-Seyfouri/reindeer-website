@@ -5,7 +5,7 @@ import { faqs, site } from "@/config/product";
 
 export function Faq() {
   return (
-    <section id="faq" aria-labelledby="faq-title" className="section">
+    <section id="faq" data-section="faq" aria-labelledby="faq-title" className="section">
       <div className="wrap grid gap-10 lg:grid-cols-[0.8fr_1.2fr] lg:gap-20">
         <div className="lg:sticky lg:top-[calc(var(--header-h)+2.5rem)] lg:self-start">
           <h2 id="faq-title" className="reveal h-section max-w-[14ch]">

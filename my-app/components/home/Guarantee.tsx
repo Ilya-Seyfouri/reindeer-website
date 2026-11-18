@@ -6,7 +6,7 @@ import { guarantee } from "@/config/product";
 
 export function Guarantee() {
   return (
-    <section aria-labelledby="guarantee-title" className="section bg-fawn">
+    <section data-section="guarantee" aria-labelledby="guarantee-title" className="section bg-fawn">
       <div className="wrap flex flex-col items-start gap-10 md:flex-row md:items-center md:gap-16 lg:gap-24">
         <div className="reveal">
           <GuaranteeSeal className="size-44 sm:size-52" />

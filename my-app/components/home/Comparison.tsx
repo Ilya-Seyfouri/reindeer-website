@@ -26,7 +26,7 @@ export function Comparison() {
   const last = comparison.rows.length - 1;
 
   return (
-    <section aria-labelledby="compare-title" className="section">
+    <section data-section="comparison" aria-labelledby="compare-title" className="section">
       <div className="wrap">
         <div className="mx-auto flex max-w-[54rem] flex-col items-start gap-7 sm:flex-row sm:items-center sm:gap-9">
           <div className="reveal size-24 shrink-0 overflow-hidden rounded-full shadow-[0_0_0_6px_var(--color-fawn)] sm:size-36">

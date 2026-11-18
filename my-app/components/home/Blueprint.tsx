@@ -28,7 +28,7 @@ export function Blueprint() {
   const [active, setActive] = useState<number | null>(null);
 
   return (
-    <section aria-labelledby="blueprint-title" className="on-dark section bg-cocoa text-white" style={grid}>
+    <section data-section="blueprint" aria-labelledby="blueprint-title" className="on-dark section bg-cocoa text-white" style={grid}>
       <div className="wrap">
         <div className="mx-auto max-w-[40rem] text-center">
           <h2 id="blueprint-title" className="reveal h-section">

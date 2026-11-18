@@ -41,7 +41,7 @@ function ReviewCard({ review }: { review: Review }) {
 
 export function Reviews() {
   return (
-    <section id="reviews" aria-labelledby="reviews-title" className="section bg-fawn">
+    <section id="reviews" data-section="reviews" aria-labelledby="reviews-title" className="section bg-fawn">
       <div className="wrap">
         <div className="mx-auto max-w-[48rem] text-center">
           <h2 id="reviews-title" className="reveal h-section">

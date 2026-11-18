@@ -6,6 +6,7 @@ import { Guarantee } from "@/components/home/Guarantee";
 import { Hero } from "@/components/home/Hero";
 import { ProductSelectionProvider } from "@/components/home/ProductSelection";
 import { Reviews } from "@/components/home/Reviews";
+import { SectionTracker } from "@/components/home/SectionTracker";
 import { StickyBuyBar } from "@/components/home/StickyBuyBar";
 import { faqs, product, site } from "@/config/product";
 import { getStoreSettings } from "@/lib/store-settings";
@@ -50,6 +51,7 @@ export default async function Home() {
       <Faq />
       <Guarantee />
       <StickyBuyBar />
+      <SectionTracker />
     </ProductSelectionProvider>
   );
 }

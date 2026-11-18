@@ -8,8 +8,9 @@ import { ProductSelectionProvider } from "@/components/home/ProductSelection";
 import { Reviews } from "@/components/home/Reviews";
 import { StickyBuyBar } from "@/components/home/StickyBuyBar";
 import { faqs, product, site } from "@/config/product";
+import { getStoreSettings } from "@/lib/store-settings";
 
-const jsonLd = {
+const jsonLd = (soldOut: boolean) => ({
   "@context": "https://schema.org",
   "@graph": [
     {
@@ -21,7 +22,7 @@ const jsonLd = {
         "@type": "Offer",
         price: (product.price / 100).toFixed(2),
         priceCurrency: site.currency,
-        availability: "https://schema.org/InStock",
+        availability: soldOut ? "https://schema.org/OutOfStock" : "https://schema.org/InStock",
         url: site.url,
       },
     },
@@ -34,12 +35,13 @@ const jsonLd = {
       })),
     },
   ],
-};
+});
 
-export default function Home() {
+export default async function Home() {
+  const settings = await getStoreSettings();
   return (
-    <ProductSelectionProvider>
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
+    <ProductSelectionProvider settings={settings}>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd(settings.soldOut)) }} />
       <Hero />
       <FitsEveryDog />
       <Comparison />

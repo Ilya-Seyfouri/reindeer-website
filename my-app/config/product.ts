@@ -284,15 +284,15 @@ export const comparison = {
  * Sold-out mode. While `soldOut` is true, "Add to cart" opens a dropdown with
  * a countdown to the next drop and a waiting-list sign-up instead of the cart.
  *
- * Set `nextDropAt` to the real restock time (ISO date, e.g.
- * "2026-11-20T17:00:00-05:00"). While it's null, each visitor sees an 8-day
- * countdown from their first click, which starts again when it runs out.
- * [PLACEHOLDER] use a real date before launch so the countdown is honest.
+ * The live values come from the `store_settings` table in Supabase, so you
+ * can change them from the dashboard without a redeploy (see
+ * lib/store-settings.ts). These are only used if the database can't be reached.
+ * When the countdown reaches zero it shows "Restocking now" until you set a new
+ * date or turn sold out off. It never restarts by itself.
  */
 export const drop = {
   soldOut: true,
   nextDropAt: null as string | null,
-  fallbackDays: 8,
 };
 
 /** The waiting list page. [PLACEHOLDER] copy and perks */

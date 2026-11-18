@@ -3,7 +3,8 @@
 import { useRouter } from "next/navigation";
 import { createContext, useCallback, useContext, useMemo, useState } from "react";
 import { useCart } from "@/components/cart/CartProvider";
-import { bundles, drop } from "@/config/product";
+import { bundles } from "@/config/product";
+import type { StoreSettings } from "@/lib/store-settings";
 
 /**
  * Which bundle (1, 2 or 3 costumes) the shopper has picked on the landing
@@ -22,13 +23,21 @@ type SelectionContextValue = {
   setSoldOutOpen: (open: boolean) => void;
   /** Scrolls back up to the purchase options. */
   goToOptions: () => void;
+  /** Live store settings from the database: sold out, and when the next drop is. */
+  settings: StoreSettings;
 };
 
 const SelectionContext = createContext<SelectionContextValue | null>(null);
 
 const DEFAULT_QUANTITY = bundles.find((b) => b.popular)?.quantity ?? 1;
 
-export function ProductSelectionProvider({ children }: { children: React.ReactNode }) {
+export function ProductSelectionProvider({
+  settings,
+  children,
+}: {
+  settings: StoreSettings;
+  children: React.ReactNode;
+}) {
   const router = useRouter();
   const { add, openCart } = useCart();
   const [quantity, setQuantity] = useState(DEFAULT_QUANTITY);
@@ -48,7 +57,7 @@ export function ProductSelectionProvider({ children }: { children: React.ReactNo
 
   const buy = useCallback<SelectionContextValue["buy"]>(
     (then = "drawer") => {
-      if (drop.soldOut) {
+      if (settings.soldOut) {
         setSoldOutOpen(true);
         const button = document.getElementById("hero-buy");
         const rect = button?.getBoundingClientRect();
@@ -66,12 +75,12 @@ export function ProductSelectionProvider({ children }: { children: React.ReactNo
       if (then === "checkout") router.push("/checkout");
       else openCart();
     },
-    [quantity, add, openCart, router],
+    [quantity, add, openCart, router, settings.soldOut],
   );
 
   const value = useMemo(
-    () => ({ quantity, setQuantity, buy, goToOptions, soldOutOpen, setSoldOutOpen }),
-    [quantity, buy, goToOptions, soldOutOpen],
+    () => ({ quantity, setQuantity, buy, goToOptions, soldOutOpen, setSoldOutOpen, settings }),
+    [quantity, buy, goToOptions, soldOutOpen, settings],
   );
 
   return <SelectionContext.Provider value={value}>{children}</SelectionContext.Provider>;

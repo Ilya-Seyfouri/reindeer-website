@@ -17,7 +17,7 @@ import {
 } from "@/components/ui/icons";
 import { Ph } from "@/components/ui/Placeholder";
 import { Stars } from "@/components/ui/Stars";
-import { bundles, drop, guarantee, product, productFaqs, type Bundle } from "@/config/product";
+import { bundles, guarantee, product, productFaqs, type Bundle } from "@/config/product";
 import { formatMoney, priceFor } from "@/lib/pricing";
 
 const icons = {
@@ -185,7 +185,7 @@ function Option({ bundle, selected, onSelect }: { bundle: Bundle; selected: bool
 }
 
 function AddToCartButton() {
-  const { quantity, buy, soldOutOpen, setSoldOutOpen } = useSelection();
+  const { quantity, buy, soldOutOpen, setSoldOutOpen, settings } = useSelection();
   const total = priceFor(quantity);
   const was = (product.compareAtPrice ?? product.price) * quantity;
 
@@ -195,8 +195,8 @@ function AddToCartButton() {
         id="hero-buy"
         type="button"
         onClick={() => (soldOutOpen ? setSoldOutOpen(false) : buy())}
-        aria-expanded={drop.soldOut ? soldOutOpen : undefined}
-        aria-controls={drop.soldOut ? "sold-out-panel" : undefined}
+        aria-expanded={settings.soldOut ? soldOutOpen : undefined}
+        aria-controls={settings.soldOut ? "sold-out-panel" : undefined}
         className="enter btn btn-primary btn-lg mt-4 w-full gap-3 px-5 text-[1.125rem] tracking-[0.04em] whitespace-nowrap uppercase sm:px-14 sm:text-[1.3125rem]"
         style={{ "--i": 6 } as React.CSSProperties}
       >
@@ -226,7 +226,7 @@ function AddToCartButton() {
           }`}
         />
       </button>
-      {drop.soldOut ? <SoldOutPanel open={soldOutOpen} /> : null}
+      {settings.soldOut ? <SoldOutPanel open={soldOutOpen} nextDropAt={settings.nextDropAt} /> : null}
     </>
   );
 }

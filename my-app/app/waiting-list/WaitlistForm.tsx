@@ -17,9 +17,9 @@ export function WaitlistForm() {
     const formEl = event.currentTarget;
     const form = new FormData(formEl);
     const data = {
-      firstName: String(form.get("firstName") ?? "").trim(),
       email: String(form.get("email") ?? "").trim(),
-      dogName: String(form.get("dogName") ?? "").trim(),
+      source: "waiting-list",
+      company: form.get("company"),
     };
 
     if (!/^\S+@\S+\.\S+$/.test(data.email)) {
@@ -52,11 +52,10 @@ export function WaitlistForm() {
         </span>
         <h2 className="font-display text-[1.875rem]">You&rsquo;re on the list</h2>
         <p>
-          We&rsquo;ll email <strong>{state.email}</strong> as soon as there&rsquo;s news. In the meantime, the costume is
-          available to order now.
+          We&rsquo;ll email <strong>{state.email}</strong> the moment the next drop goes live.
         </p>
         <Link href="/" className="btn btn-primary">
-          Shop the costume
+          Back to the shop
         </Link>
       </div>
     );
@@ -65,8 +64,15 @@ export function WaitlistForm() {
   return (
     <form noValidate onSubmit={onSubmit} className="enter flex flex-col gap-6" style={{ "--i": 1 } as React.CSSProperties}>
       <TextField name="email" label="Email address" type="email" autoComplete="email" error={emailError} />
-      <TextField name="firstName" label="First name" autoComplete="given-name" optional />
-      <TextField name="dogName" label="Your dog's name" optional placeholder="e.g. Biscuit" />
+      {/* Left empty by people; bots fill it in and their sign-up is dropped. */}
+      <input
+        type="text"
+        name="company"
+        tabIndex={-1}
+        autoComplete="off"
+        aria-hidden="true"
+        className="absolute -left-[9999px] size-px opacity-0"
+      />
       <div aria-live="polite">
         {state.kind === "error" ? (
           <p role="alert" className="rounded-2xl bg-fawn-soft p-5 font-bold text-danger">

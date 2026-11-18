@@ -1,7 +1,7 @@
 "use client";
 
+import Image from "next/image";
 import { useState } from "react";
-import { Placeholder } from "@/components/ui/Placeholder";
 import { blueprint } from "@/config/product";
 
 /** Drafting-paper grid in the brand's fawn, drawn on cocoa. */
@@ -40,18 +40,24 @@ export function Blueprint() {
         <figure className="mx-auto mt-12 max-w-[64rem] sm:mt-16">
           <div className="reveal relative">
             <CornerMarks />
-            {/*
-              Swap in your drawing:
-              <Image src="/photos/blueprint.png" alt="Diagram of the costume ..." fill className="object-contain" />
-              then move each pin's x / y in config/product.ts to line up with it.
-            */}
-            <Placeholder
-              label={blueprint.image.label}
-              detail={blueprint.image.detail}
-              ratio={blueprint.image.ratio}
-              tone="deep"
-              className="rounded-2xl"
-            />
+            {/* The drawing has no background, so it sits on the same soft fawn panel. */}
+            <div className="relative isolate aspect-video overflow-hidden rounded-2xl bg-fawn-deep/45">
+              <div
+                aria-hidden="true"
+                className="absolute inset-0 -z-10 opacity-60"
+                style={{
+                  backgroundImage:
+                    "radial-gradient(circle at 30% 20%, oklch(1 0 0 / 0.7), transparent 55%), radial-gradient(circle at 80% 90%, oklch(0.74 0.085 61 / 0.35), transparent 50%)",
+                }}
+              />
+              <Image
+                src={blueprint.image.src}
+                alt={blueprint.image.alt}
+                fill
+                sizes="(min-width: 1088px) 1024px, 94vw"
+                className="object-contain"
+              />
+            </div>
             <div aria-hidden="true" className="reveal-fade absolute inset-0">
               {blueprint.parts.map((part, i) => (
                 <span

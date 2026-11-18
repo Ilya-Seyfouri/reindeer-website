@@ -9,7 +9,20 @@
  *
  * Money is stored in cents (3500 = $35) to avoid rounding errors. Prices are
  * shown in whole dollars, so keep them to round amounts.
+ *
+ * Photos live in app/images/. Swap a file there (same name) to change a photo.
  */
+
+import blueprintImage from "@/app/images/blueprint.png";
+import hero1 from "@/app/images/hero.png";
+import hero2 from "@/app/images/hero2.png";
+import hero3 from "@/app/images/hero3.png";
+import hero4 from "@/app/images/hero4.png";
+import hero5 from "@/app/images/hero5.png";
+import rudyVsImage from "@/app/images/rudyvs.png";
+import size1 from "@/app/images/size1.png";
+import size2 from "@/app/images/size2.png";
+import size3 from "@/app/images/size3.png";
 
 export type Review = {
   name: string;
@@ -84,12 +97,13 @@ export const product = {
     { icon: "ruler", strong: "One size fits most", light: "adjustable strap" }, // [PLACEHOLDER] match your fit range
     { icon: "wash", strong: "Machine washable", light: "cool wash, air dry" },
   ],
+  /** Product gallery, in order. The first one is the big photo shoppers see first. */
   images: [
-    { label: "HERO PHOTO", detail: "Dog wearing the costume, front view", ratio: "1:1" },
-    { label: "PHOTO 2", detail: "Side view showing the hood and antlers", ratio: "1:1" },
-    { label: "PHOTO 3", detail: "Close-up of the soft fleece and tummy strap", ratio: "1:1" },
-    { label: "PHOTO 4", detail: "Two dogs wearing it together", ratio: "1:1" },
-    { label: "PHOTO 5", detail: "Close-up of the plush antlers", ratio: "1:1" },
+    { src: hero1, label: "Front view", alt: "Golden retriever sitting in the Rudy reindeer costume" },
+    { src: hero2, label: "Side view", alt: "Golden retriever on a leash wearing the costume, seen from the side" },
+    { src: hero3, label: "Small and large dogs", alt: "A chihuahua and a husky side by side, both wearing the costume" },
+    { src: hero4, label: "Hood and antlers", alt: "Close-up of a German shepherd in the hood with plush antlers" },
+    { src: hero5, label: "Tummy strap", alt: "Hands fastening the soft tummy strap under a dog's belly" },
   ],
 } as const;
 
@@ -217,26 +231,29 @@ export const fitShowcase = {
   title: "Fits every dog",
   intro: "Tiny, medium or big and fluffy. One adjustable size wraps to fit, so there's no chart to puzzle over.",
   dogs: [
-    { size: "Small", name: "Peanut", breed: "Chihuahua", weight: "6 lbs" }, // [PLACEHOLDER]
-    { size: "Medium", name: "Biscuit", breed: "Beagle", weight: "24 lbs" }, // [PLACEHOLDER]
-    { size: "Large", name: "Bear", breed: "Labrador", weight: "70 lbs" }, // [PLACEHOLDER]
+    { size: "Small", name: "Peanut", breed: "Pug", weight: "16 lbs", photo: size1 }, // [PLACEHOLDER] name, weight
+    { size: "Medium", name: "Biscuit", breed: "Golden Retriever", weight: "60 lbs", photo: size2 }, // [PLACEHOLDER] name, weight
+    { size: "Large", name: "Bear", breed: "Husky", weight: "65 lbs", photo: size3 }, // [PLACEHOLDER] name, weight
   ],
 };
 
 /**
  * The blueprint: one design-outline image with numbered pins.
- * x / y are percentages across / down the image. Move them to line up with
- * your real drawing once you add it. [PLACEHOLDER] positions
+ * x / y are percentages across / down the image. If you change the drawing,
+ * move them to line up with it.
  */
 export const blueprint = {
   title: "Designed around your dog",
   intro: "Every part has a job: stay on, stay comfy, and come off in seconds.",
-  image: { label: "BLUEPRINT", detail: "Design outline of the costume showing each part", ratio: "16:9" },
+  image: {
+    src: blueprintImage,
+    alt: "Line drawing of the costume from the front, side and back, plus the hood and tummy strap on their own",
+  },
   parts: [
-    { x: 50, y: 14, title: "Plush antlers", body: "Firmly stuffed so they stand up on their own and never flop over." },
-    { x: 34, y: 34, title: "Soft, loose hood", body: "Ears stay free and nothing covers the eyes or presses on the face." },
-    { x: 55, y: 70, title: "Adjustable tummy strap", body: "Soft hook-and-loop closes under the belly and stretches from small to large." },
-    { x: 80, y: 52, title: "Open legs and tail", body: "Nothing on the paws or tail, so walking, sitting and potty breaks are normal." },
+    { x: 18, y: 17, title: "Plush antlers", body: "Firmly stuffed so they stand up on their own and never flop over." },
+    { x: 36, y: 37, title: "Soft, loose hood", body: "Ears stay free and nothing covers the eyes or presses on the face." },
+    { x: 81, y: 71, title: "Adjustable tummy strap", body: "Soft hook-and-loop closes under the belly and stretches from small to large." },
+    { x: 60, y: 66, title: "Open legs and tail", body: "Nothing on the paws or tail, so walking, sitting and potty breaks are normal." },
   ],
 };
 
@@ -247,7 +264,7 @@ export const blueprint = {
 export const comparison = {
   title: "Rudy vs. other costumes",
   intro: "Most dog costumes are made to be cheap. Ours is made to be worn.",
-  photo: { label: "PHOTO", detail: "Happy dog in the costume, close-up" },
+  photo: { src: rudyVsImage, alt: "Smiling corgi in the reindeer hood" },
   rows: [
     { icon: "leaf", feature: "Non-toxic, pet-safe fabric and dyes", others: "Often unknown" },
     { icon: "ruler", feature: "One adjustable size fits every dog", others: "Guess the size" },

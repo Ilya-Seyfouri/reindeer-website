@@ -1,3 +1,4 @@
+import Image from "next/image";
 import { BuyButton } from "@/components/home/BuyButton";
 import {
   AntlersIcon,
@@ -9,7 +10,6 @@ import {
   ShieldIcon,
   WashIcon,
 } from "@/components/ui/icons";
-import { Placeholder } from "@/components/ui/Placeholder";
 import { comparison, guarantee } from "@/config/product";
 
 const icons = {
@@ -30,8 +30,13 @@ export function Comparison() {
       <div className="wrap">
         <div className="mx-auto flex max-w-[54rem] flex-col items-start gap-7 sm:flex-row sm:items-center sm:gap-9">
           <div className="reveal size-24 shrink-0 overflow-hidden rounded-full shadow-[0_0_0_6px_var(--color-fawn)] sm:size-36">
-            <Placeholder label={comparison.photo.label} ratio="1:1" compact className="rounded-full sm:hidden" />
-            <Placeholder label={comparison.photo.label} ratio="1:1" className="hidden rounded-full sm:grid" />
+            <Image
+              src={comparison.photo.src}
+              alt={comparison.photo.alt}
+              placeholder="blur"
+              sizes="(min-width: 640px) 144px, 96px"
+              className="size-full object-cover"
+            />
           </div>
           <div>
             <h2 id="compare-title" className="reveal h-section">

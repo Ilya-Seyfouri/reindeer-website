@@ -1,9 +1,9 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 import { WaitlistForm } from "@/app/waiting-list/WaitlistForm";
 import { PageHeader } from "@/components/layout/PageHeader";
 import { CheckIcon } from "@/components/ui/icons";
-import { Placeholder } from "@/components/ui/Placeholder";
-import { waitlist } from "@/config/product";
+import { comparison, waitlist } from "@/config/product";
 
 export const metadata: Metadata = {
   title: "Waiting list",
@@ -22,7 +22,13 @@ export default function WaitingListPage() {
         >
           <div className="flex items-center gap-5">
             <div className="size-20 shrink-0 overflow-hidden rounded-full shadow-[0_0_0_5px_var(--color-fawn)]">
-              <Placeholder label="PHOTO" ratio="1:1" compact className="rounded-full" />
+              <Image
+                src={comparison.photo.src}
+                alt={comparison.photo.alt}
+                placeholder="blur"
+                sizes="80px"
+                className="size-full object-cover"
+              />
             </div>
             <h2 className="font-display text-[1.625rem] leading-tight">What you&rsquo;ll get</h2>
           </div>

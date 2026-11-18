@@ -1,4 +1,4 @@
-import { Placeholder } from "@/components/ui/Placeholder";
+import Image from "next/image";
 import { fitShowcase } from "@/config/product";
 
 /**
@@ -27,11 +27,12 @@ export function FitsEveryDog() {
         >
           {dogs.map((dog) => (
             <li key={dog.size} className="w-[74%] shrink-0 snap-start">
-              <Placeholder
-                label={`${dog.size.toUpperCase()} DOG`}
-                detail={`${dog.breed} wearing the costume`}
-                ratio="4:5"
-                className="rounded-3xl"
+              <Image
+                src={dog.photo}
+                alt={`${dog.name} the ${dog.breed} wearing the costume`}
+                placeholder="blur"
+                sizes="74vw"
+                className="aspect-[4/5] w-full rounded-3xl bg-fawn-soft object-cover"
               />
               <p className="mt-4 font-display text-[1.625rem] leading-none">{dog.size}</p>
               <p className="mt-1.5 text-ink-soft">
@@ -46,11 +47,12 @@ export function FitsEveryDog() {
           <ul className="reveal-stagger grid grid-cols-3 gap-5 lg:gap-8">
             {dogs.map((dog, i) => (
               <li key={dog.size} style={{ "--i": i } as React.CSSProperties}>
-                <Placeholder
-                  label={`${dog.size.toUpperCase()} DOG`}
-                  detail={`${dog.breed} wearing the costume`}
-                  ratio="4:5"
-                  className="rounded-3xl"
+                <Image
+                  src={dog.photo}
+                  alt={`${dog.name} the ${dog.breed} wearing the costume`}
+                  placeholder="blur"
+                  sizes="(min-width: 1024px) 340px, 31vw"
+                  className="aspect-[4/5] w-full rounded-3xl bg-fawn-soft object-cover"
                 />
               </li>
             ))}

@@ -1,8 +1,8 @@
 "use client";
 
+import Image from "next/image";
 import { useRef, useState } from "react";
 import { GuaranteeSeal } from "@/components/ui/GuaranteeSeal";
-import { Placeholder } from "@/components/ui/Placeholder";
 import { product } from "@/config/product";
 
 /** Big swipeable photo with a row of thumbnails underneath, edge to edge with it. */
@@ -40,7 +40,14 @@ export function Gallery() {
             aria-label={`${i + 1} of ${images.length}`}
           >
             <div className="relative">
-              <Placeholder label={img.label} detail={img.detail} ratio={img.ratio} />
+              <Image
+                src={img.src}
+                alt={img.alt}
+                placeholder="blur"
+                preload={i === 0}
+                sizes="(min-width: 1024px) 560px, (min-width: 640px) 90vw, 100vw"
+                className="aspect-square w-full bg-fawn-soft object-cover"
+              />
               {i === 0 ? (
                 <GuaranteeSeal className="absolute top-3 right-3 size-24 drop-shadow-[0_8px_16px_oklch(0.22_0.035_50/0.3)] sm:top-4 sm:right-4 sm:size-28 lg:size-32" />
               ) : null}
@@ -63,7 +70,13 @@ export function Gallery() {
                 : "opacity-75 shadow-[0_0_0_1.5px_var(--color-line)] hover:opacity-100"
             }`}
           >
-            <Placeholder label={img.label} ratio="1:1" compact />
+            <Image
+              src={img.src}
+              alt=""
+              placeholder="blur"
+              sizes="(min-width: 1024px) 110px, 20vw"
+              className="aspect-square w-full bg-fawn-soft object-cover"
+            />
           </button>
         ))}
       </div>

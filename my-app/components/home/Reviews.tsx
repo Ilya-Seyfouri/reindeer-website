@@ -13,7 +13,7 @@ export function Reviews() {
   const [showAll, setShowAll] = useState(false);
 
   return (
-    <section id="reviews" aria-labelledby="reviews-title" className="section">
+    <section id="reviews" aria-labelledby="reviews-title" className="section bg-fawn">
       <div className="wrap">
         <div className="flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
           <div>
@@ -74,7 +74,7 @@ export function Reviews() {
           </div>
         ) : null}
 
-        <div className="mt-14 flex justify-center border-t border-line pt-12">
+        <div className="mt-14 flex justify-center border-t border-fawn-deep pt-12">
           <BuyButton className="items-center text-center" note="Join the happy dogs. Ships fast, returns are easy." />
         </div>
       </div>

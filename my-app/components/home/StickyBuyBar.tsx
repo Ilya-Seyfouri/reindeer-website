@@ -46,7 +46,7 @@ export function StickyBuyBar() {
           <p className="truncate font-bold">
             {quantity} {quantity === 1 ? "costume" : "costumes"}
           </p>
-          <p className="text-ink-soft tabular-nums">
+          <p className="truncate text-ink-soft tabular-nums">
             <Ph>{formatMoney(priceFor(quantity))}</Ph>
             {quantity > 1 ? " · free shipping" : ""}
           </p>

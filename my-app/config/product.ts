@@ -271,4 +271,49 @@ export const faqs = [
   },
 ];
 
-export const paymentMethods = ["Visa", "Mastercard", "Amex", "Discover", "Apple Pay", "Google Pay"] as const;
+/** "Fits every dog": three photos of the costume on dogs of different sizes. */
+export const fitShowcase = {
+  title: "Fits every dog",
+  intro: "Tiny, medium or big and fluffy. One adjustable size wraps to fit, so there's no chart to puzzle over.",
+  dogs: [
+    { size: "Small", name: "Peanut", breed: "Chihuahua", weight: "6 lbs" }, // [PLACEHOLDER]
+    { size: "Medium", name: "Biscuit", breed: "Beagle", weight: "24 lbs" }, // [PLACEHOLDER]
+    { size: "Large", name: "Bear", breed: "Labrador", weight: "70 lbs" }, // [PLACEHOLDER]
+  ],
+};
+
+/**
+ * The blueprint: one design-outline image with numbered pins.
+ * x / y are percentages across / down the image. Move them to line up with
+ * your real drawing once you add it. [PLACEHOLDER] positions
+ */
+export const blueprint = {
+  title: "Designed around your dog",
+  intro: "Every part has a job: stay on, stay comfy, and come off in seconds.",
+  image: { label: "BLUEPRINT", detail: "Design outline of the costume showing each part", ratio: "16:9" },
+  parts: [
+    { x: 50, y: 14, title: "Plush antlers", body: "Firmly stuffed so they stand up on their own and never flop over." },
+    { x: 34, y: 34, title: "Soft, loose hood", body: "Ears stay free and nothing covers the eyes or presses on the face." },
+    { x: 55, y: 70, title: "Adjustable tummy strap", body: "Soft hook-and-loop closes under the belly and stretches from small to large." },
+    { x: 80, y: 52, title: "Open legs and tail", body: "Nothing on the paws or tail, so walking, sitting and potty breaks are normal." },
+  ],
+};
+
+/**
+ * "Rudy vs other costumes". Only claim what is true for your product and
+ * keep proof (test reports, certificates) on file. [PLACEHOLDER] all rows
+ */
+export const comparison = {
+  title: "Rudy vs. other costumes",
+  intro: "Most dog costumes are made to be cheap. Ours is made to be worn.",
+  rows: [
+    { feature: "Non-toxic, pet-safe fabric and dyes", others: "Often unknown" },
+    { feature: "One adjustable size fits every dog", others: "Guess the size" },
+    { feature: "On in about 10 seconds", others: "Buckles and zips" },
+    { feature: "Machine washable", others: "Hand wash only" },
+    { feature: "Antlers that stay upright", others: "Droop and flop" },
+    { feature: `${guarantee.days}-day money-back guarantee`, others: "Final sale" },
+  ],
+};
+
+export const paymentMethods =["Visa", "Mastercard", "Amex", "Discover", "Apple Pay", "Google Pay"] as const;

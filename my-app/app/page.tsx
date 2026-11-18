@@ -1,6 +1,9 @@
 import { Benefits } from "@/components/home/Benefits";
+import { Blueprint } from "@/components/home/Blueprint";
+import { Comparison } from "@/components/home/Comparison";
 import { Faq } from "@/components/home/Faq";
 import { FinalCta } from "@/components/home/FinalCta";
+import { FitsEveryDog } from "@/components/home/FitsEveryDog";
 import { Guarantee } from "@/components/home/Guarantee";
 import { Hero } from "@/components/home/Hero";
 import { ProductSelectionProvider } from "@/components/home/ProductSelection";
@@ -41,6 +44,9 @@ export default function Home() {
     <ProductSelectionProvider>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
       <Hero />
+      <FitsEveryDog />
+      <Blueprint />
+      <Comparison />
       <VideoSection />
       <Benefits />
       <Reviews />

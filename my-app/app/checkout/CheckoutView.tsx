@@ -8,6 +8,7 @@ import { PaymentIcons } from "@/components/layout/PaymentIcons";
 import { ArrowRightIcon, LockIcon, ReturnIcon, TruckIcon } from "@/components/ui/icons";
 import { Ph } from "@/components/ui/Placeholder";
 import { guarantee, shipping, site } from "@/config/product";
+import { track } from "@/lib/analytics";
 
 type Status = { kind: "idle" } | { kind: "loading" } | { kind: "error"; message: string };
 
@@ -17,6 +18,7 @@ export function CheckoutView() {
   const empty = quantity === 0;
 
   async function startCheckout() {
+    track("checkout_started", { quantity });
     setStatus({ kind: "loading" });
     try {
       const res = await fetch("/api/checkout", {

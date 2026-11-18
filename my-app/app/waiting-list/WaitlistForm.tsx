@@ -5,6 +5,7 @@ import { useState } from "react";
 import { CheckIcon } from "@/components/ui/icons";
 import { TextField } from "@/components/ui/TextField";
 import { site } from "@/config/product";
+import { track } from "@/lib/analytics";
 
 type State = { kind: "idle" } | { kind: "sending" } | { kind: "joined"; email: string } | { kind: "error"; message: string };
 
@@ -37,7 +38,10 @@ export function WaitlistForm() {
         body: JSON.stringify(data),
       });
       const body: { error?: string } = await res.json().catch(() => ({}));
-      if (res.ok) setState({ kind: "joined", email: data.email });
+      if (res.ok) {
+        setState({ kind: "joined", email: data.email });
+        track("waitlist_joined", { source: "waiting-list" });
+      }
       else setState({ kind: "error", message: body.error ?? "We couldn't add you to the list." });
     } catch {
       setState({ kind: "error", message: "We couldn't connect. Check your internet connection and try again." });

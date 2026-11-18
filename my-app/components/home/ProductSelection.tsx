@@ -4,6 +4,7 @@ import { useRouter } from "next/navigation";
 import { createContext, useCallback, useContext, useMemo, useState } from "react";
 import { useCart } from "@/components/cart/CartProvider";
 import { bundles } from "@/config/product";
+import { track } from "@/lib/analytics";
 import type { StoreSettings } from "@/lib/store-settings";
 
 /**
@@ -57,6 +58,7 @@ export function ProductSelectionProvider({
 
   const buy = useCallback<SelectionContextValue["buy"]>(
     (then = "drawer") => {
+      track("add_to_cart_clicked", { quantity, sold_out: settings.soldOut });
       if (settings.soldOut) {
         setSoldOutOpen(true);
         const button = document.getElementById("hero-buy");

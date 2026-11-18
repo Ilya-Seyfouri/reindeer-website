@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import { CheckIcon, MailIcon } from "@/components/ui/icons";
 import { site } from "@/config/product";
+import { track } from "@/lib/analytics";
 
 /** Counts down to the shared drop time. `ended` once it passes, or when no time is set. */
 function useCountdown(active: boolean, nextDropAt: string | null) {
@@ -41,6 +42,12 @@ type FormState = { kind: "idle" } | { kind: "sending" } | { kind: "joined"; emai
  */
 export function SoldOutPanel({ open, nextDropAt }: { open: boolean; nextDropAt: string | null }) {
   const { ended, time } = useCountdown(open, nextDropAt);
+
+  useEffect(() => {
+    if (open) track("sold_out_viewed", { restocking: ended });
+    // Once per opening; whether it's restocking doesn't re-send it.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [open]);
   const [state, setState] = useState<FormState>({ kind: "idle" });
   const [error, setError] = useState<string>();
   const inputRef = useRef<HTMLInputElement>(null);
@@ -63,7 +70,10 @@ export function SoldOutPanel({ open, nextDropAt }: { open: boolean; nextDropAt: 
         body: JSON.stringify({ email, source: "sold-out", company: form.get("company") }),
       });
       const body: { error?: string } = await res.json().catch(() => ({}));
-      if (res.ok) setState({ kind: "joined", email });
+      if (res.ok) {
+        setState({ kind: "joined", email });
+        track("waitlist_joined", { source: "sold-out" });
+      }
       else setState({ kind: "error", message: body.error ?? "We couldn't add you to the list." });
     } catch {
       setState({ kind: "error", message: "We couldn't connect. Check your internet connection and try again." });

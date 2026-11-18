@@ -2,6 +2,7 @@
 
 import { Gallery } from "@/components/home/Gallery";
 import { useSelection } from "@/components/home/ProductSelection";
+import { track } from "@/lib/analytics";
 import { SoldOutPanel } from "@/components/home/SoldOutPanel";
 import {
   ArrowRightIcon,
@@ -107,7 +108,10 @@ function PurchaseOptions() {
             key={bundle.quantity}
             bundle={bundle}
             selected={quantity === bundle.quantity}
-            onSelect={() => setQuantity(bundle.quantity)}
+            onSelect={() => {
+              setQuantity(bundle.quantity);
+              track("bundle_selected", { quantity: bundle.quantity, free: bundle.free });
+            }}
           />
         ))}
       </div>

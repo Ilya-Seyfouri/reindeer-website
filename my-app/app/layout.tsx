@@ -36,6 +36,8 @@ export const metadata: Metadata = {
     siteName: site.name,
     type: "website",
   },
+  // The share picture itself is app/opengraph-image.jpg (and twitter-image.jpg).
+  twitter: { card: "summary_large_image" },
 };
 
 export const viewport: Viewport = {

@@ -12,9 +12,9 @@ import { guarantee, shipping, site } from "@/config/product";
 type Status = { kind: "idle" } | { kind: "loading" } | { kind: "error"; message: string };
 
 export function CheckoutView() {
-  const { lines } = useCart();
+  const { quantity } = useCart();
   const [status, setStatus] = useState<Status>({ kind: "idle" });
-  const empty = lines.length === 0;
+  const empty = quantity === 0;
 
   async function startCheckout() {
     setStatus({ kind: "loading" });
@@ -22,7 +22,7 @@ export function CheckoutView() {
       const res = await fetch("/api/checkout", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ lines }),
+        body: JSON.stringify({ quantity }),
       });
       const data: { url?: string; error?: string } = await res.json().catch(() => ({}));
       if (res.ok && data.url) {
@@ -49,7 +49,7 @@ export function CheckoutView() {
       {empty ? (
         <div className="enter mt-10 flex max-w-[34rem] flex-col items-start gap-5" style={{ "--i": 1 } as React.CSSProperties}>
           <p className="lead text-ink-soft">
-            Your cart is empty. Choose a size and we&rsquo;ll have your pup dressed up in no time.
+            Your cart is empty. Choose a bundle and we&rsquo;ll have your pup dressed up in no time.
           </p>
           <Link href="/#buy" className="btn btn-primary btn-lg">
             Shop the costume
@@ -69,7 +69,7 @@ export function CheckoutView() {
               <BundleNudge />
             </div>
             <p className="mt-6 text-ink-soft">
-              Wrong size later? No problem. Free size swaps within <Ph>{guarantee.days}</Ph> days.
+              Not the right fit? No problem. Full refund within <Ph>{guarantee.days}</Ph> days.
             </p>
           </section>
 

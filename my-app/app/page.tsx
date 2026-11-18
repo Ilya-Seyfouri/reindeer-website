@@ -1,12 +1,10 @@
 import { Benefits } from "@/components/home/Benefits";
-import { Bundle } from "@/components/home/Bundle";
 import { Faq } from "@/components/home/Faq";
 import { FinalCta } from "@/components/home/FinalCta";
 import { Guarantee } from "@/components/home/Guarantee";
 import { Hero } from "@/components/home/Hero";
 import { ProductSelectionProvider } from "@/components/home/ProductSelection";
 import { Reviews } from "@/components/home/Reviews";
-import { SizeGuide } from "@/components/home/SizeGuide";
 import { StickyBuyBar } from "@/components/home/StickyBuyBar";
 import { VideoSection } from "@/components/home/VideoSection";
 import { faqs, product, site } from "@/config/product";
@@ -45,9 +43,7 @@ export default function Home() {
       <Hero />
       <VideoSection />
       <Benefits />
-      <SizeGuide />
       <Reviews />
-      <Bundle />
       <Faq />
       <Guarantee />
       <FinalCta />

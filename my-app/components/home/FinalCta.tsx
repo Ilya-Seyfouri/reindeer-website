@@ -12,7 +12,7 @@ export function FinalCta() {
             Your dog, in the cosiest costume around
           </h2>
           <p className="reveal lead mt-5 max-w-[38ch] text-on-cocoa-soft">
-            Pick a size, add to cart, and it&rsquo;s on its way in <Ph>{shipping.processing}</Ph>. Loved by{" "}
+            Choose your bundle, add to cart, and it&rsquo;s on its way in <Ph>{shipping.processing}</Ph>. Loved by{" "}
             <Ph>{product.happyDogs}</Ph> happy dogs and their people.
           </p>
           <BuyButton tone="light" className="reveal mt-9" />

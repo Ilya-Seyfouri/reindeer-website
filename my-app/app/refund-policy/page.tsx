@@ -5,7 +5,7 @@ import { guarantee, site } from "@/config/product";
 
 export const metadata: Metadata = {
   title: "Refund policy",
-  description: `Our ${guarantee.days}-day ${guarantee.name}: free size swaps and full refunds.`,
+  description: `Our ${guarantee.days}-day ${guarantee.name}: full refunds, no awkward questions.`,
 };
 
 export default function RefundPolicyPage() {
@@ -15,8 +15,8 @@ export default function RefundPolicyPage() {
       title="Refund policy"
       summary={
         <>
-          You have {days} days from delivery to swap sizes for free or return the costume for a full refund. Just
-          email us first and we&rsquo;ll walk you through it.
+          You have {days} days from delivery to return the costume for a full refund. Just email us first and
+          we&rsquo;ll walk you through it.
         </>
       }
     >
@@ -26,18 +26,18 @@ export default function RefundPolicyPage() {
         delivery for a full refund of the item price.
       </p>
 
-      <h2>Wrong size? Free swap</h2>
+      <h2>Doesn&rsquo;t fit?</h2>
       <p>
-        If the costume doesn&rsquo;t fit, we&rsquo;ll send you a different size at no cost. We&rsquo;ll email you a
-        prepaid return label <Ph>[PLACEHOLDER: or ask you to ship it back at our cost]</Ph>, and send the new size as
-        soon as your return is on its way.
+        The costume is one size with an adjustable strap. If it still doesn&rsquo;t fit your dog, return it for a full
+        refund. We&rsquo;ll email you a prepaid return label{" "}
+        <Ph>[PLACEHOLDER: or ask you to ship it back at our cost]</Ph>.
       </p>
 
       <h2>How to start a return</h2>
       <ul>
         <li>
-          Email <a href={`mailto:${site.contact.email}`}>{site.contact.email}</a> with your order number and whether
-          you&rsquo;d like a swap or a refund.
+          Email <a href={`mailto:${site.contact.email}`}>{site.contact.email}</a> with your order number and a quick
+          note on what went wrong.
         </li>
         <li>We&rsquo;ll reply {site.contact.replyTime} with return instructions and the return address.</li>
         <li>Pack the costume securely and send it back within 14 days of getting our instructions.</li>

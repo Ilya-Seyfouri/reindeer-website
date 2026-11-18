@@ -9,7 +9,6 @@ const groups = [
     links: [
       { href: "/track", label: "Track your order" },
       { href: "/contact", label: "Contact us" },
-      { href: "/#size-guide", label: "Size guide" },
       { href: "/#faq", label: "FAQ" },
     ],
   },
@@ -29,7 +28,7 @@ export function Footer() {
         <div className="flex flex-col gap-4">
           <Logo tone="light" className="-ml-0.5 w-fit" />
           <p className="max-w-[34ch] text-on-cocoa-soft">
-            Cosy reindeer costumes for dogs of every size. Questions? We&rsquo;re real people and we reply{" "}
+            Cosy reindeer costumes for dogs, in one easy adjustable size. Questions? We&rsquo;re real people and we reply{" "}
             {site.contact.replyTime}.
           </p>
           <a href={`mailto:${site.contact.email}`} className="link w-fit text-white decoration-fawn">

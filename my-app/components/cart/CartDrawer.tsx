@@ -8,8 +8,8 @@ import { ArrowRightIcon, LockIcon, ReturnIcon } from "@/components/ui/icons";
 import { guarantee } from "@/config/product";
 
 export function CartDrawer() {
-  const { isOpen, closeCart, lines } = useCart();
-  const empty = lines.length === 0;
+  const { isOpen, closeCart, quantity } = useCart();
+  const empty = quantity === 0;
 
   return (
     <Drawer
@@ -35,9 +35,9 @@ export function CartDrawer() {
       {empty ? (
         <div className="flex h-full flex-col items-center justify-center gap-5 py-16 text-center">
           <p className="font-display text-[1.75rem] leading-tight">Your cart is empty</p>
-          <p className="max-w-[28ch] text-ink-soft">Pick a size and we&rsquo;ll get your pup dressed up.</p>
+          <p className="max-w-[28ch] text-ink-soft">Choose a bundle and we&rsquo;ll get your pup dressed up.</p>
           <Link href="/#buy" onClick={closeCart} className="btn btn-primary">
-            Choose a size
+            Shop the costume
             <ArrowRightIcon size={20} />
           </Link>
         </div>

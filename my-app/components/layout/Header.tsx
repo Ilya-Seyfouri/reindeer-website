@@ -9,16 +9,13 @@ import { ArrowRightIcon, BagIcon, MenuIcon } from "@/components/ui/icons";
 import { site } from "@/config/product";
 
 const nav = [
-  { href: "/#size-guide", label: "Size guide" },
   { href: "/#reviews", label: "Reviews" },
   { href: "/#faq", label: "FAQ" },
   { href: "/track", label: "Track order" },
+  { href: "/contact", label: "Contact" },
 ];
 
-const menuExtra = [
-  { href: "/contact", label: "Contact us" },
-  { href: "/refund-policy", label: "Refund policy" },
-];
+const menuExtra = [{ href: "/refund-policy", label: "Refund policy" }];
 
 export function AnnouncementBar() {
   return (

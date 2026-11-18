@@ -3,68 +3,52 @@
 import { useRouter } from "next/navigation";
 import { createContext, useCallback, useContext, useMemo, useState } from "react";
 import { useCart } from "@/components/cart/CartProvider";
-import type { SizeId } from "@/config/product";
+import { bundles } from "@/config/product";
 
 /**
- * The size and quantity the shopper has picked on the landing page.
- * Shared so every "Buy" button on the page (hero, sticky bar, bundle,
- * final CTA) acts on the same choice.
+ * Which bundle (1, 2 or 3 costumes) the shopper has picked on the landing
+ * page. Shared so every buy button on the page acts on the same choice.
  */
 type SelectionContextValue = {
-  size: SizeId | null;
   quantity: number;
-  sizeError: boolean;
-  setSize: (size: SizeId) => void;
   setQuantity: (quantity: number) => void;
-  /** Adds to cart. Without a size, scrolls to the size picker instead. */
-  buy: (options?: { quantity?: number; then?: "drawer" | "checkout" }) => void;
-  goToSizePicker: () => void;
+  /** Adds the chosen bundle to the cart, then opens the cart or goes to checkout. */
+  buy: (then?: "drawer" | "checkout") => void;
+  /** Scrolls back up to the purchase options. */
+  goToOptions: () => void;
 };
 
 const SelectionContext = createContext<SelectionContextValue | null>(null);
 
+const DEFAULT_QUANTITY = bundles.find((b) => b.popular)?.quantity ?? 1;
+
 export function ProductSelectionProvider({ children }: { children: React.ReactNode }) {
   const router = useRouter();
   const { add, openCart } = useCart();
-  const [size, setSizeState] = useState<SizeId | null>(null);
-  const [quantity, setQuantity] = useState(1);
-  const [sizeError, setSizeError] = useState(false);
+  const [quantity, setQuantity] = useState(DEFAULT_QUANTITY);
 
-  const setSize = useCallback((next: SizeId) => {
-    setSizeState(next);
-    setSizeError(false);
-  }, []);
-
-  const goToSizePicker = useCallback(() => {
-    const picker = document.getElementById("size-picker");
-    if (!picker) return;
+  const goToOptions = useCallback(() => {
+    const options = document.getElementById("purchase-options");
+    if (!options) return;
     const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    picker.scrollIntoView({ behavior: reduce ? "auto" : "smooth", block: "center" });
+    options.scrollIntoView({ behavior: reduce ? "auto" : "smooth", block: "center" });
     // Focus after the scroll so the screen doesn't jump twice.
     window.setTimeout(
-      () => picker.querySelector<HTMLInputElement>("input:checked, input")?.focus({ preventScroll: true }),
+      () => options.querySelector<HTMLInputElement>("input:checked")?.focus({ preventScroll: true }),
       reduce ? 0 : 450,
     );
   }, []);
 
   const buy = useCallback<SelectionContextValue["buy"]>(
-    (options = {}) => {
-      if (!size) {
-        setSizeError(true);
-        goToSizePicker();
-        return;
-      }
-      add(size, options.quantity ?? quantity);
-      if (options.then === "checkout") router.push("/checkout");
+    (then = "drawer") => {
+      add(quantity);
+      if (then === "checkout") router.push("/checkout");
       else openCart();
     },
-    [size, quantity, add, openCart, router, goToSizePicker],
+    [quantity, add, openCart, router],
   );
 
-  const value = useMemo(
-    () => ({ size, quantity, sizeError, setSize, setQuantity, buy, goToSizePicker }),
-    [size, quantity, sizeError, setSize, buy, goToSizePicker],
-  );
+  const value = useMemo(() => ({ quantity, setQuantity, buy, goToOptions }), [quantity, buy, goToOptions]);
 
   return <SelectionContext.Provider value={value}>{children}</SelectionContext.Provider>;
 }

@@ -40,9 +40,8 @@ export function Guarantee() {
             Love it, or get your money back
           </h2>
           <p className="reveal lead mt-5">
-            Try it at home for <Ph>{guarantee.days}</Ph> days. If it doesn&rsquo;t fit, we&rsquo;ll swap the size for
-            free. If your dog just isn&rsquo;t a fan, send it back for a full refund. No forms to fight with, no awkward
-            questions.
+            Try it at home for <Ph>{guarantee.days}</Ph> days. If it doesn&rsquo;t fit right or your dog just isn&rsquo;t
+            a fan, send it back for a full refund. No forms to fight with, no awkward questions.
           </p>
           <p className="reveal mt-4">
             <Link href="/refund-policy" className="link">

@@ -14,7 +14,7 @@ People who have just watched a video ad of a dog wearing the Rudy & Co. reindeer
 
 ## Product Purpose
 
-A single-product store for a reindeer costume for dogs (sizes XS–XL). The site exists to turn warm ad traffic into orders with as little friction as possible. Success is a high add-to-cart rate from mobile ad visitors and a strong share of two-costume bundle orders.
+A single-product store for a reindeer costume for dogs (one size with an adjustable strap, sold in 1, 2 or 3 packs). The site exists to turn warm ad traffic into orders with as little friction as possible. Success is a high add-to-cart rate from mobile ad visitors and a strong share of two-costume bundle orders.
 
 ## Positioning
 
@@ -22,9 +22,9 @@ The cosy reindeer outfit that actually fits your dog and goes on in seconds, fro
 
 ## Conversion & proof
 
-- Primary CTA: Add to cart / Buy now (size first). Secondary: read the size guide, then buy.
+- Primary CTA: Add to cart, from the three bundle options in the product section. Secondary: read the FAQ, then buy.
 - The line a visitor remembers after 10 seconds: "It's the one from the video, it'll fit my dog, and I can return it if not."
-- Belief ladder: this is the costume I saw → it's soft and my dog won't mind it → I know which size to pick → other owners loved it → if it doesn't work out I get my money back → buying is quick and safe.
+- Belief ladder: this is the costume I saw → it's soft and my dog won't mind it → one size will fit my dog → other owners loved it → if it doesn't work out I get my money back → buying is quick and safe.
 - Proof on hand: none yet. Reviews, counts and photos are placeholders in `config/product.ts` and must be replaced with real customer content before launch.
 
 ## Brand Personality
@@ -39,7 +39,7 @@ Generic SaaS landing pages, stock-photo heroes, purple gradients, everything-in-
 
 1. Readable first: large type, high contrast, big tap targets. If a 70-year-old on a phone can't read it at arm's length, it's wrong.
 2. Every section ends in a way to buy. No dead ends.
-3. Reassurance over persuasion: sizing clarity, real-sounding reviews, and a clear guarantee do more than urgency tricks.
+3. Reassurance over persuasion: clear fit information, real reviews, and a clear guarantee do more than urgency tricks.
 4. Familiar beats clever: use store patterns people already know (gallery + buy box, cart drawer, accordions).
 5. Calm motion: subtle, quick, transform/opacity only, and off when the user asks for reduced motion.
 

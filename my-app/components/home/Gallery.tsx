@@ -4,7 +4,7 @@ import { useRef, useState } from "react";
 import { Placeholder } from "@/components/ui/Placeholder";
 import { product } from "@/config/product";
 
-/** Swipeable photo gallery. Thumbnails on tablet and up, dots on phones. */
+/** Big swipeable photo with a row of four thumbnails underneath. */
 export function Gallery() {
   const trackRef = useRef<HTMLDivElement>(null);
   const [active, setActive] = useState(0);
@@ -19,60 +19,31 @@ export function Gallery() {
 
   return (
     <div className="flex flex-col gap-3 sm:gap-4">
-      <div className="relative -mx-(--safe-left) sm:mx-0">
-        <div
-          ref={trackRef}
-          onScroll={(e) => {
-            const el = e.currentTarget;
-            const i = Math.round(el.scrollLeft / el.clientWidth);
-            if (i !== active) setActive(i);
-          }}
-          className="flex snap-x snap-mandatory overflow-x-auto overscroll-x-contain [scrollbar-width:none] sm:rounded-3xl [&::-webkit-scrollbar]:hidden"
-          aria-roledescription="carousel"
-          aria-label="Product photos"
-          tabIndex={0}
-        >
-          {images.map((img, i) => (
-            <div
-              key={img.label}
-              className="w-full shrink-0 snap-center snap-always"
-              aria-roledescription="slide"
-              aria-label={`${i + 1} of ${images.length}`}
-            >
-              <Placeholder label={img.label} detail={img.detail} ratio={img.ratio} />
-            </div>
-          ))}
-        </div>
-        <p
-          aria-hidden="true"
-          className="absolute top-4 right-[max(1rem,var(--safe-right))] rounded-full bg-white/90 px-3 py-1 text-base font-bold tabular-nums sm:right-4 sm:hidden"
-        >
-          {active + 1} / {images.length}
-        </p>
-      </div>
-
-      {/* Dots (phones) */}
-      <div className="flex justify-center gap-1 sm:hidden">
+      <div
+        ref={trackRef}
+        onScroll={(e) => {
+          const el = e.currentTarget;
+          const i = Math.round(el.scrollLeft / el.clientWidth);
+          if (i !== active) setActive(i);
+        }}
+        className="-mx-(--safe-left) flex snap-x snap-mandatory overflow-x-auto overscroll-x-contain [scrollbar-width:none] sm:mx-0 sm:rounded-3xl [&::-webkit-scrollbar]:hidden"
+        aria-roledescription="carousel"
+        aria-label="Product photos"
+        tabIndex={0}
+      >
         {images.map((img, i) => (
-          <button
+          <div
             key={img.label}
-            type="button"
-            onClick={() => goTo(i)}
-            aria-label={`Show photo ${i + 1}`}
-            aria-current={i === active}
-            className="grid size-8 place-items-center"
+            className="w-full shrink-0 snap-center snap-always"
+            aria-roledescription="slide"
+            aria-label={`${i + 1} of ${images.length}`}
           >
-            <span
-              className={`block size-2.5 rounded-full transition-[transform,background-color] duration-300 ${
-                i === active ? "scale-125 bg-cocoa" : "bg-line-strong"
-              }`}
-            />
-          </button>
+            <Placeholder label={img.label} detail={img.detail} ratio={img.ratio} />
+          </div>
         ))}
       </div>
 
-      {/* Thumbnails (tablet and up) */}
-      <div className="hidden grid-cols-4 gap-3 sm:grid">
+      <div className="grid grid-cols-4 gap-2.5 sm:gap-3 lg:max-w-[85%]">
         {images.map((img, i) => (
           <button
             key={img.label}
@@ -80,10 +51,10 @@ export function Gallery() {
             onClick={() => goTo(i)}
             aria-label={`Show ${img.label.toLowerCase()}`}
             aria-current={i === active}
-            className={`overflow-hidden rounded-xl transition-[box-shadow,opacity] duration-300 ${
+            className={`overflow-hidden rounded-xl transition-[box-shadow,opacity] duration-300 sm:rounded-2xl ${
               i === active
                 ? "opacity-100 shadow-[0_0_0_2.5px_var(--color-cocoa)]"
-                : "opacity-70 shadow-[0_0_0_1.5px_var(--color-line)] hover:opacity-100"
+                : "opacity-75 shadow-[0_0_0_1.5px_var(--color-line)] hover:opacity-100"
             }`}
           >
             <Placeholder label={img.label} ratio="1:1" compact />

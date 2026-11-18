@@ -1,8 +1,8 @@
 /**
  * Rudy & Co. — single source of truth for the store.
  *
- * Everything a shopper reads about the product lives here: prices, sizes,
- * bundles, shipping, reviews, FAQs and contact details.
+ * Everything a shopper reads about the product lives here: prices, bundles,
+ * shipping, reviews, FAQs and contact details.
  *
  * Anything marked [PLACEHOLDER] is sample content. Replace it before launch.
  * Search this file for "[PLACEHOLDER]" to find every one.
@@ -10,25 +10,10 @@
  * Money is stored in cents (3499 = $34.99) to avoid rounding errors.
  */
 
-export type SizeId = "XS" | "S" | "M" | "L" | "XL";
-
-export type Size = {
-  id: SizeId;
-  /** Chest girth in inches [min, max] */
-  chest: readonly [number, number];
-  /** Neck girth in inches [min, max] */
-  neck: readonly [number, number];
-  /** Back length in inches [min, max] */
-  back: readonly [number, number];
-  /** Breeds that usually fit, shown as a hint */
-  breeds: string;
-};
-
 export type Review = {
   name: string;
   location: string;
   dog: string;
-  size: SizeId;
   rating: 1 | 2 | 3 | 4 | 5;
   title: string;
   body: string;
@@ -40,8 +25,12 @@ export type Bundle = {
   quantity: number;
   /** Percent off the whole order when the cart has at least this many costumes */
   percentOff: number;
-  label: string;
+  /** Shown as the option title, e.g. "Buy 2, save 15%" */
+  title: string;
+  /** Short line under the title */
   note: string;
+  /** Strip along the bottom of the option, e.g. "Free shipping" */
+  perk?: string;
   popular?: boolean;
 };
 
@@ -50,7 +39,7 @@ export const site = {
   shortName: "Rudy & Co",
   url: "https://rudyandco.com", // [PLACEHOLDER] your live domain
   description:
-    "The soft reindeer costume for dogs. Goes on in seconds, machine washable, sizes XS to XL.",
+    "The soft reindeer costume for dogs. One size with an adjustable fit, goes on in seconds, machine washable.",
   currency: "USD",
   locale: "en-US",
   /**
@@ -82,32 +71,46 @@ export const product = {
   tagline: "The cosy reindeer outfit your dog won't mind wearing.",
   description:
     "A soft fleece reindeer suit with a snug hood and plush antlers that stand up on their own. It slips over the head and fastens under the tummy, so it's on in seconds and stays put through walks, zoomies and photo shoots.",
+  /** One size for every dog. Describe the fit range here. */
+  fit: "One size with an adjustable tummy strap. Fits most dogs from [PLACEHOLDER] to [PLACEHOLDER] lbs.", // [PLACEHOLDER]
   price: 3499, // [PLACEHOLDER] $34.99
-  compareAtPrice: 4999, // [PLACEHOLDER] $49.99 — set to null to hide the struck-through price
+  compareAtPrice: 4999, // [PLACEHOLDER] $49.99 — set to null to hide the struck-through prices
   rating: 4.9, // [PLACEHOLDER]
   reviewCount: 1248, // [PLACEHOLDER]
   happyDogs: "1,000+", // [PLACEHOLDER]
-  maxQuantityPerSize: 10,
-  sizes: [
-    // [PLACEHOLDER] all measurements and breed hints — use your supplier's chart
-    { id: "XS", chest: [12, 15], neck: [8, 10], back: [8, 10], breeds: "Chihuahua, Yorkie, Toy Poodle" },
-    { id: "S", chest: [15, 19], neck: [10, 13], back: [10, 13], breeds: "Shih Tzu, Mini Dachshund, Jack Russell" },
-    { id: "M", chest: [19, 24], neck: [13, 16], back: [13, 17], breeds: "Beagle, French Bulldog, Cocker Spaniel" },
-    { id: "L", chest: [24, 29], neck: [16, 20], back: [17, 21], breeds: "Border Collie, Boxer, Staffie" },
-    { id: "XL", chest: [29, 35], neck: [20, 24], back: [21, 25], breeds: "Labrador, Golden Retriever, Husky" },
-  ] satisfies Size[],
+  maxQuantity: 20,
+  /** The quick lines under the product title */
+  highlights: [
+    { icon: "feather", strong: "Soft brushed fleece", light: "gentle on fur" },
+    { icon: "clock", strong: "On in 10 seconds", light: "no wrestling" },
+    { icon: "ruler", strong: "One size fits most", light: "adjustable strap" }, // [PLACEHOLDER] match your fit range
+    { icon: "wash", strong: "Machine washable", light: "cool wash, air dry" },
+  ],
   images: [
-    { label: "HERO PHOTO", detail: "Dog wearing the costume, front view", ratio: "4:5" },
-    { label: "PHOTO 2", detail: "Side view showing the hood and antlers", ratio: "4:5" },
-    { label: "PHOTO 3", detail: "Close-up of the soft fleece and tummy fastening", ratio: "4:5" },
-    { label: "PHOTO 4", detail: "Two dogs wearing it together", ratio: "4:5" },
+    { label: "HERO PHOTO", detail: "Dog wearing the costume, front view", ratio: "1:1" },
+    { label: "PHOTO 2", detail: "Side view showing the hood and antlers", ratio: "1:1" },
+    { label: "PHOTO 3", detail: "Close-up of the soft fleece and tummy strap", ratio: "1:1" },
+    { label: "PHOTO 4", detail: "Two dogs wearing it together", ratio: "1:1" },
   ],
 } as const;
 
 export const bundles: Bundle[] = [
-  { quantity: 1, percentOff: 0, label: "1 costume", note: "Perfect for one pup" },
-  { quantity: 2, percentOff: 15, label: "2 costumes", note: "Save 15% + free shipping", popular: true }, // [PLACEHOLDER] discount
-  { quantity: 3, percentOff: 20, label: "3 costumes", note: "Save 20% + free shipping" }, // [PLACEHOLDER] discount
+  { quantity: 1, percentOff: 0, title: "1 costume", note: "Perfect for one pup" },
+  {
+    quantity: 2,
+    percentOff: 15, // [PLACEHOLDER] discount
+    title: "Buy 2, save 15%",
+    note: "For two dogs, or one to gift",
+    perk: "Free shipping",
+    popular: true,
+  },
+  {
+    quantity: 3,
+    percentOff: 20, // [PLACEHOLDER] discount
+    title: "Buy 3, save 20%",
+    note: "For the whole pack of pups",
+    perk: "Free shipping · Best value",
+  },
 ];
 
 export const shipping = {
@@ -146,6 +149,35 @@ export const benefits = [
   },
 ] as const;
 
+/** The short accordion under "Add to cart" on the product section. */
+export const productFaqs = [
+  {
+    icon: "shield",
+    q: `${guarantee.days}-day money-back guarantee`,
+    a: `Try it at home for ${guarantee.days} days. If your dog isn't happy in it, send it back for a full refund. No awkward questions.`,
+  },
+  {
+    icon: "package",
+    q: "What's in the box?",
+    a: "One reindeer costume per pack: a soft fleece suit with a hood and plush antlers, and an adjustable tummy strap. It arrives ready to wear.", // [PLACEHOLDER] packaging details
+  },
+  {
+    icon: "ruler",
+    q: "Will it fit my dog?",
+    a: product.fit,
+  },
+  {
+    icon: "clock",
+    q: "How do I put it on?",
+    a: "Slip the hood over your dog's head, bring the suit along the back, then press the soft strap closed under the tummy. A treat helps the first time.",
+  },
+  {
+    icon: "truck",
+    q: "Shipping information",
+    a: `Orders are packed within ${shipping.processing} and arrive in ${shipping.delivery} anywhere in the US. Shipping is free on 2 or more costumes, otherwise $${(shipping.flatRate / 100).toFixed(2)}.`,
+  },
+] as const;
+
 /**
  * [PLACEHOLDER] SAMPLE REVIEWS ONLY.
  * Replace every review with real customer reviews before launch. Publishing
@@ -156,17 +188,15 @@ export const reviews: Review[] = [
     name: "Linda M.",
     location: "Ohio",
     dog: "Biscuit, Beagle",
-    size: "M",
     rating: 5,
-    title: "Fit like it was made for him",
-    body: "I measured his chest like the guide said and ordered a Medium. Perfect fit, and he didn't fuss one bit. The grandkids loved it.",
+    title: "Fit him perfectly",
+    body: "I worried one size wouldn't work, but the strap made it easy to get just right. He didn't fuss one bit and the grandkids loved it.",
     photo: "REVIEW PHOTO – Beagle in costume, 1:1",
   },
   {
     name: "Robert K.",
     location: "Florida",
     dog: "Daisy, Golden Retriever",
-    size: "XL",
     rating: 5,
     title: "Soft and well made",
     body: "Better quality than I expected for the price. Daisy wore it all afternoon at our family get-together and kept it on.",
@@ -176,7 +206,6 @@ export const reviews: Review[] = [
     name: "Patricia H.",
     location: "Texas",
     dog: "Peanut, Chihuahua",
-    size: "XS",
     rating: 5,
     title: "Easiest outfit we own",
     body: "My hands aren't what they used to be, and this one is so easy. Over the head, press the tab, done.",
@@ -186,7 +215,6 @@ export const reviews: Review[] = [
     name: "Gary & Sue T.",
     location: "Arizona",
     dog: "Max & Molly, Shih Tzus",
-    size: "S",
     rating: 5,
     title: "Bought two, glad we did",
     body: "Got the two-pack for our pair. The discount was a nice bonus and they arrived in five days.",
@@ -196,17 +224,15 @@ export const reviews: Review[] = [
     name: "Karen D.",
     location: "Pennsylvania",
     dog: "Bear, Labrador",
-    size: "XL",
     rating: 4,
-    title: "Great photos, size up if unsure",
-    body: "Bear is a big boy so we went XL. Fits well with a little room. The antlers really do stay up for pictures.",
+    title: "Great photos",
+    body: "Bear is a big boy, so I let the strap out all the way and it fits well. The antlers really do stay up for pictures.",
     photo: "REVIEW PHOTO – Labrador, 1:1",
   },
   {
     name: "Margaret W.",
     location: "North Carolina",
     dog: "Rosie, French Bulldog",
-    size: "M",
     rating: 5,
     title: "Washed beautifully",
     body: "Rosie rolled in the garden on day one. Into the washing machine it went and it came out looking brand new.",
@@ -216,8 +242,8 @@ export const reviews: Review[] = [
 
 export const faqs = [
   {
-    q: "What size should I get?",
-    a: "Measure around the widest part of your dog's chest, just behind the front legs. Match that number to the size guide above. If your dog is between two sizes, choose the bigger one. And if it doesn't fit, we'll swap it for free.", // [PLACEHOLDER] free swap policy
+    q: "Will it fit my dog?",
+    a: `${product.fit} If it doesn't work out, you're covered by our ${guarantee.days}-day money-back guarantee.`,
   },
   {
     q: "Will my dog actually keep it on?",
@@ -236,8 +262,8 @@ export const faqs = [
     a: "Machine wash on a cool, gentle cycle and let it air dry. Please don't tumble dry or iron the antlers.",
   },
   {
-    q: "What if it doesn't fit or my dog doesn't like it?",
-    a: `You're covered by our ${guarantee.days}-day ${guarantee.name}. Send it back for a free size swap or a full refund. No awkward questions.`,
+    q: "What if my dog doesn't like it?",
+    a: `You're covered by our ${guarantee.days}-day ${guarantee.name}. Send it back for a full refund. No awkward questions.`,
   },
   {
     q: "Is it safe to pay on this site?",

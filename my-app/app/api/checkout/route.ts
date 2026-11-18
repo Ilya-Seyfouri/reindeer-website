@@ -1,10 +1,10 @@
 import { NextResponse } from "next/server";
-import { product, type SizeId } from "@/config/product";
-import { cartTotals, type CartLine } from "@/lib/pricing";
+import { product } from "@/config/product";
+import { cartTotals } from "@/lib/pricing";
 
 /**
  * POST /api/checkout
- * Body: { lines: [{ size: "M", quantity: 2 }, ...] }
+ * Body: { quantity: number }
  * Returns: { url: string } — the page to send the shopper to.
  *
  * TODO: connect Stripe.
@@ -16,14 +16,14 @@ import { cartTotals, type CartLine } from "@/lib/pricing";
  *   const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!);
  *   const session = await stripe.checkout.sessions.create({
  *     mode: "payment",
- *     line_items: lines.map((l) => ({
- *       quantity: l.quantity,
+ *     line_items: [{
+ *       quantity,
  *       price_data: {
  *         currency: "usd",
  *         unit_amount: product.price,
- *         product_data: { name: `${product.name} (Size ${l.size})` },
+ *         product_data: { name: product.name },
  *       },
- *     })),
+ *     }],
  *     discounts: totals.discount > 0 ? [{ coupon: "BUNDLE_" + totals.percentOff }] : undefined, // create these coupons in Stripe
  *     shipping_address_collection: { allowed_countries: ["US"] },
  *     shipping_options: [{ shipping_rate_data: {
@@ -39,31 +39,14 @@ import { cartTotals, type CartLine } from "@/lib/pricing";
  * Prices are always recalculated here from config/product.ts, never trusted
  * from the browser.
  */
-
-const SIZE_IDS = new Set<string>(product.sizes.map((s) => s.id));
-
-function parseLines(body: unknown): CartLine[] | null {
-  if (typeof body !== "object" || body === null || !("lines" in body) || !Array.isArray(body.lines)) return null;
-  const lines: CartLine[] = [];
-  for (const raw of body.lines as unknown[]) {
-    if (typeof raw !== "object" || raw === null) return null;
-    const { size, quantity } = raw as { size?: unknown; quantity?: unknown };
-    if (typeof size !== "string" || !SIZE_IDS.has(size)) return null;
-    if (typeof quantity !== "number" || !Number.isInteger(quantity) || quantity < 1 || quantity > product.maxQuantityPerSize)
-      return null;
-    lines.push({ size: size as SizeId, quantity });
-  }
-  return lines.length > 0 ? lines : null;
-}
-
 export async function POST(request: Request) {
-  const body: unknown = await request.json().catch(() => null);
-  const lines = parseLines(body);
-  if (!lines) {
+  const body = (await request.json().catch(() => null)) as { quantity?: unknown } | null;
+  const quantity = body?.quantity;
+  if (typeof quantity !== "number" || !Number.isInteger(quantity) || quantity < 1 || quantity > product.maxQuantity) {
     return NextResponse.json({ error: "Your cart looks empty or out of date. Please refresh the page." }, { status: 400 });
   }
 
-  const totals = cartTotals(lines);
+  const totals = cartTotals(quantity);
   void totals; // used once Stripe is connected (see TODO above)
 
   return NextResponse.json(

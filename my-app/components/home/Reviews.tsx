@@ -54,9 +54,7 @@ export function Reviews() {
                   <figcaption className="mt-4 text-base text-ink-soft">
                     <span className="font-bold text-ink">{review.name}</span>, {review.location}
                     <span className="mt-1 flex flex-wrap items-center gap-x-3 gap-y-1">
-                      <span>
-                        {review.dog} · Size {review.size}
-                      </span>
+                      <span>{review.dog}</span>
                       <span className="inline-flex items-center gap-1 font-bold text-success">
                         <CheckIcon size={18} /> Verified buyer
                       </span>

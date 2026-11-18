@@ -12,7 +12,7 @@ npm run build   # production build
 
 | What | Where |
 | --- | --- |
-| Prices, sizes, bundles, shipping, reviews, FAQs, contact details | `config/product.ts` |
+| Prices, bundles, fit, shipping, reviews, FAQs, contact details | `config/product.ts` |
 | Colours, fonts, spacing, motion | `app/globals.css` (`@theme` block at the top) |
 | Landing page sections | `components/home/*` |
 | Refund policy / Terms | `app/refund-policy/page.tsx`, `app/terms/page.tsx` |
@@ -39,7 +39,7 @@ the comment there).
 ## Still to connect
 
 - **Payments:** `app/api/checkout/route.ts` has step-by-step Stripe Checkout instructions. The cart
-  and order page already send `{ lines: [{ size, quantity }] }` and redirect to the returned `url`.
+  and order page already send `{ quantity }` and redirect to the returned `url`.
 - **Order tracking:** `app/api/track/route.ts` — return the documented `result` shape and the
   tracking page renders the status timeline.
 - **Contact form:** `app/api/contact/route.ts` — send the message with your email provider.

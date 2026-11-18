@@ -15,7 +15,7 @@ export default function ContactPage() {
     <>
       <PageHeader
         title="We're happy to help"
-        intro={<>Questions about sizing, your order or a return? Send us a note. A real person will reply {site.contact.replyTime}.</>}
+        intro={<>Questions about fit, your order or a return? Send us a note. A real person will reply {site.contact.replyTime}.</>}
       />
       <div className="wrap grid gap-12 pb-20 md:pb-28 lg:grid-cols-[1.1fr_0.9fr] lg:gap-20">
         <ContactForm />
@@ -54,15 +54,11 @@ export default function ContactPage() {
             </ul>
           </div>
           <p className="px-1 text-ink-soft">
-            Looking for sizing help? Our{" "}
-            <Link href="/#size-guide" className="link text-ink">
-              size guide
-            </Link>{" "}
-            and{" "}
+            Wondering about fit, washing or delivery? Our{" "}
             <Link href="/#faq" className="link text-ink">
               FAQ
             </Link>{" "}
-            answer most questions.
+            answers most questions.
           </p>
         </aside>
       </div>

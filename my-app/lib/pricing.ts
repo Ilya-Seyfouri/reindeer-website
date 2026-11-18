@@ -1,6 +1,4 @@
-import { bundles, product, shipping, site, type SizeId } from "@/config/product";
-
-export type CartLine = { size: SizeId; quantity: number };
+import { bundles, product, shipping, site } from "@/config/product";
 
 const formatter = new Intl.NumberFormat(site.locale, {
   style: "currency",
@@ -9,10 +7,6 @@ const formatter = new Intl.NumberFormat(site.locale, {
 
 export function formatMoney(cents: number) {
   return formatter.format(cents / 100);
-}
-
-export function totalQuantity(lines: readonly CartLine[]) {
-  return lines.reduce((sum, line) => sum + line.quantity, 0);
 }
 
 /** Percent off the whole order for a given number of costumes. */
@@ -40,8 +34,7 @@ export function shippingFor(quantity: number) {
   return quantity >= shipping.freeFromQuantity ? 0 : shipping.flatRate;
 }
 
-export function cartTotals(lines: readonly CartLine[]) {
-  const quantity = totalQuantity(lines);
+export function cartTotals(quantity: number) {
   const subtotal = product.price * quantity;
   const percentOff = discountPercentFor(quantity);
   const discount = Math.round((subtotal * percentOff) / 100);

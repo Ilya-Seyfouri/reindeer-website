@@ -27,6 +27,8 @@
   --color-chocolate: oklch(0.37 0.05 45);
   --color-chocolate-deep: oklch(0.29 0.045 45);
   --color-rudolph: oklch(0.62 0.2 22);
+  --color-evergreen: oklch(0.45 0.11 155);
+  --color-evergreen-hover: oklch(0.51 0.12 155);
 
   --color-danger: oklch(0.5 0.17 28);
   --color-success: oklch(0.47 0.1 150);
@@ -42,6 +44,8 @@
 @theme inline {
   --font-display: var(--font-young-serif), Georgia, "Times New Roman", serif;
   --font-sans: var(--font-atkinson), system-ui, -apple-system, "Segoe UI", sans-serif;
+  /* Apple's system font (SF Pro) on Apple devices; Segoe UI / Roboto elsewhere */
+  --font-apple: -apple-system, BlinkMacSystemFont, "SF Pro Text", "SF Pro Display", "Helvetica Neue", "Segoe UI", Roboto, sans-serif;
 }
 
 :root {
@@ -205,10 +209,12 @@
       background-color 200ms var(--ease-out-quart),
       color 200ms var(--ease-out-quart),
       box-shadow 250ms var(--ease-out-quart),
-      transform 200ms var(--ease-out-quart);
+      filter 200ms var(--ease-out-quart),
+      /* A little overshoot, so it springs back up when released */
+      transform 320ms cubic-bezier(0.34, 1.56, 0.64, 1);
   }
-  .btn:active {
-    transform: scale(0.98);
+  .btn svg {
+    transition: transform 320ms cubic-bezier(0.34, 1.56, 0.64, 1);
   }
   .btn:disabled {
     cursor: not-allowed;
@@ -237,6 +243,22 @@
     }
   }
 
+  /* Add to cart: green, so the main action stands apart from the burgundy */
+  .btn-cart {
+    background: var(--color-evergreen);
+    box-shadow:
+      0 1px 0 oklch(1 0 0 / 0.12) inset,
+      0 6px 18px -8px oklch(0.45 0.11 155 / 0.55);
+  }
+  @media (hover: hover) {
+    .btn-cart:hover:not(:disabled) {
+      background: var(--color-evergreen-hover);
+      box-shadow:
+        0 1px 0 oklch(1 0 0 / 0.12) inset,
+        0 10px 24px -10px oklch(0.45 0.11 155 / 0.6);
+    }
+  }
+
   .btn-secondary {
     background: var(--color-white);
     color: var(--color-ink);
@@ -256,6 +278,27 @@
     .btn-light:hover:not(:disabled) {
       background: var(--color-fawn-soft);
       transform: translateY(-1px);
+    }
+  }
+
+  /* Pressed: the button sinks in and darkens, and its icon gives a little squish.
+     Comes after the hover rules (and is more specific) so it wins while hovered too. */
+  .btn.btn:active:not(:disabled) {
+    transform: translateY(2px) scale(0.96);
+    filter: brightness(0.92);
+    box-shadow:
+      inset 0 2px 6px oklch(0 0 0 / 0.22),
+      0 1px 2px -1px oklch(0 0 0 / 0.2);
+    transition-duration: 70ms;
+  }
+  .btn.btn:active:not(:disabled) svg {
+    transform: scale(0.82) rotate(-10deg);
+    transition-duration: 70ms;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .btn.btn:active:not(:disabled),
+    .btn.btn:active:not(:disabled) svg {
+      transform: none;
     }
   }
 
@@ -303,6 +346,31 @@
   }
 
   /* Brand print: cream trees, paws and sparkles on a dark band */
+  /* Warm burgundy striped wrapping paper that slides along, for the sale bar */
+  .wrapping-paper {
+    background-color: oklch(0.36 0.13 18);
+    background-image: repeating-linear-gradient(
+      -45deg,
+      oklch(0.36 0.13 18) 0 22px,
+      oklch(0.72 0.09 60 / 0.55) 22px 24px,
+      oklch(0.45 0.16 22) 24px 47px,
+      oklch(0.72 0.09 60 / 0.55) 47px 49px,
+      oklch(0.36 0.13 18) 49px 50px
+    );
+    background-size: 70.71px 70.71px;
+    animation: wrapping-paper-slide 3s linear infinite;
+  }
+  @keyframes wrapping-paper-slide {
+    to {
+      background-position: 70.71px 0;
+    }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .wrapping-paper {
+      animation: none;
+    }
+  }
+
   .print-festive {
     position: relative;
     isolation: isolate;
@@ -316,6 +384,77 @@
     background-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160' fill='%23F7EDE1'><path d='M28 10l-8 11h4l-7 9h22l-7-9h4z'/><rect x='26.5' y='30' width='3' height='5'/><g transform='translate(100 22)'><ellipse cx='0' cy='9' rx='6' ry='5'/><circle cx='-7' cy='2' r='2.3'/><circle cx='-2.5' cy='-3' r='2.4'/><circle cx='2.5' cy='-3' r='2.4'/><circle cx='7' cy='2' r='2.3'/></g><path d='M70 70c1 7 3 9 10 10-7 1-9 3-10 10-1-7-3-9-10-10 7-1 9-3 10-10z'/><path d='M135 100l-7 10h3.5l-6 8h19l-6-8h3.5z'/><rect x='133.5' y='118' width='3' height='4'/><g transform='translate(35 125)'><ellipse cx='0' cy='7' rx='5' ry='4'/><circle cx='-5.5' cy='1.5' r='1.9'/><circle cx='-2' cy='-2.5' r='2'/><circle cx='2' cy='-2.5' r='2'/><circle cx='5.5' cy='1.5' r='1.9'/></g><path d='M140 40c.6 4 1.6 5 5.6 5.6-4 .6-5 1.6-5.6 5.6-.6-4-1.6-5-5.6-5.6 4-.6 5-1.6 5.6-5.6z'/><circle cx='95' cy='140' r='1.6'/><circle cx='12' cy='75' r='1.4'/><circle cx='115' cy='70' r='1.2'/></svg>");
     background-size: 160px 160px;
     opacity: 0.09;
+  }
+
+  /* Track page: a deep winter night sky behind the globe */
+  .track-sky {
+    background:
+      radial-gradient(ellipse 60% 50% at 75% 45%, oklch(0.3 0.07 265 / 0.9), transparent 70%),
+      radial-gradient(ellipse 50% 40% at 10% 0%, oklch(0.32 0.08 200 / 0.35), transparent 70%),
+      linear-gradient(180deg, oklch(0.16 0.045 265), oklch(0.2 0.05 270));
+  }
+  .track-sky .field {
+    background: var(--color-white);
+  }
+
+  /* Santa-style order tracker: drifting continents, twinkling stars, bobbing sleigh */
+  .tracker-drift {
+    animation: tracker-drift 40s linear infinite;
+  }
+  .tracker-twinkle {
+    animation: tracker-twinkle 3.5s ease-in-out infinite;
+  }
+  .tracker-bob {
+    animation: tracker-bob 2.4s ease-in-out infinite;
+  }
+  @keyframes tracker-drift {
+    to {
+      transform: translateX(-600px);
+    }
+  }
+  @keyframes tracker-twinkle {
+    50% {
+      opacity: 0.3;
+    }
+  }
+  @keyframes tracker-bob {
+    50% {
+      transform: translateY(-3px);
+    }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .tracker-drift,
+    .tracker-twinkle,
+    .tracker-bob {
+      animation: none;
+    }
+  }
+
+  /* Dog toy and snack stencils (bones, balls, cookies, rope toys, treats),
+     a faint repeating background for light sections like "Fits every dog". */
+  .print-toys {
+    position: relative;
+    isolation: isolate;
+  }
+  .print-toys::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    pointer-events: none;
+    background-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='260' height='260' fill='%235A3526'><g transform='translate(48 52) rotate(-28)'><circle cx='-26' cy='-7' r='9'/><circle cx='-26' cy='7' r='9'/><circle cx='26' cy='-7' r='9'/><circle cx='26' cy='7' r='9'/><rect x='-28' y='-6' width='56' height='12' rx='4'/></g><g transform='translate(190 48)'><path fill-rule='evenodd' d='M0-20a20 20 0 1 1 0 40a20 20 0 1 1 0-40zM-14-12q10 12 0 24l-3-2q8-10 0-20zM14-12q-10 12 0 24l3-2q-8-10 0-20z'/></g><g transform='translate(128 132)'><path fill-rule='evenodd' d='M0-22a22 22 0 1 1 0 44a22 22 0 1 1 0-44zM-8-10a3.5 3.5 0 1 0 0 7a3.5 3.5 0 1 0 0-7zM8-6a3 3 0 1 0 0 6a3 3 0 1 0 0-6zM-4 6a3.5 3.5 0 1 0 0 7a3.5 3.5 0 1 0 0-7zM10 9a2.5 2.5 0 1 0 0 5a2.5 2.5 0 1 0 0-5z'/></g><g transform='translate(52 200) rotate(32)'><rect x='-26' y='-3.5' width='52' height='7' rx='3'/><ellipse cx='-26' cy='0' rx='9' ry='11'/><ellipse cx='26' cy='0' rx='9' ry='11'/><path d='M-35-6l-12-5v3l11 4zM-35 0h-13v3h13zM-35 6l-12 5v-3l11-4zM35-6l12-5v3l-11 4zM35 0h13v3h-13zM35 6l12 5v-3l-11-4z'/></g><g transform='translate(206 196) rotate(20)'><circle cx='-14' cy='-4' r='5.5'/><circle cx='-14' cy='4' r='5.5'/><circle cx='14' cy='-4' r='5.5'/><circle cx='14' cy='4' r='5.5'/><rect x='-15' y='-4' width='30' height='8' rx='3'/></g><g transform='translate(210 120) rotate(-15)'><path d='M-16 0q0-12 16-12q16 0 16 12q0 12-16 12q-16 0-16-12z'/><path d='M14 0l12-9v18z'/></g><g transform='translate(60 120)'><circle r='5'/><circle cx='-9' cy='-8' r='3'/><circle cx='-3' cy='-13' r='3'/><circle cx='4' cy='-13' r='3'/><circle cx='10' cy='-8' r='3'/></g></svg>");
+    background-size: 260px 260px;
+    opacity: 0.07;
+  }
+  /* For dark brown sections: the stencils' own brown, a shade lighter than the background, so it stays deep and rich */
+  .print-toys.print-toys-light::before {
+    opacity: 0.55;
+  }
+  /* The same stencils at 4× the size, spread further apart */
+  .print-toys-lg::before {
+    background-size: 1040px 1040px;
+    background-position: center top;
+    opacity: 0.06;
   }
 
   /* Long-form policy text */

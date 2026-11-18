@@ -1,10 +1,10 @@
 import { NextResponse } from "next/server";
-import { product } from "@/config/product";
+import { product, treat } from "@/config/product";
 import { cartTotals } from "@/lib/pricing";
 
 /**
  * POST /api/checkout
- * Body: { quantity: number }
+ * Body: { quantity: number, treats?: number }
  * Returns: { url: string } — the page to send the shopper to.
  *
  * TODO: connect Stripe.
@@ -16,14 +16,16 @@ import { cartTotals } from "@/lib/pricing";
  *   const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!);
  *   const session = await stripe.checkout.sessions.create({
  *     mode: "payment",
- *     line_items: [{
- *       quantity,
- *       price_data: {
- *         currency: "usd",
- *         unit_amount: product.price,
- *         product_data: { name: product.name },
+ *     line_items: [
+ *       {
+ *         quantity,
+ *         price_data: { currency: "usd", unit_amount: product.price, product_data: { name: product.name } },
  *       },
- *     }],
+ *       // The "Gift for a furry friend?" treat add-on, when the shopper took it:
+ *       ...(treats > 0
+ *         ? [{ quantity: treats, price_data: { currency: "usd", unit_amount: treat.price, product_data: { name: treat.name } } }]
+ *         : []),
+ *     ],
  *     // Free costumes from the Buy 2 Get 1 / Buy 3 Get 3 deals, as a one-off amount off:
  *     discounts: totals.discount > 0
  *       ? [{ coupon: (await stripe.coupons.create({ amount_off: totals.discount, currency: "usd", duration: "once" })).id }]
@@ -43,13 +45,23 @@ import { cartTotals } from "@/lib/pricing";
  * from the browser.
  */
 export async function POST(request: Request) {
-  const body = (await request.json().catch(() => null)) as { quantity?: unknown } | null;
+  const body = (await request.json().catch(() => null)) as { quantity?: unknown; treats?: unknown } | null;
   const quantity = body?.quantity;
-  if (typeof quantity !== "number" || !Number.isInteger(quantity) || quantity < 1 || quantity > product.maxQuantity) {
+  const treats = body?.treats ?? 0;
+  if (
+    typeof quantity !== "number" ||
+    !Number.isInteger(quantity) ||
+    quantity < 1 ||
+    quantity > product.maxQuantity ||
+    typeof treats !== "number" ||
+    !Number.isInteger(treats) ||
+    treats < 0 ||
+    treats > treat.maxQuantity
+  ) {
     return NextResponse.json({ error: "Your cart looks empty or out of date. Please refresh the page." }, { status: 400 });
   }
 
-  const totals = cartTotals(quantity);
+  const totals = cartTotals(quantity, treats);
   void totals; // used once Stripe is connected (see TODO above)
 
   return NextResponse.json(

@@ -7,7 +7,7 @@
  * Anything marked [PLACEHOLDER] is sample content. Replace it before launch.
  * Search this file for "[PLACEHOLDER]" to find every one.
  *
- * Money is stored in cents (3500 = $35) to avoid rounding errors. Prices are
+ * Money is stored in cents (1999 = $19.99) to avoid rounding errors. Prices are
  * shown in whole dollars, so keep them to round amounts.
  *
  * Photos live in app/images/. Swap a file there (same name) to change a photo.
@@ -37,6 +37,12 @@ export type Review = {
   body: string;
   /** The customer's photo of their dog (4:5) */
   photo: StaticImageData;
+  /**
+   * The customer's profile picture (square), shown beside their name. Only use
+   * a photo the customer sent you and agreed to share. Without one, their
+   * initials show instead.
+   */
+  avatar?: StaticImageData;
 };
 
 export type Bundle = {
@@ -65,7 +71,7 @@ export const site = {
    */
   showPlaceholderMarkers: true,
   /** The bar under the header: a bold lead-in, then the offer. [PLACEHOLDER] */
-  announcement: { lead: "SALE:", text: "Up to 63% Off & FREE Shipping" },
+  announcement: { lead: "SALE:", text: "Up to 50% Off & FREE Shipping on 2+" },
   contact: {
     email: "hello@rudyandco.com", // [PLACEHOLDER]
     hours: "Monday to Friday, 9am – 5pm ET", // [PLACEHOLDER]
@@ -85,19 +91,42 @@ export const product = {
   shortName: "Reindeer Costume",
   tagline: "The cosy reindeer outfit your dog won't mind wearing.",
   description:
-    "A soft fleece reindeer suit with a snug hood and plush antlers that stand up on their own. It slips over the head and fastens under the tummy, so it's on in seconds and stays put through walks, zoomies and photo shoots.",
+    "A soft sherpa fleece reindeer suit with a breathable lining, a snug hood, plush ears and antlers that stand up on their own, and a nose that glows in the dark. It slips over the head and fastens under the tummy, so it's on in seconds and stays put through walks, zoomies and photo shoots.",
+  /** Colours the costume comes in. */
+  colours: [
+    { name: "Classic brown", swatch: "oklch(0.5 0.08 50)" },
+    { name: "Christmas red", swatch: "oklch(0.42 0.15 22)" },
+  ],
+  /**
+   * Fabric certification shown as a trust badge. Only claim what your supplier's
+   * certificate covers, and keep the certificate (and its number) on file.
+   */
+  certification: {
+    name: "OEKO-TEX® Standard 100",
+    short: "Skin safe certified fabric",
+    detail: "tested for harmful substances",
+  },
+  /** What it's made of, from the spec sheet. */
+  materials: [
+    "Soft sherpa fleece outer, warm and comfortable",
+    "Breathable lining for comfort and easy movement",
+    "Plush antlers and ears, soft and lightweight",
+    "Glow-in-the-dark nose (photoluminescent, no batteries)",
+    "Adjustable strap that holds it securely in place",
+  ],
   /** One size for every dog. Describe the fit range here. */
-  fit: "One size with an adjustable tummy strap. Fits most dogs from [PLACEHOLDER] to [PLACEHOLDER] lbs.", // [PLACEHOLDER]
-  price: 3500, // [PLACEHOLDER] $35
-  compareAtPrice: 5000, // [PLACEHOLDER] $50 — set to null to hide the struck-through prices
+  fit: "One size with an adjustable tummy strap. Fits dogs from about 15 to 65 lbs, from pugs to huskies.", // [PLACEHOLDER] taken from the "Fits every dog" photos (16 lb pug, 65 lb husky): check against your strap's real range
+  price: 1999, // [PLACEHOLDER] $19.99
   rating: 4.9, // [PLACEHOLDER]
   reviewCount: 1248, // [PLACEHOLDER]
   happyDogs: "1,000+", // [PLACEHOLDER]
+  /** Costumes sold, shown under Add to cart. Must be your real number. [PLACEHOLDER] */
+  soldCount: 7116,
   maxQuantity: 20,
   /** The quick lines under the product title */
   highlights: [
     { icon: "clock", strong: "On in 5 seconds", light: "no wrestling" },
-    { icon: "paw", strong: "One size fits most", light: "adjustable strap" }, // [PLACEHOLDER] match your fit range
+    { icon: "paw", strong: "One size fits all", light: "adjustable strap" }, // [PLACEHOLDER] match your fit range
     { icon: "wash", strong: "Machine washable", light: "cool wash, air dry" },
   ],
   /** Product gallery, in order. The first one is the big photo shoppers see first. */
@@ -135,6 +164,17 @@ export const guarantee = {
 };
 
 /** The short accordion under "Add to cart" on the product section. */
+/**
+ * The add-on offered in the cart: "Gift for a furry friend?"
+ * Not part of the costume deals and doesn't count towards free shipping.
+ */
+export const treat = {
+  name: "Gourmet Dog Treats",
+  blurb: "A bag of gourmet treats, ready to gift.", // [PLACEHOLDER] describe the treats
+  price: 999, // $9.99
+  maxQuantity: 10,
+};
+
 export const productFaqs = [
   {
     icon: "shield",
@@ -144,7 +184,12 @@ export const productFaqs = [
   {
     icon: "package",
     q: "What's in the box?",
-    a: "One reindeer costume per pack: a soft fleece suit with a hood and plush antlers, and an adjustable tummy strap. It arrives ready to wear.", // [PLACEHOLDER] packaging details
+    a: "One reindeer costume per pack: a soft sherpa fleece suit with a hood, plush ears and antlers, a glow-in-the-dark nose and an adjustable tummy strap. It arrives ready to wear.", // [PLACEHOLDER] packaging details
+  },
+  {
+    icon: "leaf",
+    q: "Materials and safety",
+    a: `${product.materials.join(". ")}. The fabric is ${product.certification.name} certified, meaning it's ${product.certification.detail}, so it's gentle against your dog's fur and skin. Comes in ${product.colours.map((c) => c.name.toLowerCase()).join(" and ")}.`,
   },
   {
     icon: "ruler",
@@ -208,12 +253,36 @@ export const faqs = [
     a: "Most dogs settle in within a minute or two because it's light and nothing presses on the face. Give a treat while you put it on the first time and keep the first wear short.",
   },
   {
+    q: "What is it made of? Is it safe for my dog?",
+    a: `The outside is soft sherpa fleece with a breathable lining, and the ears and antlers are plush and lightweight. The fabric is ${product.certification.name} certified, which means it's ${product.certification.detail}, so it's gentle on fur and skin. As with any outfit, stay with your dog while they wear it.`,
+  },
+  {
+    q: "Does the nose really glow?",
+    a: "Yes. The nose is photoluminescent: it soaks up light and then glows in the dark, with no batteries or wires. Leave it under a lamp or in daylight for a few minutes before an evening walk for the brightest glow.",
+  },
+  {
+    q: "What colours does it come in?",
+    a: `${product.colours.map((c) => c.name).join(" and ")}. Both have the same cream sherpa trim, plush antlers and glowing nose.`,
+  },
+  {
+    q: "How do the bundle deals work?",
+    a: `Buy 2 and get a 3rd free, or buy 3 and get 3 more free. The deals apply automatically in your cart, so 3 costumes always include 1 free and 6 include 3 free. They're perfect for multi-dog homes or as gifts, and 2 or more costumes ship free.`,
+  },
+  {
+    q: "Can I add a treat for my dog?",
+    a: `Yes. In your cart you can add a bag of ${treat.name.toLowerCase()} for $${(treat.price / 100).toFixed(2)}, which is a nice touch if the costume is a gift.`,
+  },
+  {
     q: "How long does shipping take?",
-    a: `We pack orders within ${shipping.processing}. Delivery in the US usually takes ${shipping.delivery} after that. You'll get a tracking link by email as soon as it ships.`,
+    a: `We pack orders within ${shipping.processing}. Delivery in the US usually takes ${shipping.delivery} after that. You'll get a tracking link by email as soon as it ships, and you can check on it any time from our Track your order page.`,
   },
   {
     q: "How much is shipping?",
     a: `Shipping is free when you order 2 or more costumes. For a single costume it's a flat $${Math.round(shipping.flatRate / 100)}.`,
+  },
+  {
+    q: "It says sold out. When is the next restock?",
+    a: "Each drop is made in a limited batch. When we're sold out, the Add to cart button counts down to the next restock. Join the waiting list and we'll email you the moment it goes live, so you get first dibs.",
   },
   {
     q: "How do I wash it?",
@@ -270,9 +339,9 @@ export const comparison = {
   intro: "Most dog costumes are made to be cheap. Ours is made to be worn.",
   photo: { src: rudyVsImage, alt: "Smiling corgi in the reindeer hood" },
   rows: [
-    { icon: "leaf", feature: "Non-toxic, pet-safe fabric and dyes", others: "Often unknown" },
+    { icon: "leaf", feature: "OEKO-TEX® certified, pet-safe fabric", others: "Often untested" },
     { icon: "ruler", feature: "One adjustable size fits every dog", others: "Guess the size" },
-    { icon: "clock", feature: "On in about 5 seconds", others: "Buckles and zips" },
+    { icon: "clock", feature: "On in about 5 seconds", others: "Fiddly zips and ties" },
     { icon: "wash", feature: "Machine washable", others: "Hand wash only" },
     { icon: "antlers", feature: "Antlers that stay upright", others: "Droop and flop" },
     { icon: "shield", feature: `${guarantee.days}-day money-back guarantee`, others: "Final sale" },
@@ -296,11 +365,11 @@ export const drop = {
 
 /** The waiting list page. [PLACEHOLDER] copy and perks */
 export const waitlist = {
-  title: "Join the waiting list",
+  title: "Join the Christmas waiting list",
   intro:
-    "Our costumes sell out quickly before the holidays. Join the list and we'll email you the moment new stock or a new design arrives.",
+    "Our reindeer costumes sell out fast in the run-up to Christmas. Join the list and we'll email you the moment they're back in stock, so your pup is dressed and ready for the big day.",
   perks: [
-    "First to know when we restock",
+    "First to know when we restock before Christmas",
     "Early access to new designs before anyone else",
     "A waiting-list-only discount on your next order", // [PLACEHOLDER] only promise what you'll honour
   ],

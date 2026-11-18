@@ -1,9 +1,11 @@
 "use client";
 
 import { useCart } from "@/components/cart/CartProvider";
+import { GiftIcon, PlusIcon } from "@/components/ui/icons";
 import { Ph, Placeholder } from "@/components/ui/Placeholder";
 import { QuantityStepper } from "@/components/ui/QuantityStepper";
-import { product } from "@/config/product";
+import { product, treat } from "@/config/product";
+import { track } from "@/lib/analytics";
 import { formatMoney, freeCostumesFor, nextBundleFor, shippingFor } from "@/lib/pricing";
 
 export function CartLines() {
@@ -43,6 +45,79 @@ export function CartLines() {
           </button>
         </div>
       </div>
+    </div>
+  );
+}
+
+/** The treats in the cart, once the shopper has added them from the upsell. */
+export function TreatLine() {
+  const { treats, setTreats } = useCart();
+  if (treats === 0) return null;
+
+  return (
+    <div className="flex gap-4 border-t border-line py-5">
+      <div className="grid w-[5.5rem] shrink-0 place-items-center rounded-xl bg-fawn-soft text-evergreen aspect-square sm:w-24">
+        <GiftIcon size={36} />
+      </div>
+      <div className="flex min-w-0 flex-1 flex-col gap-3">
+        <div className="flex items-start justify-between gap-3">
+          <div>
+            <p className="font-bold leading-snug">{treat.name}</p>
+            <p className="text-base text-ink-soft">Gift add-on</p>
+          </div>
+          <p className="shrink-0 font-bold tabular-nums">
+            <Ph>{formatMoney(treat.price * treats)}</Ph>
+          </p>
+        </div>
+        <div className="flex flex-wrap items-center gap-x-4 gap-y-2">
+          <QuantityStepper
+            compact
+            value={treats}
+            min={1}
+            max={treat.maxQuantity}
+            label="Treat quantity"
+            onChange={setTreats}
+          />
+          <button
+            type="button"
+            onClick={() => setTreats(0)}
+            className="inline-flex min-h-11 items-center px-1 text-base font-bold text-ink-soft underline decoration-line-strong decoration-2 underline-offset-4 hover:text-ink hover:decoration-current"
+          >
+            Remove
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+/** "Gift for a furry friend?" — offers the treat add-on until it's in the cart. */
+export function TreatUpsell() {
+  const { quantity, treats, setTreats } = useCart();
+  if (quantity === 0 || treats > 0) return null;
+
+  return (
+    <div className="flex items-center gap-4 rounded-2xl border-2 border-dashed border-evergreen/40 bg-white p-4">
+      <span className="grid size-14 shrink-0 place-items-center rounded-full bg-fawn-soft text-evergreen">
+        <GiftIcon size={28} />
+      </span>
+      <p className="min-w-0 flex-1 leading-snug">
+        <strong className="block">Gift for a furry friend?</strong>
+        <span className="text-base text-ink-soft">
+          Add {treat.name.toLowerCase()} for <Ph>{formatMoney(treat.price)}</Ph>
+        </span>
+      </p>
+      <button
+        type="button"
+        onClick={() => {
+          setTreats(1);
+          track("treat_added", { price: treat.price });
+        }}
+        className="btn btn-primary btn-cart font-apple min-h-12 shrink-0 px-5 text-base"
+      >
+        <PlusIcon size={18} />
+        Add
+      </button>
     </div>
   );
 }
@@ -90,6 +165,16 @@ export function CartSummary() {
       <dd className="text-right tabular-nums">
         {totals.shipping === 0 ? <strong>Free</strong> : <Ph>{formatMoney(totals.shipping)}</Ph>}
       </dd>
+      {totals.treats > 0 ? (
+        <>
+          <dt>
+            {treat.name} (×{totals.treats})
+          </dt>
+          <dd className="text-right tabular-nums">
+            <Ph>{formatMoney(totals.treatsTotal)}</Ph>
+          </dd>
+        </>
+      ) : null}
       <dt className="mt-2 border-t border-line pt-3 text-xl font-bold">Total</dt>
       <dd className="mt-2 border-t border-line pt-3 text-right text-xl font-bold tabular-nums">
         <Ph>{formatMoney(totals.total)}</Ph>

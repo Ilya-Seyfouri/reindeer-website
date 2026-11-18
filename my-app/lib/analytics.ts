@@ -14,8 +14,10 @@ type Events = {
   sold_out_viewed: { restocking: boolean };
   /** Joined the waiting list */
   waitlist_joined: { source: "sold-out" | "waiting-list" };
+  /** Added the gourmet treats from the "Gift for a furry friend?" upsell */
+  treat_added: { price: number };
   /** Pressed the pay button on the checkout page */
-  checkout_started: { quantity: number };
+  checkout_started: { quantity: number; treats: number };
 };
 
 export function track<E extends keyof Events>(event: E, properties: Events[E]) {

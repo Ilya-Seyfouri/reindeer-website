@@ -6,7 +6,7 @@ import { site } from "@/config/product";
 import { track } from "@/lib/analytics";
 
 /** Counts down to the shared drop time. `ended` once it passes, or when no time is set. */
-function useCountdown(active: boolean, nextDropAt: string | null) {
+export function useCountdown(active: boolean, nextDropAt: string | null) {
   const target = nextDropAt ? new Date(nextDropAt).getTime() : null;
   const [remaining, setRemaining] = useState<number | null>(null);
 
@@ -33,6 +33,22 @@ function useCountdown(active: boolean, nextDropAt: string | null) {
 }
 
 const pad = (n: number) => String(n).padStart(2, "0");
+
+/** "· restock in 2d 04:12:09" for the sold-out button, counting down to the same drop time. */
+export function RestockIn({ nextDropAt }: { nextDropAt: string | null }) {
+  const { ended, time } = useCountdown(true, nextDropAt);
+  if (ended) return <>· restocking soon</>;
+  if (!time) return <>· restock in…</>;
+  return (
+    <>
+      · restock in{" "}
+      <span className="tabular-nums">
+        {time.days > 0 ? `${time.days}d ` : ""}
+        {pad(time.hours)}:{pad(time.minutes)}:{pad(time.seconds)}
+      </span>
+    </>
+  );
+}
 
 type FormState = { kind: "idle" } | { kind: "sending" } | { kind: "joined"; email: string } | { kind: "error"; message: string };
 
@@ -117,48 +133,13 @@ export function SoldOutPanel({ open, nextDropAt }: { open: boolean; nextDropAt: 
                 Sold out
               </span>
               <h3 id="sold-out-title" className="mt-3 font-display text-[1.75rem] leading-tight sm:text-[2rem]">
-                {ended ? "Restocking now" : "This drop has sold out"}
+                {ended ? "Restocking now" : "This item has sold out!"}
               </h3>
-              <p className="mx-auto mt-1.5 max-w-[34ch] text-ink-soft">
-                {ended
-                  ? "The next drop is on its way. Join the list and we’ll email you the moment it’s live."
-                  : "The next drop goes live in"}
-              </p>
+
             </div>
 
-            {ended ? null : (
-              <div
-                role="timer"
-                aria-live="off"
-                aria-label={
-                  time
-                    ? `Next drop in ${time.days} days, ${time.hours} hours and ${time.minutes} minutes`
-                    : "Next drop countdown"
-                }
-                className="mt-4 flex items-start justify-center gap-1 min-[400px]:gap-2 sm:gap-3"
-              >
-                {units.map((unit, i) => (
-                  <div key={unit.label} className="flex items-start gap-1 min-[400px]:gap-2 sm:gap-3">
-                    {i > 0 ? (
-                      <span aria-hidden="true" className="pt-2.5 font-display text-[1.75rem] leading-none text-caramel-deep">
-                        :
-                      </span>
-                    ) : null}
-                    <div className="flex w-[clamp(2.75rem,13.5vw,4.5rem)] flex-col items-center sm:w-[4.5rem]">
-                      <span className="grid h-16 w-full place-items-center rounded-xl bg-white font-display text-[1.75rem] leading-none tabular-nums shadow-[inset_0_0_0_1.5px_var(--color-line)] min-[400px]:text-[2.25rem] sm:h-[4.5rem] sm:text-[2.5rem]">
-                        {unit.value !== undefined ? pad(unit.value) : "--"}
-                      </span>
-                      <span className="mt-1.5 text-[0.875rem] font-bold text-ink-soft">
-                        <span className="min-[400px]:hidden">{unit.short}</span>
-                        <span className="hidden min-[400px]:inline">{unit.label}</span>
-                      </span>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            )}
-
-            <div className="mt-6 border-t border-line-strong/50 pt-5">
+            {/* Waiting list first, then the countdown to the next drop */}
+            <div className="mt-5 border-b border-line-strong/50 pb-5">
               {state.kind === "joined" ? (
                 <div role="status" className="flex items-start gap-3">
                   <span className="grid size-9 shrink-0 place-items-center rounded-full bg-cocoa text-white">
@@ -224,11 +205,50 @@ export function SoldOutPanel({ open, nextDropAt }: { open: boolean; nextDropAt: 
                     ) : null}
                   </div>
                   <p id="sold-out-note" className="mt-2.5 text-center text-base text-ink-soft">
-                    One email when it&rsquo;s live. No spam.
+                    One email when it&rsquo;s in stock.
                   </p>
                 </form>
               )}
             </div>
+
+            <p className="mx-auto mt-5 max-w-[34ch] text-center text-ink-soft">
+                {ended
+                  ? "The next drop is on its way. Join above and we’ll email you the moment it’s in stock."
+                  : "The next drop goes live in"}
+              </p>
+
+            {ended ? null : (
+              <div
+                role="timer"
+                aria-live="off"
+                aria-label={
+                  time
+                    ? `Next drop in ${time.days} days, ${time.hours} hours and ${time.minutes} minutes`
+                    : "Next drop countdown"
+                }
+                className="mt-4 flex items-start justify-center gap-1 min-[400px]:gap-2 sm:gap-3"
+              >
+                {units.map((unit, i) => (
+                  <div key={unit.label} className="flex items-start gap-1 min-[400px]:gap-2 sm:gap-3">
+                    {i > 0 ? (
+                      <span aria-hidden="true" className="pt-2.5 font-display text-[1.75rem] leading-none text-caramel-deep">
+                        :
+                      </span>
+                    ) : null}
+                    <div className="flex w-[clamp(2.75rem,13.5vw,4.5rem)] flex-col items-center sm:w-[4.5rem]">
+                      <span className="grid h-16 w-full place-items-center rounded-xl bg-white font-display text-[1.75rem] leading-none tabular-nums shadow-[inset_0_0_0_1.5px_var(--color-line)] min-[400px]:text-[2.25rem] sm:h-[4.5rem] sm:text-[2.5rem]">
+                        {unit.value !== undefined ? pad(unit.value) : "--"}
+                      </span>
+                      <span className="mt-1.5 text-[0.875rem] font-bold text-ink-soft">
+                        <span className="min-[400px]:hidden">{unit.short}</span>
+                        <span className="hidden min-[400px]:inline">{unit.label}</span>
+                      </span>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            )}
+
           </section>
         </div>
       </div>

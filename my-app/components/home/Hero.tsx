@@ -3,12 +3,12 @@
 import { Gallery } from "@/components/home/Gallery";
 import { useSelection } from "@/components/home/ProductSelection";
 import { track } from "@/lib/analytics";
-import { SoldOutPanel } from "@/components/home/SoldOutPanel";
+import { RestockIn, SoldOutPanel } from "@/components/home/SoldOutPanel";
 import {
-  ArrowRightIcon,
   ChevronDownIcon,
   ClockIcon,
   FeatherIcon,
+  LeafIcon,
   PackageIcon,
   PawIcon,
   ReturnIcon,
@@ -20,6 +20,7 @@ import {
 import { Ph } from "@/components/ui/Placeholder";
 import { Stars } from "@/components/ui/Stars";
 import { bundles, guarantee, product, productFaqs, type Bundle } from "@/config/product";
+import { SoldCounter } from "@/components/home/SoldCounter";
 import { formatMoney, priceFor } from "@/lib/pricing";
 
 const icons = {
@@ -31,6 +32,7 @@ const icons = {
   shield: ShieldIcon,
   package: PackageIcon,
   truck: TruckIcon,
+  leaf: LeafIcon,
 } as const;
 
 export function Hero() {
@@ -65,16 +67,17 @@ export function Hero() {
             {product.tagline}
           </p>
 
-          <ul className="enter mt-6 flex flex-col gap-3.5" style={{ "--i": 4 } as React.CSSProperties}>
+          <ul className="enter mt-6 grid grid-cols-3 gap-2 sm:gap-4" style={{ "--i": 4 } as React.CSSProperties}>
             {product.highlights.map((item) => {
               const Icon = icons[item.icon];
               return (
-                <li key={item.strong} className="flex items-center gap-3.5">
-                  <span className="grid size-9 shrink-0 place-items-center rounded-full bg-fawn-soft text-caramel-deep">
+                <li key={item.strong} className="flex flex-col items-center gap-2 text-center">
+                  <span className="grid size-10 shrink-0 place-items-center rounded-full bg-fawn-soft text-caramel-deep">
                     <Icon size={20} />
                   </span>
-                  <span>
-                    <strong>{item.strong}</strong> <span className="text-ink-soft">· {item.light}</span>
+                  <span className="text-[0.875rem] leading-snug sm:text-[0.9375rem]">
+                    <strong className="block">{item.strong}</strong>
+                    <span className="text-ink-soft">{item.light}</span>
                   </span>
                 </li>
               );
@@ -84,11 +87,30 @@ export function Hero() {
           <PurchaseOptions />
 
           <AddToCartButton />
-          <p className="mt-3 flex items-center justify-center gap-1.5 text-base text-ink-soft">
-            <ReturnIcon size={18} />
-            <span>
-              <Ph>{guarantee.days}</Ph>-day money-back guarantee
+          <p className="mt-3 flex flex-wrap items-center justify-center gap-x-3 gap-y-1 text-base text-ink-soft">
+            <span className="inline-flex items-center gap-1.5">
+              <ReturnIcon size={18} />
+              <span>
+                <Ph>{guarantee.days}</Ph>-day money-back guarantee
+              </span>
             </span>
+            <span aria-hidden="true" className="text-line-strong">
+              ·
+            </span>
+            <SoldCounter />
+          </p>
+
+          {/* Trust strip: the fabric certification (details in "Materials and safety" below) */}
+          <p
+            className="mt-5 flex items-center justify-center gap-2 rounded-2xl bg-fawn-soft px-4 py-3 text-[0.9375rem] font-bold tracking-[0.06em] text-success uppercase"
+            title={`${product.certification.name}, ${product.certification.detail}`}
+          >
+            {/* Leaf for the material, paw for pet-friendly */}
+            <span aria-hidden="true" className="flex items-center gap-1">
+              <LeafIcon size={18} />
+              <PawIcon size={18} />
+            </span>
+            {product.certification.short}
           </p>
 
           <ProductFaq />
@@ -121,21 +143,23 @@ function PurchaseOptions() {
   );
 }
 
-/** Price per costume, the "was" price per costume, and the saving against it. */
-function unitPricing(quantity: number) {
-  const each = priceFor(quantity) / quantity;
-  const was = product.compareAtPrice ?? product.price;
-  const save = Math.round((1 - each / was) * 100);
-  return { each, was, save };
+/**
+ * A bundle's price against buying the same number of costumes at the regular
+ * price, so every figure adds up: e.g. 6 costumes: $119.94 → $59.97, save $59.97 (50%).
+ */
+function bundlePricing(quantity: number) {
+  const regular = product.price * quantity;
+  const total = priceFor(quantity);
+  const saved = regular - total;
+  return { regular, total, saved, percent: Math.round((saved / regular) * 100) };
 }
 
 function Option({ bundle, selected, onSelect }: { bundle: Bundle; selected: boolean; onSelect: () => void }) {
-  const { each, was, save } = unitPricing(bundle.quantity);
-  const suffix = bundle.quantity > 1 ? " each" : "";
+  const { regular, total, saved, percent } = bundlePricing(bundle.quantity);
 
   return (
     <label
-      className={`relative flex cursor-pointer items-center gap-3.5 rounded-xl border-2 px-4 py-5 transition-[background-color,border-color] duration-250 ease-(--ease-out-quart) has-focus-visible:outline-3 has-focus-visible:outline-offset-3 has-focus-visible:outline-caramel-deep sm:gap-5 sm:px-6 sm:py-6 ${
+      className={`relative flex cursor-pointer items-center gap-3.5 rounded-xl font-apple border-2 px-4 py-5 transition-[background-color,border-color] duration-250 ease-(--ease-out-quart) has-focus-visible:outline-3 has-focus-visible:outline-offset-3 has-focus-visible:outline-caramel-deep sm:gap-5 sm:px-6 sm:py-6 ${
         selected ? "border-cocoa bg-fawn-soft" : "border-line bg-white hover:border-line-strong"
       }`}
     >
@@ -173,18 +197,20 @@ function Option({ bundle, selected, onSelect }: { bundle: Bundle; selected: bool
       </span>
 
       <span className="shrink-0 text-right leading-snug tabular-nums">
-        {save > 0 ? (
+        {saved > 0 ? (
           <s className="block text-[0.875rem] font-bold text-danger decoration-2 sm:text-[0.9375rem]">
-            <span className="sr-only">Was </span>
-            {formatMoney(was)}
-            {suffix}
+            <span className="sr-only">Regular price </span>
+            {formatMoney(regular)}
           </s>
         ) : null}
         <span className="block text-[1.0625rem] font-bold whitespace-nowrap sm:text-[1.125rem]">
-          <Ph>{formatMoney(each)}</Ph>
-          {suffix}
+          <Ph>{formatMoney(total)}</Ph>
         </span>
-        {save > 0 ? <span className="block text-[0.9375rem] font-bold whitespace-nowrap text-success sm:text-[1rem]">You Save {save}%</span> : null}
+        {saved > 0 ? (
+          <span className="block text-[0.9375rem] font-bold whitespace-nowrap text-success sm:text-[1rem]">
+            Save {formatMoney(saved)} ({percent}%)
+          </span>
+        ) : null}
       </span>
     </label>
   );
@@ -193,7 +219,8 @@ function Option({ bundle, selected, onSelect }: { bundle: Bundle; selected: bool
 function AddToCartButton() {
   const { quantity, buy, soldOutOpen, setSoldOutOpen, settings } = useSelection();
   const total = priceFor(quantity);
-  const was = (product.compareAtPrice ?? product.price) * quantity;
+  // What the same costumes cost at the regular price, so the strike-through matches the bundle cards
+  const was = product.price * quantity;
 
   return (
     <>
@@ -203,13 +230,15 @@ function AddToCartButton() {
         onClick={() => (soldOutOpen ? setSoldOutOpen(false) : buy())}
         aria-expanded={settings.soldOut ? soldOutOpen : undefined}
         aria-controls={settings.soldOut ? "sold-out-panel" : undefined}
-        className="enter btn btn-primary btn-lg mt-4 w-full gap-3 px-5 text-[1.125rem] tracking-[0.04em] whitespace-nowrap uppercase sm:px-14 sm:text-[1.3125rem]"
+        className="enter btn btn-primary btn-cart btn-lg font-apple mt-4 w-full gap-3 px-5 text-[1.125rem] tracking-[0.04em] whitespace-nowrap uppercase sm:px-14 sm:text-[1.3125rem]"
         style={{ "--i": 6 } as React.CSSProperties}
       >
         {soldOutOpen ? (
           <span key="sold-out" className="inline-flex items-center gap-3" style={{ animation: "fade-in 300ms var(--ease-out-quart)" }}>
             Sold out
-            <span className="font-normal tracking-normal text-on-cocoa-soft normal-case">· next drop soon</span>
+            <span className="font-normal tracking-normal text-on-cocoa-soft normal-case">
+              <RestockIn nextDropAt={settings.nextDropAt} />
+            </span>
           </span>
         ) : (
           <span key="add" className="inline-flex items-center gap-3">
@@ -225,10 +254,11 @@ function AddToCartButton() {
             </span>
           </span>
         )}
-        <ArrowRightIcon
-          size={24}
+        {/* Upright paw; it turns toes-down when the sold-out dropdown is open */}
+        <PawIcon
+          size={32}
           className={`absolute right-6 hidden transition-transform duration-400 ease-(--ease-out-quart) sm:block ${
-            soldOutOpen ? "rotate-90" : ""
+            soldOutOpen ? "rotate-180" : ""
           }`}
         />
       </button>

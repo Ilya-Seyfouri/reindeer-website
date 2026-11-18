@@ -2,9 +2,9 @@
 
 import Link from "next/link";
 import { useCart } from "@/components/cart/CartProvider";
-import { BundleNudge, CartLines, CartSummary } from "@/components/cart/CartLines";
+import { BundleNudge, CartLines, CartSummary, TreatLine, TreatUpsell } from "@/components/cart/CartLines";
 import { Drawer } from "@/components/ui/Drawer";
-import { ArrowRightIcon, LockIcon, ReturnIcon } from "@/components/ui/icons";
+import { LockIcon, PawIcon, ReturnIcon } from "@/components/ui/icons";
 import { guarantee } from "@/config/product";
 
 export function CartDrawer() {
@@ -38,13 +38,17 @@ export function CartDrawer() {
           <p className="max-w-[28ch] text-ink-soft">Choose a bundle and we&rsquo;ll get your pup dressed up.</p>
           <Link href="/#buy" onClick={closeCart} className="btn btn-primary">
             Shop the costume
-            <ArrowRightIcon size={20} />
+            <PawIcon size={26} />
           </Link>
         </div>
       ) : (
         <div className="flex flex-col gap-2 pb-5">
           <CartLines />
-          <BundleNudge />
+          <TreatLine />
+          <div className="flex flex-col gap-3">
+            <BundleNudge />
+            <TreatUpsell />
+          </div>
         </div>
       )}
     </Drawer>

@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { BuyButton } from "@/components/home/BuyButton";
+import { CuriousDog } from "@/components/ui/CuriousDog";
 import { PlusIcon } from "@/components/ui/icons";
 import { faqs, site } from "@/config/product";
 
@@ -8,9 +9,12 @@ export function Faq() {
     <section id="faq" data-section="faq" aria-labelledby="faq-title" className="section">
       <div className="wrap grid gap-10 lg:grid-cols-[0.8fr_1.2fr] lg:gap-20">
         <div className="lg:sticky lg:top-[calc(var(--header-h)+2.5rem)] lg:self-start">
-          <h2 id="faq-title" className="reveal h-section max-w-[14ch]">
-            Questions, answered
-          </h2>
+          <div className="reveal flex items-center gap-4 sm:gap-5">
+            <h2 id="faq-title" className="h-section max-w-[14ch]">
+              Questions, answered
+            </h2>
+            <CuriousDog className="w-24 shrink-0 sm:w-28" />
+          </div>
           <p className="reveal lead mt-5 max-w-[34ch] text-ink-soft">
             Can&rsquo;t find what you need? Email us at{" "}
             <a href={`mailto:${site.contact.email}`} className="link text-ink">

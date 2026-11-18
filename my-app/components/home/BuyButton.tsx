@@ -1,10 +1,7 @@
 "use client";
 
 import { useSelection } from "@/components/home/ProductSelection";
-import { ArrowRightIcon } from "@/components/ui/icons";
-import { Ph } from "@/components/ui/Placeholder";
-import { product } from "@/config/product";
-import { formatMoney } from "@/lib/pricing";
+import { PawIcon } from "@/components/ui/icons";
 
 /**
  * The call to action that closes every section. It takes the shopper back
@@ -28,10 +25,8 @@ export function BuyButton({
         onClick={goToOptions}
         className={`btn btn-lg w-full sm:w-auto sm:min-w-[20rem] ${tone === "light" ? "btn-light" : "btn-primary"}`}
       >
-        <span>
-          Get yours · from <Ph>{formatMoney(product.price)}</Ph>
-        </span>
-        <ArrowRightIcon size={20} className="shrink-0" />
+        <span>Get yours</span>
+        <PawIcon size={26} className="shrink-0" />
       </button>
       {note ? <p className={`text-base ${tone === "light" ? "text-on-cocoa-soft" : "text-ink-soft"}`}>{note}</p> : null}
     </div>

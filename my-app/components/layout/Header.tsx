@@ -20,13 +20,15 @@ const menuExtra = [{ href: "/refund-policy", label: "Refund policy" }];
 
 export function AnnouncementBar() {
   return (
-    <div className="on-dark print-festive bg-cocoa text-white">
-      <p className="wrap flex items-center justify-center gap-2.5 py-2.5 text-center text-[1.0625rem] leading-snug sm:text-lg">
-        <SparkleIcon size={16} className="hidden shrink-0 text-fawn sm:block" />
-        <span>
-          <strong>{site.announcement.lead}</strong> {site.announcement.text}
+    <div className="wrapping-paper">
+      <p className="wrap flex justify-center py-2 text-center text-[1rem] leading-snug sm:text-[1.0625rem]">
+        <span className="inline-flex items-center gap-2 rounded-full bg-fawn-soft px-4 py-1 text-cocoa shadow-[0_2px_8px_-2px_oklch(0.2_0.05_20/0.5)] ring-1 ring-white/70">
+          <SparkleIcon size={14} className="hidden shrink-0 text-evergreen sm:block" />
+          <span>
+            <strong>{site.announcement.lead}</strong> {site.announcement.text}
+          </span>
+          <SparkleIcon size={14} className="hidden shrink-0 text-evergreen sm:block" />
         </span>
-        <SparkleIcon size={16} className="hidden shrink-0 text-fawn sm:block" />
       </p>
     </div>
   );

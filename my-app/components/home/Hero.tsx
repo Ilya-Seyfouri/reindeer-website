@@ -1,13 +1,13 @@
 "use client";
 
-import { useState } from "react";
 import { Gallery } from "@/components/home/Gallery";
 import { useSelection } from "@/components/home/ProductSelection";
+import { SoldOutPanel } from "@/components/home/SoldOutPanel";
 import {
+  ArrowRightIcon,
   ChevronDownIcon,
   ClockIcon,
   FeatherIcon,
-  LockIcon,
   PackageIcon,
   ReturnIcon,
   RulerIcon,
@@ -17,7 +17,7 @@ import {
 } from "@/components/ui/icons";
 import { Ph } from "@/components/ui/Placeholder";
 import { Stars } from "@/components/ui/Stars";
-import { bundles, guarantee, product, productFaqs, reviews, type Bundle } from "@/config/product";
+import { bundles, drop, guarantee, product, productFaqs, type Bundle } from "@/config/product";
 import { formatMoney, priceFor } from "@/lib/pricing";
 
 const icons = {
@@ -31,8 +31,6 @@ const icons = {
 } as const;
 
 export function Hero() {
-  const { quantity, buy } = useSelection();
-
   return (
     <section id="buy" aria-labelledby="product-title" className="wrap pt-0 pb-16 sm:pt-8 md:pb-24 lg:pt-12">
       <div className="mx-auto grid max-w-[38rem] gap-7 md:gap-10 lg:max-w-none lg:grid-cols-[1.12fr_1fr] lg:gap-14 xl:gap-16">
@@ -82,30 +80,14 @@ export function Hero() {
 
           <PurchaseOptions />
 
-          <button
-            id="hero-buy"
-            type="button"
-            onClick={() => buy()}
-            className="enter btn btn-primary btn-lg mt-4 w-full text-[1.25rem]"
-            style={{ "--i": 6 } as React.CSSProperties}
-          >
+          <AddToCartButton />
+          <p className="mt-3 flex items-center justify-center gap-1.5 text-base text-ink-soft">
+            <ReturnIcon size={18} />
             <span>
-              Add to cart · <Ph>{formatMoney(priceFor(quantity))}</Ph>
-            </span>
-          </button>
-          <p className="mt-3 flex flex-wrap items-center justify-center gap-x-5 gap-y-1 text-base text-ink-soft">
-            <span className="inline-flex items-center gap-1.5">
-              <LockIcon size={18} /> Secure checkout
-            </span>
-            <span className="inline-flex items-center gap-1.5">
-              <ReturnIcon size={18} />
-              <span>
-                <Ph>{guarantee.days}</Ph>-day money-back guarantee
-              </span>
+              <Ph>{guarantee.days}</Ph>-day money-back guarantee
             </span>
           </p>
 
-          <MiniReviews />
           <ProductFaq />
         </div>
       </div>
@@ -118,12 +100,8 @@ function PurchaseOptions() {
 
   return (
     <fieldset id="purchase-options" className="enter mt-8 scroll-mt-32" style={{ "--i": 5 } as React.CSSProperties}>
-      <legend className="mb-4 flex w-full items-center gap-4 text-base font-bold text-ink">
-        <span aria-hidden="true" className="h-px flex-1 bg-line-strong" />
-        Buy more, save more
-        <span aria-hidden="true" className="h-px flex-1 bg-line-strong" />
-      </legend>
-      <div className="flex flex-col gap-3.5">
+      <legend className="sr-only">Choose how many costumes</legend>
+      <div className="flex flex-col gap-3">
         {bundles.map((bundle) => (
           <Option
             key={bundle.quantity}
@@ -137,142 +115,125 @@ function PurchaseOptions() {
   );
 }
 
+/** Price per costume, the "was" price per costume, and the saving against it. */
+function unitPricing(quantity: number) {
+  const each = priceFor(quantity) / quantity;
+  const was = product.compareAtPrice ?? product.price;
+  const save = Math.round((1 - each / was) * 100);
+  return { each, was, save };
+}
+
 function Option({ bundle, selected, onSelect }: { bundle: Bundle; selected: boolean; onSelect: () => void }) {
-  const total = priceFor(bundle.quantity);
-  const was = product.compareAtPrice
-    ? product.compareAtPrice * bundle.quantity
-    : bundle.percentOff > 0
-      ? product.price * bundle.quantity
-      : null;
+  const { each, was, save } = unitPricing(bundle.quantity);
+  const suffix = bundle.quantity > 1 ? " each" : "";
 
   return (
-    <div className="relative">
-      {bundle.popular ? (
-        <span className="absolute -top-3 right-4 z-(--z-base) rounded-full bg-cocoa px-3 py-0.5 text-[0.875rem] font-bold text-white">
-          Most popular
-        </span>
-      ) : null}
-      <label
-        className={`block cursor-pointer overflow-hidden rounded-2xl border-2 transition-[background-color,border-color,box-shadow] duration-250 ease-(--ease-out-quart) has-focus-visible:outline-3 has-focus-visible:outline-offset-3 has-focus-visible:outline-caramel-deep ${
-          selected
-            ? "border-cocoa bg-fawn-soft shadow-[0_12px_28px_-20px_oklch(0.3_0.05_50/0.6)]"
-            : "border-line-strong bg-white hover:border-caramel"
+    <label
+      className={`relative flex cursor-pointer items-center gap-3.5 rounded-xl border-2 px-4 py-5 transition-[background-color,border-color] duration-250 ease-(--ease-out-quart) has-focus-visible:outline-3 has-focus-visible:outline-offset-3 has-focus-visible:outline-caramel-deep sm:gap-5 sm:px-6 sm:py-6 ${
+        selected ? "border-cocoa bg-fawn-soft" : "border-line bg-white hover:border-line-strong"
+      }`}
+    >
+      <input
+        type="radio"
+        name="bundle"
+        value={bundle.quantity}
+        checked={selected}
+        onChange={onSelect}
+        className="sr-only"
+      />
+      <span
+        aria-hidden="true"
+        className={`grid size-6 shrink-0 place-items-center rounded-full border-2 bg-white transition-colors duration-200 ${
+          selected ? "border-cocoa" : "border-ink-soft/60"
         }`}
       >
-        <input
-          type="radio"
-          name="bundle"
-          value={bundle.quantity}
-          checked={selected}
-          onChange={onSelect}
-          className="sr-only"
+        <span
+          className={`size-3 rounded-full bg-cocoa transition-[transform,opacity] duration-250 ease-(--ease-out-quart) ${
+            selected ? "scale-100 opacity-100" : "scale-0 opacity-0"
+          }`}
         />
-        <span className="flex items-center gap-3.5 px-4 py-4 sm:px-5">
-          <span
-            aria-hidden="true"
-            className={`grid size-6 shrink-0 place-items-center rounded-full border-2 transition-colors duration-200 ${
-              selected ? "border-cocoa" : "border-line-strong bg-white"
-            }`}
-          >
-            <span
-              className={`size-3 rounded-full bg-cocoa transition-[transform,opacity] duration-250 ease-(--ease-out-quart) ${
-                selected ? "scale-100 opacity-100" : "scale-0 opacity-0"
-              }`}
-            />
-          </span>
-          <span className="min-w-0 flex-1">
-            <span className="block text-[1.1875rem] leading-snug font-bold">{bundle.title}</span>
-            <span className="block text-base text-ink-soft">{bundle.note}</span>
-          </span>
-          <span className="shrink-0 text-right tabular-nums">
-            <span className="block text-[1.1875rem] font-bold">
-              <Ph>{formatMoney(total)}</Ph>
+      </span>
+
+      <span className="min-w-0 flex-1">
+        <span className="flex flex-wrap items-center gap-x-2.5 gap-y-1">
+          <span className="text-[1.125rem] leading-tight font-bold whitespace-nowrap sm:text-[1.25rem]">{bundle.title}</span>
+          {bundle.popular ? (
+            <span className="absolute -top-3 right-3 rounded-full bg-cocoa px-2.5 py-0.5 text-[0.75rem] leading-5 font-bold tracking-wide text-white uppercase sm:static">
+              Most popular
             </span>
-            {was && was > total ? (
-              <s className="block text-base text-ink-soft">
-                <span className="sr-only">Was </span>
-                {formatMoney(was)}
-              </s>
-            ) : null}
-          </span>
+          ) : null}
         </span>
-        {bundle.perk ? (
-          <span
-            className={`flex items-center justify-center gap-2 px-4 py-2 text-center text-base font-bold ${
-              bundle.popular ? "bg-cocoa text-white" : "bg-fawn text-ink"
-            }`}
-          >
-            <TruckIcon size={18} className="shrink-0" />
-            {bundle.perk}
-          </span>
+        <span className="mt-1 block text-base text-ink-soft">{bundle.note}</span>
+      </span>
+
+      <span className="shrink-0 text-right leading-snug tabular-nums">
+        {save > 0 ? (
+          <s className="block text-[0.875rem] font-bold text-danger decoration-2 sm:text-[0.9375rem]">
+            <span className="sr-only">Was </span>
+            {formatMoney(was)}
+            {suffix}
+          </s>
         ) : null}
-      </label>
-    </div>
+        <span className="block text-[1.0625rem] font-bold whitespace-nowrap sm:text-[1.125rem]">
+          <Ph>{formatMoney(each)}</Ph>
+          {suffix}
+        </span>
+        {save > 0 ? <span className="block text-[0.9375rem] font-bold whitespace-nowrap text-success sm:text-[1rem]">You Save {save}%</span> : null}
+      </span>
+    </label>
   );
 }
 
-function MiniReviews() {
-  const picks = reviews.slice(0, 3);
-  const [index, setIndex] = useState(0);
-  // Only animate after the shopper switches reviews, never on first paint.
-  const [touched, setTouched] = useState(false);
-  const review = picks[index];
-  const initials = review.name
-    .split(/\s+/)
-    .map((part) => part[0])
-    .filter((c) => /[A-Za-z]/.test(c))
-    .slice(0, 2)
-    .join("");
+function AddToCartButton() {
+  const { quantity, buy, soldOutOpen, setSoldOutOpen } = useSelection();
+  const total = priceFor(quantity);
+  const was = (product.compareAtPrice ?? product.price) * quantity;
 
   return (
-    <figure aria-label="What customers say" className="mt-8 border-t border-line pt-6">
-      <div key={index} className="flex gap-4" style={touched ? { animation: "fade-in 400ms var(--ease-out-quart)" } : undefined}>
-        <span
-          aria-hidden="true"
-          className="grid size-14 shrink-0 place-items-center rounded-full bg-fawn font-display text-xl text-cocoa"
-        >
-          {initials}
-        </span>
-        <div>
-          <blockquote>
-            <p>&ldquo;{review.body}&rdquo;</p>
-          </blockquote>
-          <figcaption className="mt-2 flex flex-wrap items-center gap-x-3 gap-y-1 text-base">
-            <span className="text-ink-soft">
-              <strong className="text-ink">{review.name}</strong>, {review.dog}
+    <>
+      <button
+        id="hero-buy"
+        type="button"
+        onClick={() => (soldOutOpen ? setSoldOutOpen(false) : buy())}
+        aria-expanded={drop.soldOut ? soldOutOpen : undefined}
+        aria-controls={drop.soldOut ? "sold-out-panel" : undefined}
+        className="enter btn btn-primary btn-lg mt-4 w-full gap-3 px-5 text-[1.125rem] tracking-[0.04em] whitespace-nowrap uppercase sm:px-14 sm:text-[1.3125rem]"
+        style={{ "--i": 6 } as React.CSSProperties}
+      >
+        {soldOutOpen ? (
+          <span key="sold-out" className="inline-flex items-center gap-3" style={{ animation: "fade-in 300ms var(--ease-out-quart)" }}>
+            Sold out
+            <span className="font-normal tracking-normal text-on-cocoa-soft normal-case">· next drop soon</span>
+          </span>
+        ) : (
+          <span key="add" className="inline-flex items-center gap-3">
+            <span>Add to cart</span>
+            <span className="tabular-nums tracking-normal normal-case">
+              {was > total ? (
+                <s className="mr-2 font-normal text-on-cocoa-soft/80 decoration-2">
+                  <span className="sr-only">Was </span>
+                  {formatMoney(was)}
+                </s>
+              ) : null}
+              <Ph>{formatMoney(total)}</Ph>
             </span>
-            <Stars rating={review.rating} size={16} />
-          </figcaption>
-        </div>
-      </div>
-      <div className="mt-2 flex justify-center">
-        {picks.map((r, i) => (
-          <button
-            key={r.name}
-            type="button"
-            onClick={() => {
-              setIndex(i);
-              setTouched(true);
-            }}
-            aria-label={`Show review ${i + 1} of ${picks.length}`}
-            aria-current={i === index}
-            className="grid size-9 place-items-center"
-          >
-            <span
-              className={`block size-2.5 rounded-full transition-[transform,background-color] duration-300 ${
-                i === index ? "scale-125 bg-cocoa" : "bg-line-strong"
-              }`}
-            />
-          </button>
-        ))}
-      </div>
-    </figure>
+          </span>
+        )}
+        <ArrowRightIcon
+          size={24}
+          className={`absolute right-6 hidden transition-transform duration-400 ease-(--ease-out-quart) sm:block ${
+            soldOutOpen ? "rotate-90" : ""
+          }`}
+        />
+      </button>
+      {drop.soldOut ? <SoldOutPanel open={soldOutOpen} /> : null}
+    </>
   );
 }
 
 function ProductFaq() {
   return (
-    <div className="mt-4 border-t border-line">
+    <div className="mt-8 border-t border-line">
       {productFaqs.map((faq) => {
         const Icon = icons[faq.icon];
         return (

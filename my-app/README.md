@@ -33,9 +33,6 @@ Every image is a labelled `<Placeholder>` (e.g. "HERO PHOTO · 4:5"). Put your f
 <Image src="/photos/hero.jpg" alt="Beagle wearing the reindeer costume" fill sizes="(min-width: 768px) 50vw, 100vw" className="object-cover" />
 ```
 
-The ad clip goes in `components/home/VideoSection.tsx` (there's a ready-made `<video>` snippet in
-the comment there).
-
 ## Still to connect
 
 - **Payments:** `app/api/checkout/route.ts` has step-by-step Stripe Checkout instructions. The cart
@@ -43,5 +40,6 @@ the comment there).
 - **Order tracking:** `app/api/track/route.ts` — return the documented `result` shape and the
   tracking page renders the status timeline.
 - **Contact form:** `app/api/contact/route.ts` — send the message with your email provider.
+- **Waiting list:** `app/api/waitlist/route.ts` — add sign-ups to your email list (Klaviyo, Mailchimp…).
 
 Until connected, each endpoint returns a friendly "not connected yet" message.

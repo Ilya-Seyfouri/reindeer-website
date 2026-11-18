@@ -9,6 +9,7 @@ const groups = [
     links: [
       { href: "/track", label: "Track your order" },
       { href: "/contact", label: "Contact us" },
+      { href: "/waiting-list", label: "Waiting list" },
       { href: "/#faq", label: "FAQ" },
     ],
   },

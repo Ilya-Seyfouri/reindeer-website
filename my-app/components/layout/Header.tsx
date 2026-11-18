@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { useState } from "react";
 import { useCart } from "@/components/cart/CartProvider";
 import { Logo } from "@/components/layout/Logo";
@@ -9,10 +10,10 @@ import { ArrowRightIcon, BagIcon, MenuIcon } from "@/components/ui/icons";
 import { site } from "@/config/product";
 
 const nav = [
-  { href: "/#reviews", label: "Reviews" },
-  { href: "/#faq", label: "FAQ" },
-  { href: "/track", label: "Track order" },
-  { href: "/contact", label: "Contact" },
+  { href: "/", label: "Shop" },
+  { href: "/contact", label: "Contact Us" },
+  { href: "/track", label: "Track Order" },
+  { href: "/waiting-list", label: "Waiting List" },
 ];
 
 const menuExtra = [{ href: "/refund-policy", label: "Refund policy" }];
@@ -20,12 +21,8 @@ const menuExtra = [{ href: "/refund-policy", label: "Refund policy" }];
 export function AnnouncementBar() {
   return (
     <div className="on-dark bg-cocoa text-white">
-      <p className="wrap flex min-h-10 flex-wrap items-center justify-center gap-x-3 gap-y-0.5 py-2 text-center text-base leading-snug font-bold">
-        <span>{site.announcement[0]}</span>
-        <span aria-hidden="true" className="hidden text-fawn sm:inline">
-          ●
-        </span>
-        <span className="hidden font-normal text-on-cocoa-soft sm:inline">{site.announcement[1]}</span>
+      <p className="wrap py-2.5 text-center text-[1.0625rem] leading-snug sm:text-lg">
+        <strong>{site.announcement.lead}</strong> {site.announcement.text}
       </p>
     </div>
   );
@@ -34,12 +31,13 @@ export function AnnouncementBar() {
 export function Header() {
   const { totals, openCart } = useCart();
   const [menuOpen, setMenuOpen] = useState(false);
+  const pathname = usePathname();
   const count = totals.quantity;
 
   return (
     <header className="sticky top-0 z-(--z-header) border-b border-line bg-white">
       <div className="wrap flex h-(--header-h) items-center justify-between gap-3">
-        <div className="flex items-center gap-1 lg:gap-0">
+        <div className="flex items-center gap-1 lg:gap-14">
           <button
             type="button"
             onClick={() => setMenuOpen(true)}
@@ -49,22 +47,25 @@ export function Header() {
             <MenuIcon size={26} />
           </button>
           <Logo />
-        </div>
 
-        <nav aria-label="Main" className="hidden lg:block">
-          <ul className="flex items-center gap-1">
-            {nav.map((item) => (
-              <li key={item.href}>
-                <Link
-                  href={item.href}
-                  className="inline-flex min-h-12 items-center rounded-full px-4 font-bold text-ink transition-colors hover:bg-fawn-soft"
-                >
-                  {item.label}
-                </Link>
-              </li>
-            ))}
-          </ul>
-        </nav>
+          <nav aria-label="Main" className="hidden lg:block">
+            <ul className="flex items-center gap-2">
+              {nav.map((item) => (
+                <li key={item.href}>
+                  {/* The hidden bold copy reserves width, so the bold current page doesn't nudge its neighbours. */}
+                  <Link
+                    href={item.href}
+                    data-label={item.label}
+                    aria-current={pathname === item.href ? "page" : undefined}
+                    className="inline-flex min-h-12 flex-col items-center justify-center px-3 text-ink-soft transition-colors duration-200 after:invisible after:h-0 after:overflow-hidden after:font-bold after:content-[attr(data-label)] hover:text-ink aria-[current=page]:font-bold aria-[current=page]:text-ink"
+                  >
+                    {item.label}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </nav>
+        </div>
 
         <button
           type="button"
@@ -95,7 +96,8 @@ export function Header() {
                 <Link
                   href={item.href}
                   onClick={() => setMenuOpen(false)}
-                  className="flex min-h-16 items-center justify-between text-[1.375rem] font-bold"
+                  aria-current={pathname === item.href ? "page" : undefined}
+                  className="flex min-h-16 items-center justify-between text-[1.375rem] text-ink-soft aria-[current=page]:font-bold aria-[current=page]:text-ink"
                 >
                   {item.label}
                   <ArrowRightIcon size={22} className="text-caramel-deep" />

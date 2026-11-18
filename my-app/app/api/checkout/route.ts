@@ -24,7 +24,10 @@ import { cartTotals } from "@/lib/pricing";
  *         product_data: { name: product.name },
  *       },
  *     }],
- *     discounts: totals.discount > 0 ? [{ coupon: "BUNDLE_" + totals.percentOff }] : undefined, // create these coupons in Stripe
+ *     // Free costumes from the Buy 2 Get 1 / Buy 3 Get 3 deals, as a one-off amount off:
+ *     discounts: totals.discount > 0
+ *       ? [{ coupon: (await stripe.coupons.create({ amount_off: totals.discount, currency: "usd", duration: "once" })).id }]
+ *       : undefined,
  *     shipping_address_collection: { allowed_countries: ["US"] },
  *     shipping_options: [{ shipping_rate_data: {
  *       type: "fixed_amount", display_name: "Standard shipping",

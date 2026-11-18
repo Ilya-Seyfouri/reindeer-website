@@ -4,7 +4,7 @@ import { useCart } from "@/components/cart/CartProvider";
 import { Ph, Placeholder } from "@/components/ui/Placeholder";
 import { QuantityStepper } from "@/components/ui/QuantityStepper";
 import { product } from "@/config/product";
-import { formatMoney, nextBundleFor, shippingFor } from "@/lib/pricing";
+import { formatMoney, freeCostumesFor, nextBundleFor, shippingFor } from "@/lib/pricing";
 
 export function CartLines() {
   const { quantity, setQuantity, clear } = useCart();
@@ -58,7 +58,7 @@ export function BundleNudge() {
     <div className="flex flex-col gap-3 rounded-2xl bg-fawn-soft p-4 sm:flex-row sm:items-center sm:justify-between">
       <p className="leading-snug">
         <strong>
-          Add {needed} more and save <Ph>{next.percentOff}%</Ph>
+          Add {needed} more and get {freeCostumesFor(next.quantity)} free
         </strong>
         {totals.shipping > 0 && shippingFor(next.quantity) === 0 ? " plus free shipping." : "."}
         <span className="block text-base text-ink-soft">Great for a second dog or a gift.</span>
@@ -82,7 +82,7 @@ export function CartSummary() {
       </dd>
       {totals.discount > 0 ? (
         <>
-          <dt className="font-bold text-success">Bundle saving ({totals.percentOff}% off)</dt>
+          <dt className="font-bold text-success">Free costumes (×{totals.free})</dt>
           <dd className="text-right font-bold text-success tabular-nums">−{formatMoney(totals.discount)}</dd>
         </>
       ) : null}

@@ -7,7 +7,8 @@
  * Anything marked [PLACEHOLDER] is sample content. Replace it before launch.
  * Search this file for "[PLACEHOLDER]" to find every one.
  *
- * Money is stored in cents (3499 = $34.99) to avoid rounding errors.
+ * Money is stored in cents (3500 = $35) to avoid rounding errors. Prices are
+ * shown in whole dollars, so keep them to round amounts.
  */
 
 export type Review = {
@@ -22,15 +23,14 @@ export type Review = {
 };
 
 export type Bundle = {
+  /** Costumes in the bundle, free ones included */
   quantity: number;
-  /** Percent off the whole order when the cart has at least this many costumes */
-  percentOff: number;
-  /** Shown as the option title, e.g. "Buy 2, save 15%" */
+  /** How many of those costumes are free */
+  free: number;
+  /** Shown as the option title, e.g. "Buy 2, Get 1 FREE" */
   title: string;
   /** Short line under the title */
   note: string;
-  /** Strip along the bottom of the option, e.g. "Free shipping" */
-  perk?: string;
   popular?: boolean;
 };
 
@@ -47,10 +47,8 @@ export const site = {
    * spot them. Set to false before launch.
    */
   showPlaceholderMarkers: true,
-  announcement: [
-    "Free US shipping on 2 or more", // [PLACEHOLDER]
-    "Order today, ships in 1–2 business days", // [PLACEHOLDER]
-  ],
+  /** The bar under the header: a bold lead-in, then the offer. [PLACEHOLDER] */
+  announcement: { lead: "SALE:", text: "Up to 63% Off & FREE Shipping" },
   contact: {
     email: "hello@rudyandco.com", // [PLACEHOLDER]
     hours: "Monday to Friday, 9am – 5pm ET", // [PLACEHOLDER]
@@ -73,8 +71,8 @@ export const product = {
     "A soft fleece reindeer suit with a snug hood and plush antlers that stand up on their own. It slips over the head and fastens under the tummy, so it's on in seconds and stays put through walks, zoomies and photo shoots.",
   /** One size for every dog. Describe the fit range here. */
   fit: "One size with an adjustable tummy strap. Fits most dogs from [PLACEHOLDER] to [PLACEHOLDER] lbs.", // [PLACEHOLDER]
-  price: 3499, // [PLACEHOLDER] $34.99
-  compareAtPrice: 4999, // [PLACEHOLDER] $49.99 — set to null to hide the struck-through prices
+  price: 3500, // [PLACEHOLDER] $35
+  compareAtPrice: 5000, // [PLACEHOLDER] $50 — set to null to hide the struck-through prices
   rating: 4.9, // [PLACEHOLDER]
   reviewCount: 1248, // [PLACEHOLDER]
   happyDogs: "1,000+", // [PLACEHOLDER]
@@ -91,30 +89,23 @@ export const product = {
     { label: "PHOTO 2", detail: "Side view showing the hood and antlers", ratio: "1:1" },
     { label: "PHOTO 3", detail: "Close-up of the soft fleece and tummy strap", ratio: "1:1" },
     { label: "PHOTO 4", detail: "Two dogs wearing it together", ratio: "1:1" },
+    { label: "PHOTO 5", detail: "Close-up of the plush antlers", ratio: "1:1" },
   ],
 } as const;
 
+/**
+ * Purchase options, shown biggest first on the product section.
+ * The same deals apply in the cart, e.g. 7 costumes = Buy 3, Get 3 FREE + 1 paid.
+ * [PLACEHOLDER] offers
+ */
 export const bundles: Bundle[] = [
-  { quantity: 1, percentOff: 0, title: "1 costume", note: "Perfect for one pup" },
-  {
-    quantity: 2,
-    percentOff: 15, // [PLACEHOLDER] discount
-    title: "Buy 2, save 15%",
-    note: "For two dogs, or one to gift",
-    perk: "Free shipping",
-    popular: true,
-  },
-  {
-    quantity: 3,
-    percentOff: 20, // [PLACEHOLDER] discount
-    title: "Buy 3, save 20%",
-    note: "For the whole pack of pups",
-    perk: "Free shipping · Best value",
-  },
+  { quantity: 6, free: 3, title: "Buy 3, Get 3 FREE", note: "6 Rudy Costumes", popular: true },
+  { quantity: 3, free: 1, title: "Buy 2, Get 1 FREE", note: "3 Rudy Costumes" },
+  { quantity: 1, free: 0, title: "Buy Once", note: "1 Rudy Costume" },
 ];
 
 export const shipping = {
-  flatRate: 499, // [PLACEHOLDER] $4.99 for a single costume
+  flatRate: 500, // [PLACEHOLDER] $5 for a single costume
   freeFromQuantity: 2, // [PLACEHOLDER] free shipping on 2+
   processing: "1–2 business days", // [PLACEHOLDER]
   delivery: "5–8 business days", // [PLACEHOLDER]
@@ -125,29 +116,6 @@ export const guarantee = {
   days: 30, // [PLACEHOLDER]
   name: "Happy Dog Guarantee",
 };
-
-export const benefits = [
-  {
-    icon: "feather",
-    title: "Soft enough to forget it's on",
-    body: "Lightweight brushed fleece that's gentle on fur. No scratchy seams, and nothing tight around the neck.",
-  },
-  {
-    icon: "clock",
-    title: "On in about 10 seconds",
-    body: "Slip it over the head, press the soft fastening closed under the tummy, done. No wrestling, no buckles.",
-  },
-  {
-    icon: "wash",
-    title: "Machine washable",
-    body: "Muddy walk or sticky treats? Pop it in the wash on cool and let it air dry. The antlers bounce right back.",
-  },
-  {
-    icon: "camera",
-    title: "Made for photos",
-    body: "Plush antlers stand up on their own, so your Christmas card photo and family video look as good as the ad.",
-  },
-] as const;
 
 /** The short accordion under "Add to cart" on the product section. */
 export const productFaqs = [
@@ -174,7 +142,7 @@ export const productFaqs = [
   {
     icon: "truck",
     q: "Shipping information",
-    a: `Orders are packed within ${shipping.processing} and arrive in ${shipping.delivery} anywhere in the US. Shipping is free on 2 or more costumes, otherwise $${(shipping.flatRate / 100).toFixed(2)}.`,
+    a: `Orders are packed within ${shipping.processing} and arrive in ${shipping.delivery} anywhere in the US. Shipping is free on 2 or more costumes, otherwise $${Math.round(shipping.flatRate / 100)}.`,
   },
 ] as const;
 
@@ -211,33 +179,6 @@ export const reviews: Review[] = [
     body: "My hands aren't what they used to be, and this one is so easy. Over the head, press the tab, done.",
     photo: "REVIEW PHOTO – Chihuahua, 1:1",
   },
-  {
-    name: "Gary & Sue T.",
-    location: "Arizona",
-    dog: "Max & Molly, Shih Tzus",
-    rating: 5,
-    title: "Bought two, glad we did",
-    body: "Got the two-pack for our pair. The discount was a nice bonus and they arrived in five days.",
-    photo: "REVIEW PHOTO – two small dogs together, 1:1",
-  },
-  {
-    name: "Karen D.",
-    location: "Pennsylvania",
-    dog: "Bear, Labrador",
-    rating: 4,
-    title: "Great photos",
-    body: "Bear is a big boy, so I let the strap out all the way and it fits well. The antlers really do stay up for pictures.",
-    photo: "REVIEW PHOTO – Labrador, 1:1",
-  },
-  {
-    name: "Margaret W.",
-    location: "North Carolina",
-    dog: "Rosie, French Bulldog",
-    rating: 5,
-    title: "Washed beautifully",
-    body: "Rosie rolled in the garden on day one. Into the washing machine it went and it came out looking brand new.",
-    photo: "REVIEW PHOTO – French Bulldog, 1:1",
-  },
 ];
 
 export const faqs = [
@@ -255,7 +196,7 @@ export const faqs = [
   },
   {
     q: "How much is shipping?",
-    a: `Shipping is free when you order 2 or more costumes. For a single costume it's a flat $${(shipping.flatRate / 100).toFixed(2)}.`,
+    a: `Shipping is free when you order 2 or more costumes. For a single costume it's a flat $${Math.round(shipping.flatRate / 100)}.`,
   },
   {
     q: "How do I wash it?",
@@ -306,14 +247,42 @@ export const blueprint = {
 export const comparison = {
   title: "Rudy vs. other costumes",
   intro: "Most dog costumes are made to be cheap. Ours is made to be worn.",
+  photo: { label: "PHOTO", detail: "Happy dog in the costume, close-up" },
   rows: [
-    { feature: "Non-toxic, pet-safe fabric and dyes", others: "Often unknown" },
-    { feature: "One adjustable size fits every dog", others: "Guess the size" },
-    { feature: "On in about 10 seconds", others: "Buckles and zips" },
-    { feature: "Machine washable", others: "Hand wash only" },
-    { feature: "Antlers that stay upright", others: "Droop and flop" },
-    { feature: `${guarantee.days}-day money-back guarantee`, others: "Final sale" },
+    { icon: "leaf", feature: "Non-toxic, pet-safe fabric and dyes", others: "Often unknown" },
+    { icon: "ruler", feature: "One adjustable size fits every dog", others: "Guess the size" },
+    { icon: "clock", feature: "On in about 10 seconds", others: "Buckles and zips" },
+    { icon: "wash", feature: "Machine washable", others: "Hand wash only" },
+    { icon: "antlers", feature: "Antlers that stay upright", others: "Droop and flop" },
+    { icon: "shield", feature: `${guarantee.days}-day money-back guarantee`, others: "Final sale" },
+  ],
+} as const;
+
+/**
+ * Sold-out mode. While `soldOut` is true, "Add to cart" opens a dropdown with
+ * a countdown to the next drop and a waiting-list sign-up instead of the cart.
+ *
+ * Set `nextDropAt` to the real restock time (ISO date, e.g.
+ * "2026-11-20T17:00:00-05:00"). While it's null, each visitor sees a 24-hour
+ * countdown from their first click, which starts again when it runs out.
+ * [PLACEHOLDER] use a real date before launch so the countdown is honest.
+ */
+export const drop = {
+  soldOut: true,
+  nextDropAt: null as string | null,
+  fallbackHours: 24,
+};
+
+/** The waiting list page. [PLACEHOLDER] copy and perks */
+export const waitlist = {
+  title: "Join the waiting list",
+  intro:
+    "Our costumes sell out quickly before the holidays. Join the list and we'll email you the moment new stock or a new design arrives.",
+  perks: [
+    "First to know when we restock",
+    "Early access to new designs before anyone else",
+    "A waiting-list-only discount on your next order", // [PLACEHOLDER] only promise what you'll honour
   ],
 };
 
-export const paymentMethods =["Visa", "Mastercard", "Amex", "Discover", "Apple Pay", "Google Pay"] as const;
+export const paymentMethods = ["Visa", "Mastercard", "Amex", "Discover", "Apple Pay", "Google Pay"] as const;

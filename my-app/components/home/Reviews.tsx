@@ -1,82 +1,78 @@
-"use client";
-
-import { useState } from "react";
-import { BuyButton } from "@/components/home/BuyButton";
 import { CheckIcon } from "@/components/ui/icons";
 import { Ph, Placeholder } from "@/components/ui/Placeholder";
 import { Stars } from "@/components/ui/Stars";
-import { product, reviews } from "@/config/product";
+import { product, reviews, type Review } from "@/config/product";
 
-const INITIAL = 3;
+function ReviewCard({ review }: { review: Review }) {
+  return (
+    <figure className="flex h-full flex-col rounded-3xl bg-white p-3 shadow-[0_14px_34px_-24px_oklch(0.3_0.05_50/0.45)]">
+      <div className="overflow-hidden rounded-2xl">
+        <Placeholder label="REVIEW PHOTO" detail={`${review.dog} in the costume`} ratio="9:10" />
+      </div>
+      <div className="flex flex-1 flex-col px-3 pt-5 pb-3">
+        <p className="text-[1.375rem] leading-snug font-bold">{review.title}</p>
+        <Stars rating={review.rating} className="mt-1.5" />
+        <blockquote className="mt-3">
+          <p>&ldquo;{review.body}&rdquo;</p>
+        </blockquote>
+        <figcaption className="mt-auto flex flex-wrap items-center gap-x-4 gap-y-1 pt-5">
+          <span>
+            <strong>{review.name}</strong>
+            <span className="text-ink-soft"> | {review.dog}</span>
+          </span>
+          <span className="inline-flex items-center gap-1.5 font-bold text-success">
+            <span className="grid size-5 place-items-center rounded-full bg-success text-white">
+              <CheckIcon size={13} strokeWidth={3} />
+            </span>
+            Verified buyer
+          </span>
+        </figcaption>
+      </div>
+    </figure>
+  );
+}
 
 export function Reviews() {
-  const [showAll, setShowAll] = useState(false);
-
   return (
     <section id="reviews" aria-labelledby="reviews-title" className="section bg-fawn">
       <div className="wrap">
-        <div className="flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
-          <div>
-            <h2 id="reviews-title" className="reveal h-section max-w-[18ch]">
-              Dog owners love it. Their dogs do too.
-            </h2>
-          </div>
-          <div className="reveal flex items-center gap-4">
-            <p className="font-display text-[3.25rem] leading-none">
-              <Ph>{product.rating}</Ph>
-            </p>
-            <div>
-              <Stars rating={product.rating} size={22} />
-              <p className="mt-1 text-ink-soft">
-                From <Ph>{product.reviewCount.toLocaleString("en-US")}</Ph> reviews
-              </p>
-            </div>
-          </div>
+        <div className="mx-auto max-w-[48rem] text-center">
+          <h2 id="reviews-title" className="reveal h-section">
+            Dog owners love it. Their dogs do too.
+          </h2>
+          <p className="reveal lead mx-auto mt-4 max-w-[44ch]">
+            Don&rsquo;t just take our word for it. Hear from some of the <Ph>{product.happyDogs}</Ph> owners whose
+            pups are already wearing Rudy.
+          </p>
+          <p className="reveal mt-5 inline-flex flex-wrap items-center justify-center gap-x-2.5 gap-y-1">
+            <Stars rating={product.rating} size={22} />
+            <span>
+              <strong>
+                <Ph>{product.rating}</Ph>/5
+              </strong>{" "}
+              <span className="text-ink-soft">
+                from <Ph>{product.reviewCount.toLocaleString("en-US")}</Ph> reviews
+              </span>
+            </span>
+          </p>
         </div>
 
-        <ul className="mt-12 grid gap-x-8 gap-y-12 md:grid-cols-2 lg:grid-cols-3">
-          {reviews.map((review, i) => {
-            const hidden = !showAll && i >= INITIAL;
-            return (
-              <li
-                key={review.name}
-                className={`reveal flex-col ${hidden ? "hidden md:flex" : "flex"} ${!showAll && i >= 6 ? "md:hidden" : ""}`}
-              >
-                <figure className="flex flex-col">
-                  <div className="overflow-hidden rounded-3xl">
-                    <Placeholder label="REVIEW PHOTO" detail={review.dog} ratio="4:3" />
-                  </div>
-                  <Stars rating={review.rating} className="mt-5" />
-                  <blockquote className="mt-3">
-                    <p className="text-xl font-bold leading-snug">{review.title}</p>
-                    <p className="mt-2">&ldquo;{review.body}&rdquo;</p>
-                  </blockquote>
-                  <figcaption className="mt-4 text-base text-ink-soft">
-                    <span className="font-bold text-ink">{review.name}</span>, {review.location}
-                    <span className="mt-1 flex flex-wrap items-center gap-x-3 gap-y-1">
-                      <span>{review.dog}</span>
-                      <span className="inline-flex items-center gap-1 font-bold text-success">
-                        <CheckIcon size={18} /> Verified buyer
-                      </span>
-                    </span>
-                  </figcaption>
-                </figure>
-              </li>
-            );
-          })}
+        {/* Phones: swipe through, with the next card peeking in. Tablet and up: three across. */}
+        <ul
+          aria-label="Customer reviews"
+          className="-mx-(--safe-left) mt-12 flex snap-x snap-mandatory gap-4 overflow-x-auto px-(--safe-left) pb-4 [scrollbar-width:none] md:mx-0 md:grid md:grid-cols-3 md:gap-5 md:overflow-visible md:px-0 md:pb-0 lg:gap-7 [&::-webkit-scrollbar]:hidden"
+          style={{ scrollPaddingInline: "var(--safe-left)" }}
+        >
+          {reviews.map((review, i) => (
+            <li
+              key={review.name}
+              className="reveal w-[84%] shrink-0 snap-start md:w-auto"
+              style={{ "--i": i } as React.CSSProperties}
+            >
+              <ReviewCard review={review} />
+            </li>
+          ))}
         </ul>
-
-        {!showAll && reviews.length > INITIAL ? (
-          <div className="mt-10 md:hidden">
-            <button type="button" onClick={() => setShowAll(true)} className="btn btn-secondary w-full">
-              Show {reviews.length - INITIAL} more reviews
-            </button>
-          </div>
-        ) : null}
-
-        <div className="mt-14 flex justify-center border-t border-fawn-deep pt-12">
-          <BuyButton className="items-center text-center" note="Join the happy dogs. Ships fast, returns are easy." />
-        </div>
       </div>
     </section>
   );

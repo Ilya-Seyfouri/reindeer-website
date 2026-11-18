@@ -7,7 +7,7 @@ import { formatMoney, priceFor } from "@/lib/pricing";
 
 /**
  * Phones and small tablets only. Slides up whenever the main buy button
- * and the closing call to action are both off screen.
+ * is off screen, and hides again at the footer.
  */
 export function StickyBuyBar() {
   const { quantity, buy } = useSelection();
@@ -16,7 +16,6 @@ export function StickyBuyBar() {
   useEffect(() => {
     const targets = [
       document.getElementById("hero-buy"),
-      document.getElementById("final-cta"),
       document.querySelector("footer"),
     ].filter((el): el is HTMLElement => el !== null);
     const onScreen = new Map<Element, boolean>();

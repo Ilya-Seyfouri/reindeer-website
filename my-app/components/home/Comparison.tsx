@@ -1,6 +1,25 @@
 import { BuyButton } from "@/components/home/BuyButton";
-import { CheckIcon, CloseIcon } from "@/components/ui/icons";
+import {
+  AntlersIcon,
+  CheckIcon,
+  ClockIcon,
+  CloseIcon,
+  LeafIcon,
+  RulerIcon,
+  ShieldIcon,
+  WashIcon,
+} from "@/components/ui/icons";
+import { Placeholder } from "@/components/ui/Placeholder";
 import { comparison, guarantee } from "@/config/product";
+
+const icons = {
+  leaf: LeafIcon,
+  ruler: RulerIcon,
+  clock: ClockIcon,
+  wash: WashIcon,
+  antlers: AntlersIcon,
+  shield: ShieldIcon,
+} as const;
 
 /** Rudy & Co. against typical costumes, with our column raised as a fawn pillar. */
 export function Comparison() {
@@ -9,11 +28,17 @@ export function Comparison() {
   return (
     <section aria-labelledby="compare-title" className="section">
       <div className="wrap">
-        <div className="mx-auto max-w-[40rem] text-center">
-          <h2 id="compare-title" className="reveal h-section">
-            {comparison.title}
-          </h2>
-          <p className="reveal lead mx-auto mt-5 max-w-[34ch] text-ink-soft">{comparison.intro}</p>
+        <div className="mx-auto flex max-w-[54rem] flex-col items-start gap-7 sm:flex-row sm:items-center sm:gap-9">
+          <div className="reveal size-24 shrink-0 overflow-hidden rounded-full shadow-[0_0_0_6px_var(--color-fawn)] sm:size-36">
+            <Placeholder label={comparison.photo.label} ratio="1:1" compact className="rounded-full sm:hidden" />
+            <Placeholder label={comparison.photo.label} ratio="1:1" className="hidden rounded-full sm:grid" />
+          </div>
+          <div>
+            <h2 id="compare-title" className="reveal h-section">
+              {comparison.title}
+            </h2>
+            <p className="reveal lead mt-3 max-w-[34ch] text-ink-soft sm:mt-4">{comparison.intro}</p>
+          </div>
         </div>
 
         <div className="reveal mx-auto mt-12 max-w-[54rem] sm:mt-14">
@@ -40,35 +65,48 @@ export function Comparison() {
               </tr>
             </thead>
             <tbody>
-              {comparison.rows.map((row, i) => (
-                <tr key={row.feature}>
-                  <th
-                    scope="row"
-                    className={`border-t border-line py-5 pr-3 align-middle sm:pr-6 ${i === last ? "border-b" : ""}`}
-                  >
-                    <span className="block text-lg leading-snug font-bold sm:text-xl">{row.feature}</span>
-                    <span className="mt-1 block text-base text-ink-soft sm:hidden">Others: {row.others}</span>
-                  </th>
-                  <td
-                    className={`border-t border-fawn-deep/50 bg-fawn px-1.5 py-5 text-center align-middle ${i === last ? "rounded-b-3xl" : ""}`}
-                  >
-                    <span className="inline-grid size-9 place-items-center rounded-full bg-cocoa text-white">
-                      <CheckIcon size={20} strokeWidth={2.5} />
-                    </span>
-                    <span className="sr-only">Yes</span>
-                  </td>
-                  <td
-                    className={`border-t border-line px-1.5 py-5 text-center align-middle sm:pl-7 sm:text-left ${i === last ? "border-b" : ""}`}
-                  >
-                    <span className="inline-flex items-center gap-2 text-ink-soft">
-                      <span className="inline-grid size-9 shrink-0 place-items-center rounded-full bg-fawn-soft text-ink-soft">
-                        <CloseIcon size={18} strokeWidth={2.25} />
+              {comparison.rows.map((row, i) => {
+                const Icon = icons[row.icon];
+                return (
+                  <tr key={row.feature}>
+                    <th
+                      scope="row"
+                      className={`border-t border-line py-5 pr-3 align-middle sm:pr-6 ${i === last ? "border-b" : ""}`}
+                    >
+                      <span className="flex flex-col items-start gap-2.5 sm:flex-row sm:items-center sm:gap-4">
+                        <span
+                          aria-hidden="true"
+                          className="grid size-10 shrink-0 place-items-center rounded-full bg-fawn text-cocoa sm:size-12"
+                        >
+                          <Icon size={21} />
+                        </span>
+                        <span>
+                          <span className="block text-lg leading-snug font-bold sm:text-xl">{row.feature}</span>
+                          <span className="mt-1 block text-base text-ink-soft sm:hidden">Others: {row.others}</span>
+                        </span>
                       </span>
-                      <span className="sr-only sm:not-sr-only">{row.others}</span>
-                    </span>
-                  </td>
-                </tr>
-              ))}
+                    </th>
+                    <td
+                      className={`border-t border-fawn-deep/50 bg-fawn px-1.5 py-5 text-center align-middle ${i === last ? "rounded-b-3xl" : ""}`}
+                    >
+                      <span className="inline-grid size-9 place-items-center rounded-full bg-cocoa text-white">
+                        <CheckIcon size={20} strokeWidth={2.5} />
+                      </span>
+                      <span className="sr-only">Yes</span>
+                    </td>
+                    <td
+                      className={`border-t border-line px-1.5 py-5 text-center align-middle sm:pl-7 sm:text-left ${i === last ? "border-b" : ""}`}
+                    >
+                      <span className="inline-flex items-center gap-2 text-ink-soft">
+                        <span className="inline-grid size-9 shrink-0 place-items-center rounded-full bg-fawn-soft text-ink-soft">
+                          <CloseIcon size={18} strokeWidth={2.25} />
+                        </span>
+                        <span className="sr-only sm:not-sr-only">{row.others}</span>
+                      </span>
+                    </td>
+                  </tr>
+                );
+              })}
             </tbody>
           </table>
         </div>

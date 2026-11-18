@@ -3,30 +3,39 @@ import { bundles, product, shipping, site } from "@/config/product";
 const formatter = new Intl.NumberFormat(site.locale, {
   style: "currency",
   currency: site.currency,
+  minimumFractionDigits: 0,
+  maximumFractionDigits: 0,
 });
 
+/** Whole-dollar price, e.g. 3500 → "$35". */
 export function formatMoney(cents: number) {
-  return formatter.format(cents / 100);
+  return formatter.format(Math.round(cents / 100));
 }
 
-/** Percent off the whole order for a given number of costumes. */
-export function discountPercentFor(quantity: number) {
-  let best = 0;
-  for (const bundle of bundles) {
-    if (quantity >= bundle.quantity) best = Math.max(best, bundle.percentOff);
+const largestFirst = [...bundles].sort((a, b) => b.quantity - a.quantity);
+const smallestFirst = [...bundles].sort((a, b) => a.quantity - b.quantity);
+
+/** Free costumes earned by a cart of this size, using the biggest deals first. */
+export function freeCostumesFor(quantity: number) {
+  let free = 0;
+  let left = quantity;
+  for (const bundle of largestFirst) {
+    if (bundle.free === 0) continue;
+    free += Math.floor(left / bundle.quantity) * bundle.free;
+    left %= bundle.quantity;
   }
-  return best;
+  return free;
 }
 
-/** The next bundle tier the shopper could reach, for "add one more" nudges. */
+/** The next deal the shopper could reach, for "add 2 more and get 1 free" nudges. */
 export function nextBundleFor(quantity: number) {
-  return bundles.find((b) => b.quantity > quantity && b.percentOff > discountPercentFor(quantity));
+  const current = freeCostumesFor(quantity);
+  return smallestFirst.find((b) => b.quantity > quantity && freeCostumesFor(b.quantity) > current);
 }
 
-/** Price of N costumes after the bundle discount (no shipping). */
+/** Price of N costumes after free ones are taken off (no shipping). */
 export function priceFor(quantity: number) {
-  const subtotal = product.price * quantity;
-  return subtotal - Math.round((subtotal * discountPercentFor(quantity)) / 100);
+  return (quantity - freeCostumesFor(quantity)) * product.price;
 }
 
 export function shippingFor(quantity: number) {
@@ -36,13 +45,13 @@ export function shippingFor(quantity: number) {
 
 export function cartTotals(quantity: number) {
   const subtotal = product.price * quantity;
-  const percentOff = discountPercentFor(quantity);
-  const discount = Math.round((subtotal * percentOff) / 100);
+  const free = freeCostumesFor(quantity);
+  const discount = free * product.price;
   const shippingCost = shippingFor(quantity);
   return {
     quantity,
     subtotal,
-    percentOff,
+    free,
     discount,
     shipping: shippingCost,
     total: subtotal - discount + shippingCost,

@@ -14,7 +14,7 @@ People who have just watched a video ad of a dog wearing the Rudy & Co. reindeer
 
 ## Product Purpose
 
-A single-product store for a reindeer costume for dogs (one size with an adjustable strap, sold in 1, 2 or 3 packs). The site exists to turn warm ad traffic into orders with as little friction as possible. Success is a high add-to-cart rate from mobile ad visitors and a strong share of two-costume bundle orders.
+A single-product store for a reindeer costume for dogs (one size with an adjustable strap, sold singly or as Buy 2 Get 1 Free and Buy 3 Get 3 Free deals). The site exists to turn warm ad traffic into orders with as little friction as possible. Success is a high add-to-cart rate from mobile ad visitors and a strong share of multi-costume deal orders.
 
 ## Positioning
 

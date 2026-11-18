@@ -1,7 +1,8 @@
 "use client";
 
+import Link from "next/link";
 import { useState } from "react";
-import { CheckIcon } from "@/components/ui/icons";
+import { CheckIcon, MailIcon } from "@/components/ui/icons";
 
 export type TrackingResult = {
   orderNumber: string;
@@ -23,6 +24,7 @@ type State =
   | { kind: "idle" }
   | { kind: "loading" }
   | { kind: "error"; message: string }
+  | { kind: "not_found"; orderNumber: string }
   | { kind: "found"; result: TrackingResult };
 
 export function TrackForm() {
@@ -37,7 +39,6 @@ export function TrackForm() {
 
     const nextErrors: typeof errors = {};
     if (!orderNumber) nextErrors.order = "Please enter your order number.";
-    if (!/^\S+@\S+\.\S+$/.test(email)) nextErrors.email = "Please enter the email address you ordered with.";
     setErrors(nextErrors);
     if (Object.keys(nextErrors).length) return;
 
@@ -50,6 +51,7 @@ export function TrackForm() {
       });
       const data: { result?: TrackingResult; error?: string } = await res.json().catch(() => ({}));
       if (res.ok && data.result) setState({ kind: "found", result: data.result });
+      else if (res.status === 404) setState({ kind: "not_found", orderNumber });
       else setState({ kind: "error", message: data.error ?? "We couldn't look that up right now. Please try again." });
     } catch {
       setState({ kind: "error", message: "We couldn't connect. Check your internet connection and try again." });
@@ -111,8 +113,31 @@ export function TrackForm() {
             {state.message}
           </p>
         ) : null}
+        {state.kind === "not_found" ? <NotFound orderNumber={state.orderNumber} /> : null}
         {state.kind === "found" ? <Result result={state.result} /> : null}
       </div>
+    </div>
+  );
+}
+
+function NotFound({ orderNumber }: { orderNumber: string }) {
+  return (
+    <div
+      role="alert"
+      className="flex flex-col items-start gap-4 rounded-3xl bg-fawn-soft p-6 sm:p-8"
+      style={{ animation: "soft-drop 320ms var(--ease-out-quart)" }}
+    >
+      <span className="grid size-12 place-items-center rounded-full bg-cocoa text-white">
+        <MailIcon size={24} />
+      </span>
+      <h2 className="font-display text-[1.75rem] leading-tight">Hmm, that isn&rsquo;t an order we recognise</h2>
+      <p>
+        We couldn&rsquo;t find an order matching <strong className="break-all">{orderNumber}</strong>. Get in touch
+        and we&rsquo;ll look it up for you.
+      </p>
+      <Link href="/contact" className="btn btn-primary">
+        Contact us
+      </Link>
     </div>
   );
 }

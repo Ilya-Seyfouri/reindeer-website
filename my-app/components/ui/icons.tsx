@@ -157,7 +157,21 @@ export const PackageIcon = (p: IconProps) => (
   </Svg>
 );
 
-export const StarIcon = ({ size = 20, ...p }: IconProps) => (
+export const LeafIcon = (p: IconProps) => (
+  <Svg {...p}>
+    <path d="M5 19c0-8 5-14 15-14 0 10-6 15-14 15" />
+    <path d="M5 19c3-4 6-7 10-9" />
+  </Svg>
+);
+
+export const AntlersIcon = (p: IconProps) => (
+  <Svg {...p}>
+    <path d="M9 20c0-5-1-7-3.5-9.5M5.5 10.5C4 9.5 3.5 8 3.5 5.5M5.5 10.5c0-2.5.8-4 2.5-5M7.2 14.5c-1.7 0-3.2-.8-4-2.3" />
+    <path d="M15 20c0-5 1-7 3.5-9.5M18.5 10.5c1.5-1 2-2.5 2-5M18.5 10.5c0-2.5-.8-4-2.5-5M16.8 14.5c1.7 0 3.2-.8 4-2.3" />
+  </Svg>
+);
+
+export const StarIcon =({ size = 20, ...p }: IconProps) => (
   <svg width={size} height={size} viewBox="0 0 20 20" aria-hidden="true" focusable="false" {...p}>
     <path
       fill="currentColor"
@@ -165,10 +179,3 @@ export const StarIcon = ({ size = 20, ...p }: IconProps) => (
     />
   </svg>
 );
-
-export const benefitIcons = {
-  feather: FeatherIcon,
-  clock: ClockIcon,
-  wash: WashIcon,
-  camera: CameraIcon,
-} as const;

@@ -56,8 +56,8 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
           Skip to content
         </a>
         <CartProvider>
-          <AnnouncementBar />
           <Header />
+          <AnnouncementBar />
           <main id="main" className="flex-1">
             {children}
           </main>

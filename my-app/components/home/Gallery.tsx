@@ -1,10 +1,11 @@
 "use client";
 
 import { useRef, useState } from "react";
+import { GuaranteeSeal } from "@/components/ui/GuaranteeSeal";
 import { Placeholder } from "@/components/ui/Placeholder";
 import { product } from "@/config/product";
 
-/** Big swipeable photo with a row of four thumbnails underneath. */
+/** Big swipeable photo with a row of thumbnails underneath, edge to edge with it. */
 export function Gallery() {
   const trackRef = useRef<HTMLDivElement>(null);
   const [active, setActive] = useState(0);
@@ -38,12 +39,17 @@ export function Gallery() {
             aria-roledescription="slide"
             aria-label={`${i + 1} of ${images.length}`}
           >
-            <Placeholder label={img.label} detail={img.detail} ratio={img.ratio} />
+            <div className="relative">
+              <Placeholder label={img.label} detail={img.detail} ratio={img.ratio} />
+              {i === 0 ? (
+                <GuaranteeSeal className="absolute top-3 right-3 size-24 drop-shadow-[0_8px_16px_oklch(0.22_0.035_50/0.3)] sm:top-4 sm:right-4 sm:size-28 lg:size-32" />
+              ) : null}
+            </div>
           </div>
         ))}
       </div>
 
-      <div className="grid grid-cols-4 gap-2.5 sm:gap-3 lg:max-w-[85%]">
+      <div className="grid gap-2 sm:gap-3" style={{ gridTemplateColumns: `repeat(${images.length}, minmax(0, 1fr))` }}>
         {images.map((img, i) => (
           <button
             key={img.label}

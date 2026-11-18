@@ -1,4 +1,5 @@
-import { NextResponse } from "next/server";
+import { after, NextResponse } from "next/server";
+import { posthogLog, loggerProvider, SeverityNumber } from "@/instrumentation";
 
 /**
  * POST /api/waitlist
@@ -17,6 +18,13 @@ export async function POST(request: Request) {
   if (!/^\S+@\S+\.\S+$/.test(email) || email.length > 254) {
     return NextResponse.json({ error: "Please check your email address and try again." }, { status: 400 });
   }
+
+  posthogLog.emit({
+    body: "Waitlist signup unavailable",
+    severityNumber: SeverityNumber.WARN,
+    attributes: { endpoint: "/api/waitlist", response_status: 501 },
+  });
+  after(() => loggerProvider.forceFlush().catch(() => undefined));
 
   return NextResponse.json({ error: "The waiting list isn't connected yet." }, { status: 501 });
 }

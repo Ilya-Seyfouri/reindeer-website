@@ -1,5 +1,6 @@
 "use client";
 
+import posthog from "posthog-js";
 import { useState } from "react";
 import { CheckIcon } from "@/components/ui/icons";
 import { TextField } from "@/components/ui/TextField";
@@ -40,6 +41,7 @@ export function ContactForm() {
     } catch {
       // The shopper still sees the confirmation; see app/api/contact/route.ts.
     }
+    posthog.capture("contact_message_submitted", { has_order_number: Boolean(data.orderNumber) });
     setState({ kind: "sent" });
     formEl.reset();
   }

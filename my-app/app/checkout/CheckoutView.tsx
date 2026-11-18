@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import posthog from "posthog-js";
 import { useState } from "react";
 import { useCart } from "@/components/cart/CartProvider";
 import { BundleNudge, CartLines, CartSummary } from "@/components/cart/CartLines";
@@ -17,6 +18,7 @@ export function CheckoutView() {
   const empty = quantity === 0;
 
   async function startCheckout() {
+    posthog.capture("checkout_requested", { quantity });
     setStatus({ kind: "loading" });
     try {
       const res = await fetch("/api/checkout", {

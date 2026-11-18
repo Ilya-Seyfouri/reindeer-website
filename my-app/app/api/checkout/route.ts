@@ -1,4 +1,5 @@
-import { NextResponse } from "next/server";
+import { after, NextResponse } from "next/server";
+import { posthogLog, loggerProvider, SeverityNumber } from "@/instrumentation";
 import { product } from "@/config/product";
 import { cartTotals } from "@/lib/pricing";
 
@@ -51,6 +52,13 @@ export async function POST(request: Request) {
 
   const totals = cartTotals(quantity);
   void totals; // used once Stripe is connected (see TODO above)
+
+  posthogLog.emit({
+    body: "Checkout requested while payments are unavailable",
+    severityNumber: SeverityNumber.WARN,
+    attributes: { endpoint: "/api/checkout", quantity, response_status: 501 },
+  });
+  after(() => loggerProvider.forceFlush().catch(() => undefined));
 
   return NextResponse.json(
     { error: "Online payment isn't switched on yet. The store owner needs to connect Stripe." },

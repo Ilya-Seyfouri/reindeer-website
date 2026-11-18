@@ -1,6 +1,7 @@
 "use client";
 
 import { useRouter } from "next/navigation";
+import posthog from "posthog-js";
 import { createContext, useCallback, useContext, useMemo, useState } from "react";
 import { useCart } from "@/components/cart/CartProvider";
 import { bundles, drop } from "@/config/product";
@@ -63,6 +64,7 @@ export function ProductSelectionProvider({ children }: { children: React.ReactNo
         return;
       }
       add(quantity);
+      posthog.capture("product_added_to_cart", { quantity, destination: then });
       if (then === "checkout") router.push("/checkout");
       else openCart();
     },

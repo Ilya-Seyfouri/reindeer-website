@@ -1,4 +1,5 @@
-import { NextResponse } from "next/server";
+import { after, NextResponse } from "next/server";
+import { posthogLog, loggerProvider, SeverityNumber } from "@/instrumentation";
 
 /**
  * POST /api/track
@@ -29,5 +30,11 @@ export async function POST(request: Request) {
 
   // Until order lookup is connected, every search is treated as "not found",
   // and the page points the shopper to the contact form.
+  posthogLog.emit({
+    body: "Order tracking lookup unavailable",
+    severityNumber: SeverityNumber.INFO,
+    attributes: { endpoint: "/api/track", response_status: 404 },
+  });
+  after(() => loggerProvider.forceFlush().catch(() => undefined));
   return NextResponse.json({ error: "Order not found." }, { status: 404 });
 }

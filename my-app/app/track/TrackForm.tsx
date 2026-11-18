@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import posthog from "posthog-js";
 import { useState } from "react";
 import { CheckIcon, MailIcon } from "@/components/ui/icons";
 
@@ -42,6 +43,7 @@ export function TrackForm() {
     setErrors(nextErrors);
     if (Object.keys(nextErrors).length) return;
 
+    posthog.capture("order_tracking_requested");
     setState({ kind: "loading" });
     try {
       const res = await fetch("/api/track", {
@@ -50,9 +52,15 @@ export function TrackForm() {
         body: JSON.stringify({ orderNumber, email }),
       });
       const data: { result?: TrackingResult; error?: string } = await res.json().catch(() => ({}));
-      if (res.ok && data.result) setState({ kind: "found", result: data.result });
-      else if (res.status === 404) setState({ kind: "not_found", orderNumber });
-      else setState({ kind: "error", message: data.error ?? "We couldn't look that up right now. Please try again." });
+      if (res.ok && data.result) {
+        posthog.capture("order_tracking_result_received", { outcome: "found", fulfillment_status: data.result.status });
+        setState({ kind: "found", result: data.result });
+      } else if (res.status === 404) {
+        posthog.capture("order_tracking_result_received", { outcome: "not_found" });
+        setState({ kind: "not_found", orderNumber });
+      } else {
+        setState({ kind: "error", message: data.error ?? "We couldn't look that up right now. Please try again." });
+      }
     } catch {
       setState({ kind: "error", message: "We couldn't connect. Check your internet connection and try again." });
     }

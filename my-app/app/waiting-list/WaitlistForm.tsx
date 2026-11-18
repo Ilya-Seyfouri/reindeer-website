@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import posthog from "posthog-js";
 import { useState } from "react";
 import { CheckIcon } from "@/components/ui/icons";
 import { TextField } from "@/components/ui/TextField";
@@ -37,8 +38,10 @@ export function WaitlistForm() {
         body: JSON.stringify(data),
       });
       const body: { error?: string } = await res.json().catch(() => ({}));
-      if (res.ok) setState({ kind: "joined", email: data.email });
-      else setState({ kind: "error", message: body.error ?? "We couldn't add you to the list." });
+      if (res.ok) {
+        posthog.capture("waitlist_joined", { signup_surface: "waiting_list_page" });
+        setState({ kind: "joined", email: data.email });
+      } else setState({ kind: "error", message: body.error ?? "We couldn't add you to the list." });
     } catch {
       setState({ kind: "error", message: "We couldn't connect. Check your internet connection and try again." });
     }

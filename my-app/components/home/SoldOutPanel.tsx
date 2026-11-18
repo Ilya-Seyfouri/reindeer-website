@@ -1,5 +1,6 @@
 "use client";
 
+import posthog from "posthog-js";
 import { useEffect, useRef, useState } from "react";
 import { CheckIcon, MailIcon } from "@/components/ui/icons";
 import { drop, site } from "@/config/product";
@@ -82,8 +83,10 @@ export function SoldOutPanel({ open }: { open: boolean }) {
         body: JSON.stringify({ email, source: "sold-out" }),
       });
       const body: { error?: string } = await res.json().catch(() => ({}));
-      if (res.ok) setState({ kind: "joined", email });
-      else setState({ kind: "error", message: body.error ?? "We couldn't add you to the list." });
+      if (res.ok) {
+        posthog.capture("waitlist_joined", { signup_surface: "sold_out_panel" });
+        setState({ kind: "joined", email });
+      } else setState({ kind: "error", message: body.error ?? "We couldn't add you to the list." });
     } catch {
       setState({ kind: "error", message: "We couldn't connect. Check your internet connection and try again." });
     }

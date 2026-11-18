@@ -103,7 +103,7 @@ export const product = {
    */
   certification: {
     name: "OEKO-TEX® Standard 100",
-    short: "Skin safe certified fabric",
+    short: "Skin safe certified materials",
     detail: "tested for harmful substances",
   },
   /** What it's made of, from the spec sheet. */

@@ -6,14 +6,14 @@ import { useState } from "react";
 import { useCart } from "@/components/cart/CartProvider";
 import { Logo } from "@/components/layout/Logo";
 import { Drawer } from "@/components/ui/Drawer";
-import { ArrowRightIcon, BagIcon, MenuIcon, SparkleIcon } from "@/components/ui/icons";
+import { ArrowRightIcon, BagIcon, BoneIcon, DogBowlIcon, DogFaceIcon, DogHouseIcon, MenuIcon, SparkleIcon } from "@/components/ui/icons";
 import { site } from "@/config/product";
 
 const nav = [
-  { href: "/", label: "Shop" },
-  { href: "/track", label: "Track Order" },
-  { href: "/contact", label: "Contact Us" },
-  { href: "/waiting-list", label: "Waiting List" },
+  { href: "/", label: "Shop", Icon: BoneIcon },
+  { href: "/track", label: "Track Order", Icon: DogHouseIcon },
+  { href: "/contact", label: "Contact Us", Icon: DogFaceIcon },
+  { href: "/waiting-list", label: "Waiting List", Icon: DogBowlIcon },
 ];
 
 const menuExtra = [{ href: "/refund-policy", label: "Refund policy" }];
@@ -61,11 +61,19 @@ export function Header() {
                   {/* The hidden bold copy reserves width, so the bold current page doesn't nudge its neighbours. */}
                   <Link
                     href={item.href}
-                    data-label={item.label}
                     aria-current={pathname === item.href ? "page" : undefined}
-                    className="inline-flex min-h-12 flex-col items-center justify-center px-3 text-ink-soft transition-colors duration-200 after:invisible after:h-0 after:overflow-hidden after:font-bold after:content-[attr(data-label)] hover:text-ink aria-[current=page]:font-bold aria-[current=page]:text-ink"
+                    className="group inline-flex min-h-12 items-center gap-2 px-3 text-ink-soft transition-colors duration-200 hover:text-ink aria-[current=page]:font-bold aria-[current=page]:text-ink"
                   >
-                    {item.label}
+                    <item.Icon
+                      size={20}
+                      className="shrink-0 text-caramel transition-transform duration-300 ease-(--ease-out-quart) group-hover:-rotate-12 group-hover:scale-110"
+                    />
+                    <span
+                      data-label={item.label}
+                      className="inline-flex flex-col after:invisible after:h-0 after:overflow-hidden after:font-bold after:content-[attr(data-label)]"
+                    >
+                      {item.label}
+                    </span>
                   </Link>
                 </li>
               ))}

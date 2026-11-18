@@ -54,7 +54,7 @@ export function ForestSkyline({ className = "" }: { className?: string }) {
         <path d={sparkle(1220, 50, 9)} />
       </g>
       <circle cx="690" cy="45" r="3" className="fill-rudolph" />
-      <g className="fill-cocoa-deep">
+      <g className="fill-chocolate-deep">
         {trees.map((t) => (
           <path key={t.x} d={tree(t.x, base, t.h)} />
         ))}

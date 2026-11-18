@@ -19,7 +19,7 @@ export function GuaranteeSeal({ className = "" }: { className?: string }) {
       <defs>
         <path id={pathId} d="M100,100 m-72,0 a72,72 0 1,1 144,0 a72,72 0 1,1 -144,0" />
       </defs>
-      <circle cx="100" cy="100" r="98" fill="var(--color-cocoa)" />
+      <circle cx="100" cy="100" r="98" fill="var(--color-chocolate)" />
       <circle cx="100" cy="100" r="90" fill="none" stroke="var(--color-fawn)" strokeWidth="1.5" strokeDasharray="2 5" />
       <text
         aria-hidden="true"

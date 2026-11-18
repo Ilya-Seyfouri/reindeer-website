@@ -27,7 +27,7 @@ export function Footer() {
   return (
     <>
     <ForestSkyline className="-mb-px" />
-    <footer className="on-dark print-festive bg-cocoa-deep text-white">
+    <footer className="on-dark print-festive bg-chocolate-deep text-white">
       <div className="wrap grid gap-12 pt-16 pb-10 md:grid-cols-[1.4fr_1fr_1fr] md:gap-10 md:pt-20">
         <div className="flex flex-col gap-4">
           <Logo tone="light" className="-ml-0.5 w-fit" />

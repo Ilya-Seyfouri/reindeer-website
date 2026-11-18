@@ -42,9 +42,9 @@ export default function Home() {
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
       <Hero />
       <FitsEveryDog />
-      <Blueprint />
       <Comparison />
       <Reviews />
+      <Blueprint />
       <Faq />
       <Guarantee />
       <StickyBuyBar />

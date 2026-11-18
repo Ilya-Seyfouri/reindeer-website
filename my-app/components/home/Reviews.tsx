@@ -1,5 +1,6 @@
+import Image from "next/image";
 import { CheckIcon } from "@/components/ui/icons";
-import { Ph, Placeholder } from "@/components/ui/Placeholder";
+import { Ph } from "@/components/ui/Placeholder";
 import { Stars } from "@/components/ui/Stars";
 import { product, reviews, type Review } from "@/config/product";
 
@@ -7,7 +8,13 @@ function ReviewCard({ review }: { review: Review }) {
   return (
     <figure className="flex h-full flex-col rounded-3xl bg-white p-3 shadow-[0_14px_34px_-24px_oklch(0.3_0.05_50/0.45)]">
       <div className="overflow-hidden rounded-2xl">
-        <Placeholder label="REVIEW PHOTO" detail={`${review.dog} in the costume`} ratio="9:10" />
+        <Image
+          src={review.photo}
+          alt={`${review.dog.split(",")[0]} wearing the costume, from ${review.name}`}
+          placeholder="blur"
+          sizes="(min-width: 768px) 30vw, 84vw"
+          className="aspect-[4/5] w-full bg-fawn-soft object-cover"
+        />
       </div>
       <div className="flex flex-1 flex-col px-3 pt-5 pb-3">
         <p className="text-[1.375rem] leading-snug font-bold">{review.title}</p>

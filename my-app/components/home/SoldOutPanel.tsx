@@ -4,12 +4,13 @@ import { useEffect, useRef, useState } from "react";
 import { CheckIcon, MailIcon } from "@/components/ui/icons";
 import { drop, site } from "@/config/product";
 
-const STORAGE_KEY = "rudy-next-drop";
+// Bump the key when fallbackDays changes, so returning visitors get the new length.
+const STORAGE_KEY = "rudy-next-drop-8d";
 
-/** When the next drop goes live: the configured date, or 24h from the visitor's first look. */
+/** When the next drop goes live: the configured date, or fallbackDays from the visitor's first look. */
 function resolveNextDrop() {
   if (drop.nextDropAt) return new Date(drop.nextDropAt).getTime();
-  const span = drop.fallbackHours * 60 * 60 * 1000;
+  const span = drop.fallbackDays * 24 * 60 * 60 * 1000;
   const now = Date.now();
   let target = 0;
   try {
@@ -42,7 +43,12 @@ function useCountdown(active: boolean) {
 
   if (remaining === null) return null;
   const total = Math.floor(remaining / 1000);
-  return { hours: Math.floor(total / 3600), minutes: Math.floor((total % 3600) / 60), seconds: total % 60 };
+  return {
+    days: Math.floor(total / 86400),
+    hours: Math.floor((total % 86400) / 3600),
+    minutes: Math.floor((total % 3600) / 60),
+    seconds: total % 60,
+  };
 }
 
 const pad = (n: number) => String(n).padStart(2, "0");
@@ -83,13 +89,13 @@ export function SoldOutPanel({ open }: { open: boolean }) {
     }
   }
 
-  const units = time
-    ? [
-        { value: time.hours, label: "Hours" },
-        { value: time.minutes, label: "Minutes" },
-        { value: time.seconds, label: "Seconds" },
-      ]
-    : null;
+  // Short labels fit the four boxes on the narrowest phones.
+  const units = [
+    { value: time?.days, label: "Days", short: "Days" },
+    { value: time?.hours, label: "Hours", short: "Hours" },
+    { value: time?.minutes, label: "Minutes", short: "Mins" },
+    { value: time?.seconds, label: "Seconds", short: "Secs" },
+  ];
 
   return (
     <div
@@ -129,22 +135,27 @@ export function SoldOutPanel({ open }: { open: boolean }) {
               role="timer"
               aria-live="off"
               aria-label={
-                time ? `Next drop in ${time.hours} hours and ${time.minutes} minutes` : "Next drop countdown"
+                time
+                  ? `Next drop in ${time.days} days, ${time.hours} hours and ${time.minutes} minutes`
+                  : "Next drop countdown"
               }
-              className="mt-4 flex items-start justify-center gap-2 sm:gap-3"
+              className="mt-4 flex items-start justify-center gap-1 min-[400px]:gap-2 sm:gap-3"
             >
-              {(units ?? [{ label: "Hours" }, { label: "Minutes" }, { label: "Seconds" }]).map((unit, i) => (
-                <div key={unit.label} className="flex items-start gap-2 sm:gap-3">
+              {units.map((unit, i) => (
+                <div key={unit.label} className="flex items-start gap-1 min-[400px]:gap-2 sm:gap-3">
                   {i > 0 ? (
                     <span aria-hidden="true" className="pt-2.5 font-display text-[1.75rem] leading-none text-caramel-deep">
                       :
                     </span>
                   ) : null}
-                  <div className="flex w-[4.5rem] flex-col items-center sm:w-20">
-                    <span className="grid h-16 w-full place-items-center rounded-xl bg-white font-display text-[2.25rem] leading-none tabular-nums shadow-[inset_0_0_0_1.5px_var(--color-line)] sm:h-[4.5rem] sm:text-[2.5rem]">
-                      {"value" in unit && unit.value !== undefined ? pad(unit.value) : "--"}
+                  <div className="flex w-[clamp(2.75rem,13.5vw,4.5rem)] flex-col items-center sm:w-[4.5rem]">
+                    <span className="grid h-16 w-full place-items-center rounded-xl bg-white font-display text-[1.75rem] leading-none tabular-nums shadow-[inset_0_0_0_1.5px_var(--color-line)] min-[400px]:text-[2.25rem] sm:h-[4.5rem] sm:text-[2.5rem]">
+                      {unit.value !== undefined ? pad(unit.value) : "--"}
                     </span>
-                    <span className="mt-1.5 text-[0.875rem] font-bold text-ink-soft">{unit.label}</span>
+                    <span className="mt-1.5 text-[0.875rem] font-bold text-ink-soft">
+                      <span className="min-[400px]:hidden">{unit.short}</span>
+                      <span className="hidden min-[400px]:inline">{unit.label}</span>
+                    </span>
                   </div>
                 </div>
               ))}

@@ -13,6 +13,7 @@
  * Photos live in app/images/. Swap a file there (same name) to change a photo.
  */
 
+import type { StaticImageData } from "next/image";
 import blueprintImage from "@/app/images/blueprint.png";
 import hero1 from "@/app/images/hero.png";
 import hero2 from "@/app/images/hero2.png";
@@ -23,6 +24,9 @@ import rudyVsImage from "@/app/images/rudyvs.png";
 import size1 from "@/app/images/size1.png";
 import size2 from "@/app/images/size2.png";
 import size3 from "@/app/images/size3.png";
+import review1 from "@/app/images/test1.png";
+import review2 from "@/app/images/test2.png";
+import review3 from "@/app/images/test3.png";
 
 export type Review = {
   name: string;
@@ -31,8 +35,8 @@ export type Review = {
   rating: 1 | 2 | 3 | 4 | 5;
   title: string;
   body: string;
-  /** Label shown on the photo placeholder until you add a real photo */
-  photo: string;
+  /** The customer's photo of their dog (4:5) */
+  photo: StaticImageData;
 };
 
 export type Bundle = {
@@ -169,11 +173,11 @@ export const reviews: Review[] = [
   {
     name: "Linda M.",
     location: "Ohio",
-    dog: "Biscuit, Beagle",
+    dog: "Biscuit, Pit Bull mix",
     rating: 5,
     title: "Fit him perfectly",
     body: "I worried one size wouldn't work, but the strap made it easy to get just right. He didn't fuss one bit and the grandkids loved it.",
-    photo: "REVIEW PHOTO – Beagle in costume, 1:1",
+    photo: review1,
   },
   {
     name: "Robert K.",
@@ -182,16 +186,16 @@ export const reviews: Review[] = [
     rating: 5,
     title: "Soft and well made",
     body: "Better quality than I expected for the price. Daisy wore it all afternoon at our family get-together and kept it on.",
-    photo: "REVIEW PHOTO – Golden Retriever, 1:1",
+    photo: review2,
   },
   {
     name: "Patricia H.",
     location: "Texas",
-    dog: "Peanut, Chihuahua",
+    dog: "Honey, Golden Retriever",
     rating: 5,
     title: "Easiest outfit we own",
     body: "My hands aren't what they used to be, and this one is so easy. Over the head, press the tab, done.",
-    photo: "REVIEW PHOTO – Chihuahua, 1:1",
+    photo: review3,
   },
 ];
 
@@ -238,9 +242,10 @@ export const fitShowcase = {
 };
 
 /**
- * The blueprint: one design-outline image with numbered pins.
- * x / y are percentages across / down the image. If you change the drawing,
- * move them to line up with it.
+ * The blueprint: one design-outline image with numbered callouts.
+ * x / y is the point on the drawing the callout points at, and pinY is where
+ * its numbered pin sits (straight above or below, in the clear space). All are
+ * percentages across / down the image. If you change the drawing, move them.
  */
 export const blueprint = {
   title: "Designed around your dog",
@@ -250,10 +255,10 @@ export const blueprint = {
     alt: "Line drawing of the costume from the front, side and back, plus the hood and tummy strap on their own",
   },
   parts: [
-    { x: 18, y: 17, title: "Plush antlers", body: "Firmly stuffed so they stand up on their own and never flop over." },
-    { x: 36, y: 37, title: "Soft, loose hood", body: "Ears stay free and nothing covers the eyes or presses on the face." },
-    { x: 81, y: 71, title: "Adjustable tummy strap", body: "Soft hook-and-loop closes under the belly and stretches from small to large." },
-    { x: 60, y: 66, title: "Open legs and tail", body: "Nothing on the paws or tail, so walking, sitting and potty breaks are normal." },
+    { x: 14.6, y: 19.4, pinY: 8, title: "Plush antlers", body: "Firmly stuffed so they stand up on their own and never flop over." },
+    { x: 33.8, y: 27.6, pinY: 8, title: "Soft, loose hood", body: "Ears stay free and nothing covers the eyes or presses on the face." },
+    { x: 59.3, y: 69.6, pinY: 91, title: "Open legs and tail", body: "Nothing on the paws or tail, so walking, sitting and potty breaks are normal." },
+    { x: 80.4, y: 80.4, pinY: 91, title: "Adjustable tummy strap", body: "Soft hook-and-loop closes under the belly and stretches from small to large." },
   ],
 };
 
@@ -280,14 +285,14 @@ export const comparison = {
  * a countdown to the next drop and a waiting-list sign-up instead of the cart.
  *
  * Set `nextDropAt` to the real restock time (ISO date, e.g.
- * "2026-11-20T17:00:00-05:00"). While it's null, each visitor sees a 24-hour
+ * "2026-11-20T17:00:00-05:00"). While it's null, each visitor sees an 8-day
  * countdown from their first click, which starts again when it runs out.
  * [PLACEHOLDER] use a real date before launch so the countdown is honest.
  */
 export const drop = {
   soldOut: true,
   nextDropAt: null as string | null,
-  fallbackHours: 24,
+  fallbackDays: 8,
 };
 
 /** The waiting list page. [PLACEHOLDER] copy and perks */

@@ -3,8 +3,7 @@ import { fitShowcase } from "@/config/product";
 
 /**
  * Three dogs, small to large, all in the same costume. On wider screens a
- * measuring rule runs under the photos and carries the captions, which leads
- * into the blueprint section below.
+ * measuring rule runs under the photos and carries the captions.
  */
 export function FitsEveryDog() {
   const { dogs } = fitShowcase;

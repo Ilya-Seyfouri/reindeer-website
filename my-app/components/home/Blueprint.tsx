@@ -41,7 +41,10 @@ export function Blueprint() {
           <div className="reveal relative">
             <CornerMarks />
             {/* The drawing has no background, so it sits on the same soft fawn panel. */}
-            <div className="relative isolate aspect-video overflow-hidden rounded-2xl bg-fawn-deep/45">
+            <div
+              className="relative isolate overflow-hidden rounded-2xl bg-fawn-deep/45"
+              style={{ aspectRatio: `${blueprint.image.src.width} / ${blueprint.image.src.height}` }}
+            >
               <div
                 aria-hidden="true"
                 className="absolute inset-0 -z-10 opacity-60"
@@ -55,20 +58,38 @@ export function Blueprint() {
                 alt={blueprint.image.alt}
                 fill
                 sizes="(min-width: 1088px) 1024px, 94vw"
-                className="object-contain"
+                className="object-cover"
               />
             </div>
+            {/* Callouts: a numbered pin in the clear space, with a leader line to the part it names */}
             <div aria-hidden="true" className="reveal-fade absolute inset-0">
+              <svg className="absolute inset-0 size-full overflow-visible" viewBox="0 0 100 100" preserveAspectRatio="none">
+                {blueprint.parts.map((part, i) => (
+                  <line
+                    key={part.title}
+                    x1={part.x}
+                    y1={part.pinY}
+                    x2={part.x}
+                    y2={part.y}
+                    vectorEffect="non-scaling-stroke"
+                    strokeWidth={1.5}
+                    className={`transition-[stroke] duration-300 ${active === i ? "stroke-cocoa" : "stroke-white"}`}
+                  />
+                ))}
+              </svg>
               {blueprint.parts.map((part, i) => (
-                <span
-                  key={part.title}
-                  className="absolute -translate-x-1/2 -translate-y-1/2"
-                  style={{ left: `${part.x}%`, top: `${part.y}%` }}
-                >
+                <span key={part.title}>
                   <span
-                    className={`grid size-8 place-items-center rounded-full font-bold tabular-nums shadow-[0_0_0_5px_oklch(0.3_0.05_50/0.35)] transition-[transform,background-color,color] duration-300 ease-(--ease-out-quart) sm:size-10 sm:text-lg ${
-                      active === i ? "scale-115 bg-fawn text-cocoa" : "bg-white text-cocoa"
+                    className={`absolute size-2 -translate-x-1/2 -translate-y-1/2 rounded-full ring-2 transition-colors duration-300 sm:size-2.5 ${
+                      active === i ? "bg-cocoa ring-fawn" : "bg-white ring-cocoa/40"
                     }`}
+                    style={{ left: `${part.x}%`, top: `${part.y}%` }}
+                  />
+                  <span
+                    className={`absolute grid size-6 -translate-x-1/2 -translate-y-1/2 place-items-center rounded-full text-sm font-bold tabular-nums shadow-[0_0_0_4px_oklch(0.3_0.05_50/0.25)] transition-[transform,background-color,color] duration-300 ease-(--ease-out-quart) sm:size-10 sm:text-lg ${
+                      active === i ? "scale-115 bg-cocoa text-white" : "bg-white text-cocoa"
+                    }`}
+                    style={{ left: `${part.x}%`, top: `${part.pinY}%` }}
                   >
                     {i + 1}
                   </span>

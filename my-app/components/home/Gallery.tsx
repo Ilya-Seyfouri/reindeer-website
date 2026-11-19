@@ -69,7 +69,8 @@ export function Gallery() {
                 onClick={() => goTo(i)}
                 aria-label={`Show ${img.label.toLowerCase()}`}
                 aria-current={i === active}
-                className="grid h-8 w-7 place-items-center"
+                // The pill stays slim; the invisible ::after makes each dot a ~44px tap target
+                className="relative grid h-8 w-9 place-items-center after:absolute after:-inset-y-2 after:inset-x-0"
               >
                 <span
                   className={`block h-2 rounded-full transition-[width,background-color] duration-300 ${

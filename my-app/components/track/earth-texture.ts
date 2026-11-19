@@ -57,7 +57,11 @@ function seeded(seed: number) {
 }
 
 export async function paintEarth(width: number): Promise<EarthTextures> {
-  const topo = (await import("world-atlas/countries-50m.json")).default as unknown as WorldTopology;
+  // Phones get the lighter 110m map (~108 KB vs ~756 KB): at that globe size the extra detail isn't visible
+  const small = typeof window !== "undefined" && window.matchMedia("(max-width: 767px)").matches;
+  const topo = (
+    small ? await import("world-atlas/countries-110m.json") : await import("world-atlas/countries-50m.json")
+  ).default as unknown as WorldTopology;
   const W = width;
   const H = width / 2;
   const px = (lng: number) => ((lng + 180) / 360) * W;

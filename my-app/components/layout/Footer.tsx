@@ -32,7 +32,7 @@ export function Footer() {
     <>
     <ForestSkyline className="-mb-px" />
     <footer className="on-dark relative bg-chocolate-deep text-white">
-      <div className="wrap grid grid-cols-2 gap-x-6 gap-y-10 pt-14 pb-10 md:grid-cols-[1.4fr_1fr_1fr] md:gap-10 md:pt-20">
+      <div className="wrap grid grid-cols-2 gap-x-4 gap-y-10 pt-14 pb-10 md:grid-cols-[1.4fr_1fr_1fr] md:gap-10 md:pt-20">
         <div className="col-span-2 flex flex-col gap-4 md:col-span-1">
           <Logo tone="light" className="-ml-0.5 w-fit" />
           <p className="max-w-[34ch] text-on-cocoa-soft">
@@ -51,7 +51,7 @@ export function Footer() {
                 <li key={link.href}>
                   <Link
                     href={link.href}
-                    className="inline-flex min-h-12 items-center gap-2.5 text-white underline decoration-transparent decoration-2 underline-offset-4 transition-colors hover:decoration-fawn"
+                    className="inline-flex min-h-12 items-center gap-2 text-white max-md:text-base max-md:leading-snug md:gap-2.5 underline decoration-transparent decoration-2 underline-offset-4 transition-colors hover:decoration-fawn"
                   >
                     <link.Icon size={18} className="shrink-0 text-fawn" aria-hidden="true" />
                     {link.label}

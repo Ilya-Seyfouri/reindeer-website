@@ -11,6 +11,7 @@
 
 import type { StaticImageData } from "next/image";
 import collarBoth from "@/app/images/collar-both.webp";
+import collarChristmas from "@/app/images/collar-christmas.webp";
 import collarGreen from "@/app/images/collar-green.webp";
 import collarRed from "@/app/images/collar-red.webp";
 import collarSizes from "@/app/images/collar-sizes.webp";
@@ -139,6 +140,7 @@ export const otherProducts: OtherProduct[] = [
     status: "available",
     photos: [],
     images: [
+      { src: collarChristmas, alt: "Chocolate Labrador in the red plaid bow tie collar by the Christmas tree and dinner table" },
       { src: collarBoth, alt: "Chocolate Labrador in the red plaid bow tie collar, next to the red and green collars" },
       { src: collarRed, alt: "Yellow Labrador on the grass wearing the red plaid bow tie collar" },
       { src: collarGreen, alt: "Labrador puppy wearing a green snowflake bow tie collar" },
@@ -146,8 +148,8 @@ export const otherProducts: OtherProduct[] = [
     ],
     options: {
       colors: [
-        { id: "red", name: "Red", swatch: "oklch(0.55 0.2 25)", image: 1 },
-        { id: "green", name: "Green", swatch: "oklch(0.45 0.11 155)", image: 2 },
+        { id: "red", name: "Red", swatch: "oklch(0.55 0.2 25)", image: 0 },
+        { id: "green", name: "Green", swatch: "oklch(0.45 0.11 155)", image: 3 },
       ],
       sizes: [
         { id: "s", name: "S", measures: ["1.5 cm", "25–35 cm (10–14 in)"] },

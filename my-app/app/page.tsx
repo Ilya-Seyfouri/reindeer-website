@@ -1,5 +1,6 @@
 import { Comparison } from "@/components/home/Comparison";
 import { Faq } from "@/components/home/Faq";
+import { ExploreProducts } from "@/components/home/ExploreProducts";
 import { FitsEveryDog } from "@/components/home/FitsEveryDog";
 import { Guarantee } from "@/components/home/Guarantee";
 import { Hero } from "@/components/home/Hero";
@@ -46,6 +47,7 @@ export default async function Home() {
       <FitsEveryDog />
       <Comparison />
       <Reviews />
+      <ExploreProducts />
       <Faq />
       <Guarantee />
       <StickyBuyBar />

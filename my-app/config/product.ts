@@ -63,19 +63,21 @@ export const site = {
    * Shows a dotted underline under placeholder values on the page so you can
    * spot them. Set to false before launch.
    */
-  showPlaceholderMarkers: true,
+  showPlaceholderMarkers: false,
   /** The bar under the header: a bold lead-in, then the offer. [PLACEHOLDER] */
-  announcement: { lead: "SALE:", text: "Up to 63% Off & FREE Shipping" },
+  announcement: { lead: "SALE:", text: "Up to 65% Off & FREE Shipping" },
   contact: {
-    email: "hello@rudyandco.com", // [PLACEHOLDER]
+    email: "rudycocostumes@gmail.com",
     hours: "Monday to Friday, 9am – 5pm ET", // [PLACEHOLDER]
     replyTime: "within 1 business day", // [PLACEHOLDER]
   },
   legal: {
-    businessName: "Rudy & Co. LLC", // [PLACEHOLDER]
-    address: "123 Example Street, Anytown, ST 00000, USA", // [PLACEHOLDER]
-    governingLaw: "the State of [PLACEHOLDER]", // [PLACEHOLDER]
-    lastUpdated: "November 18, 2026",
+    /** The company behind the store; Rudy & Co. is its trading name. */
+    businessName: "Incognito Labs Limited",
+    registeredIn: "England & Wales",
+    location: "Newcastle upon Tyne, United Kingdom",
+    governingLaw: "England and Wales",
+    lastUpdated: "November 19, 2026",
     copyrightYear: 2026,
   },
 } as const;
@@ -87,9 +89,9 @@ export const product = {
   description:
     "A soft fleece reindeer suit with a snug hood and plush antlers that stand up on their own. It slips over the head and fastens under the tummy, so it's on in seconds and stays put through walks, zoomies and photo shoots.",
   /** One size for every dog. Describe the fit range here. */
-  fit: "One size with an adjustable tummy strap. Fits most dogs from [PLACEHOLDER] to [PLACEHOLDER] lbs.", // [PLACEHOLDER]
-  price: 3500, // [PLACEHOLDER] $35
-  compareAtPrice: 5000, // [PLACEHOLDER] $50 — set to null to hide the struck-through prices
+  fit: "One size with a roomy hood and an adjustable tummy strap that closes anywhere along its length, so it fits most small, medium and large dogs, from little pugs to big huskies.",
+  price: 2500, // $25
+  compareAtPrice: 3600, // $36, the same 30% saving as before; set to null to hide the struck-through prices
   rating: 4.9, // [PLACEHOLDER]
   reviewCount: 1248, // [PLACEHOLDER]
   happyDogs: "1,000+", // [PLACEHOLDER]
@@ -97,7 +99,7 @@ export const product = {
   /** The quick lines under the product title */
   highlights: [
     { icon: "clock", strong: "On in 5 seconds", light: "no wrestling" },
-    { icon: "paw", strong: "One size fits most", light: "adjustable strap" }, // [PLACEHOLDER] match your fit range
+    { icon: "paw", strong: "One size fits most", light: "adjustable strap" },
     { icon: "wash", strong: "Machine washable", light: "cool wash, air dry" },
   ],
   /** Product gallery, in order. The first one is the big photo shoppers see first. */
@@ -122,8 +124,8 @@ export const bundles: Bundle[] = [
 ];
 
 export const shipping = {
-  flatRate: 500, // [PLACEHOLDER] $5 for a single costume
-  freeFromQuantity: 2, // [PLACEHOLDER] free shipping on 2+
+  flatRate: 0, // shipping is free on every order
+  freeFromQuantity: 1,
   processing: "1–2 business days", // [PLACEHOLDER]
   delivery: "5–8 business days", // [PLACEHOLDER]
   regions: "all 50 US states", // [PLACEHOLDER]
@@ -138,8 +140,8 @@ export const guarantee = {
 export const productFaqs = [
   {
     icon: "shield",
-    q: `${guarantee.days}-day money-back guarantee`,
-    a: `Try it at home for ${guarantee.days} days. If your dog isn't happy in it, send it back for a full refund. No awkward questions.`,
+    q: `${guarantee.days}-day returns`,
+    a: `Every order comes with ${guarantee.days}-day returns. Start a return on our returns page in about a minute, and if anything arrives damaged we'll put it right.`,
   },
   {
     icon: "package",
@@ -159,7 +161,7 @@ export const productFaqs = [
   {
     icon: "truck",
     q: "Shipping information",
-    a: `Orders are packed within ${shipping.processing} and arrive in ${shipping.delivery} anywhere in the US. Shipping is free on 2 or more costumes, otherwise $${Math.round(shipping.flatRate / 100)}.`,
+    a: `Shipping is free on every order. Orders are packed within ${shipping.processing} and arrive in ${shipping.delivery} anywhere in the US, with a tracking link by email.`,
   },
 ] as const;
 
@@ -190,7 +192,7 @@ export const reviews: Review[] = [
   {
     name: "Patricia H.",
     location: "Texas",
-    dog: "Honey, Golden Retriever",
+    dog: "Honey, Pug",
     rating: 5,
     title: "Easiest outfit we own",
     body: "My hands aren't what they used to be, and this one is so easy. Over the head, press the tab, done.",
@@ -201,7 +203,7 @@ export const reviews: Review[] = [
 export const faqs = [
   {
     q: "Will it fit my dog?",
-    a: `${product.fit} If it doesn't work out, you're covered by our ${guarantee.days}-day money-back guarantee.`,
+    a: `${product.fit} The strap takes a few seconds to adjust, so there's no measuring or size chart. Still not sure? Email us your dog's breed and weight before you order and we'll tell you honestly.`,
   },
   {
     q: "Will my dog actually keep it on?",
@@ -213,7 +215,7 @@ export const faqs = [
   },
   {
     q: "How much is shipping?",
-    a: `Shipping is free when you order 2 or more costumes. For a single costume it's a flat $${Math.round(shipping.flatRate / 100)}.`,
+    a: "Nothing. Shipping is free on every order, whether you buy one costume or six.",
   },
   {
     q: "How do I wash it?",
@@ -221,7 +223,7 @@ export const faqs = [
   },
   {
     q: "What if my dog doesn't like it?",
-    a: `You're covered by our ${guarantee.days}-day ${guarantee.name}. Send it back for a full refund. No awkward questions.`,
+    a: `Every order comes with our ${guarantee.days}-day returns. Just start a return on our returns page and we'll take it from there.`,
   },
   {
     q: "Is it safe to pay on this site?",
@@ -275,7 +277,7 @@ export const comparison = {
     { icon: "clock", feature: "On in about 5 seconds", others: "Buckles and zips" },
     { icon: "wash", feature: "Machine washable", others: "Hand wash only" },
     { icon: "antlers", feature: "Antlers that stay upright", others: "Droop and flop" },
-    { icon: "shield", feature: `${guarantee.days}-day money-back guarantee`, others: "Final sale" },
+    { icon: "shield", feature: `${guarantee.days}-day returns`, others: "Final sale" },
   ],
 } as const;
 
@@ -306,4 +308,4 @@ export const waitlist = {
   ],
 };
 
-export const paymentMethods = ["Visa", "Mastercard", "Amex", "Discover", "Apple Pay", "Google Pay"] as const;
+export const paymentMethods = ["Visa", "Mastercard", "Discover", "Apple Pay", "Google Pay"] as const;

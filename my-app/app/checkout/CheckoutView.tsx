@@ -124,7 +124,7 @@ export function CheckoutView() {
               <li className="flex items-start gap-3">
                 <ReturnIcon className="mt-0.5 shrink-0 text-caramel-deep" />
                 <span>
-                  <Ph>{guarantee.days}</Ph>-day money-back guarantee.
+                  <Ph>{guarantee.days}</Ph>-day returns.
                 </span>
               </li>
               <li className="flex items-start gap-3">

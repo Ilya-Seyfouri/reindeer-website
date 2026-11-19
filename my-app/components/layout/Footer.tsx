@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { Logo } from "@/components/layout/Logo";
 import { PaymentIcons } from "@/components/layout/PaymentIcons";
+import { Snowfall } from "@/components/layout/Snowfall";
 import { ForestSkyline } from "@/components/ui/Prints";
 import { site } from "@/config/product";
 
@@ -9,6 +10,7 @@ const groups = [
     title: "Help",
     links: [
       { href: "/track", label: "Track your order" },
+      { href: "/returns", label: "Start a return" },
       { href: "/contact", label: "Contact us" },
       { href: "/waiting-list", label: "Waiting list" },
       { href: "/#faq", label: "FAQ" },
@@ -19,6 +21,7 @@ const groups = [
     links: [
       { href: "/refund-policy", label: "Refund policy" },
       { href: "/terms", label: "Terms of service" },
+      { href: "/privacy", label: "Privacy policy" },
     ],
   },
 ];
@@ -27,9 +30,9 @@ export function Footer() {
   return (
     <>
     <ForestSkyline className="-mb-px" />
-    <footer className="on-dark print-festive bg-chocolate-deep text-white">
-      <div className="wrap grid gap-12 pt-16 pb-10 md:grid-cols-[1.4fr_1fr_1fr] md:gap-10 md:pt-20">
-        <div className="flex flex-col gap-4">
+    <footer className="on-dark print-festive relative bg-chocolate-deep text-white">
+      <div className="wrap grid grid-cols-2 gap-x-6 gap-y-10 pt-14 pb-10 md:grid-cols-[1.4fr_1fr_1fr] md:gap-10 md:pt-20">
+        <div className="col-span-2 flex flex-col gap-4 md:col-span-1">
           <Logo tone="light" className="-ml-0.5 w-fit" />
           <p className="max-w-[34ch] text-on-cocoa-soft">
             Cosy reindeer costumes for dogs, in one easy adjustable size. Questions? We&rsquo;re real people and we reply{" "}
@@ -68,6 +71,7 @@ export function Footer() {
           </p>
         </div>
       </div>
+      <Snowfall />
     </footer>
     </>
   );

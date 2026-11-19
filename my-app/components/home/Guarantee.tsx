@@ -7,24 +7,25 @@ import { guarantee } from "@/config/product";
 export function Guarantee() {
   return (
     <section data-section="guarantee" aria-labelledby="guarantee-title" className="section bg-fawn">
-      <div className="wrap flex flex-col items-start gap-10 md:flex-row md:items-center md:gap-16 lg:gap-24">
+      {/* Centred, phone-first; bigger screens get the same block with more room. */}
+      <div className="wrap flex flex-col items-center gap-8 text-center">
         <div className="reveal">
-          <GuaranteeSeal className="size-44 sm:size-52" />
+          <GuaranteeSeal className="size-40 sm:size-48" />
         </div>
-        <div className="max-w-[40rem]">
+        <div className="flex max-w-[34rem] flex-col items-center">
           <h2 id="guarantee-title" className="reveal h-section">
-            Love it, or get your money back
+            {guarantee.days} days to change your mind
           </h2>
-          <p className="reveal lead mt-5">
-            Try it at home for <Ph>{guarantee.days}</Ph> days. If it doesn&rsquo;t fit right or your dog just isn&rsquo;t
-            a fan, send it back for a full refund. No forms to fight with, no awkward questions.
+          <p className="reveal lead mt-4">
+            Every order comes with <Ph>{guarantee.days}</Ph>-day returns, and starting one takes about a minute online.
+            If anything ever arrives damaged, we&rsquo;ll put it right.
           </p>
           <p className="reveal mt-4">
             <Link href="/refund-policy" className="link">
-              Read our refund policy
+              How returns work
             </Link>
           </p>
-          <BuyButton className="reveal mt-9" />
+          <BuyButton className="reveal mt-8 items-center" />
         </div>
       </div>
     </section>

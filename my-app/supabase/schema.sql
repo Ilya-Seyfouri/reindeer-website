@@ -28,3 +28,24 @@ on conflict (id) do nothing;
 -- secret key, which skips these rules; nobody else can read your email list.
 alter table public.waitlist enable row level security;
 alter table public.store_settings enable row level security;
+
+-- Return requests from the Start a return page. Every request waits for a
+-- person to review it; nothing is refunded automatically.
+--   order_number is unique, so each order can only have one return request.
+--   reference is the code the customer must write on the parcel.
+create table if not exists public.refund_requests (
+  id bigint generated always as identity primary key,
+  reference text not null unique,
+  order_number text not null unique check (order_number ~ '^RC-[0-9]{5}$'),
+  email text not null check (email = lower(email)),
+  -- The code on the tamper-evident seal; required for change-of-mind returns,
+  -- which must be unopened. Damaged, faulty and wrong items won't have one.
+  seal_code text check (seal_code is null or seal_code ~ '^[A-Z0-9]{4}-[A-Z0-9]{4}$'),
+  reason text not null check (reason in ('changed-mind', 'damaged', 'faulty', 'wrong-item')),
+  details text,
+  status text not null default 'pending_review'
+    check (status in ('pending_review', 'approved', 'rejected', 'refunded')),
+  created_at timestamptz not null default now()
+);
+
+alter table public.refund_requests enable row level security;

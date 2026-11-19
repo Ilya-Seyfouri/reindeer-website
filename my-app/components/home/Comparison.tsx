@@ -28,44 +28,36 @@ export function Comparison() {
   return (
     <section data-section="comparison" aria-labelledby="compare-title" className="section">
       <div className="wrap">
-        <div className="mx-auto flex max-w-[54rem] flex-col items-start gap-7 sm:flex-row sm:items-center sm:gap-9">
-          <div className="reveal size-24 shrink-0 overflow-hidden rounded-full shadow-[0_0_0_6px_var(--color-fawn)] sm:size-36">
+        {/* One layout for every screen, designed for a phone and simply given more room on bigger ones. */}
+        <div className="mx-auto flex max-w-[40rem] flex-col items-center text-center">
+          <div className="reveal size-28 overflow-hidden rounded-full shadow-[0_0_0_6px_var(--color-fawn)]">
             <Image
               src={comparison.photo.src}
               alt={comparison.photo.alt}
               placeholder="blur"
-              sizes="(min-width: 640px) 144px, 96px"
+              sizes="112px"
               className="size-full object-cover"
             />
           </div>
-          <div>
-            <h2 id="compare-title" className="reveal h-section">
-              {comparison.title}
-            </h2>
-            <p className="reveal lead mt-3 max-w-[34ch] text-ink-soft sm:mt-4">{comparison.intro}</p>
-          </div>
+          <h2 id="compare-title" className="reveal h-section mt-7">
+            {comparison.title}
+          </h2>
+          <p className="reveal lead mt-3 max-w-[30ch] text-ink-soft">{comparison.intro}</p>
         </div>
 
-        <div className="reveal mx-auto mt-12 max-w-[54rem] sm:mt-14">
+        <div className="reveal mx-auto mt-10 max-w-[40rem]">
           <table className="w-full border-separate border-spacing-0 text-left">
             <caption className="sr-only">How the Rudy costume compares with other dog costumes</caption>
             <thead>
               <tr>
-                <th scope="col" className="pb-4 align-bottom">
+                <th scope="col" className="pb-3 align-bottom">
                   <span className="sr-only">Feature</span>
                 </th>
-                <th
-                  scope="col"
-                  className="w-[4.75rem] rounded-t-3xl bg-fawn px-1.5 pt-6 pb-4 text-center align-bottom sm:w-[11rem] sm:px-2"
-                >
-                  <span className="font-display text-[1.125rem] leading-tight sm:text-[1.625rem]">Rudy &amp; Co.</span>
+                <th scope="col" className="w-[3.75rem] rounded-t-2xl bg-fawn px-1 pt-4 pb-3 text-center align-bottom">
+                  <span className="font-display text-[1.125rem] leading-none">Rudy</span>
                 </th>
-                <th
-                  scope="col"
-                  className="w-[4rem] px-1.5 pb-4 text-center align-bottom text-base font-bold text-ink-soft sm:w-[13rem] sm:pl-7 sm:text-left sm:text-lg"
-                >
-                  <span className="sm:hidden">Others</span>
-                  <span className="hidden sm:inline">Other costumes</span>
+                <th scope="col" className="w-[3.5rem] px-1 pb-3 text-center align-bottom text-[0.9375rem] font-bold text-ink-soft">
+                  Others
                 </th>
               </tr>
             </thead>
@@ -74,40 +66,35 @@ export function Comparison() {
                 const Icon = icons[row.icon];
                 return (
                   <tr key={row.feature}>
-                    <th
-                      scope="row"
-                      className={`border-t border-line py-5 pr-3 align-middle sm:pr-6 ${i === last ? "border-b" : ""}`}
-                    >
-                      <span className="flex flex-col items-start gap-2.5 sm:flex-row sm:items-center sm:gap-4">
+                    <th scope="row" className={`border-t border-line py-4 pr-2 align-middle ${i === last ? "border-b" : ""}`}>
+                      <span className="flex items-center gap-2.5">
                         <span
                           aria-hidden="true"
-                          className="grid size-10 shrink-0 place-items-center rounded-full bg-fawn text-cocoa sm:size-12"
+                          className="grid size-8 shrink-0 place-items-center rounded-full bg-fawn-soft text-cocoa"
                         >
-                          <Icon size={21} />
+                          <Icon size={17} />
                         </span>
                         <span>
-                          <span className="block text-lg leading-snug font-bold sm:text-xl">{row.feature}</span>
-                          <span className="mt-1 block text-base text-ink-soft sm:hidden">Others: {row.others}</span>
+                          <span className="block text-[1.0625rem] leading-snug font-bold">{row.feature}</span>
+                          <span className="mt-0.5 block text-[0.9375rem] leading-snug text-ink-soft">
+                            Others: {row.others}
+                          </span>
                         </span>
                       </span>
                     </th>
                     <td
-                      className={`border-t border-fawn-deep/50 bg-fawn px-1.5 py-5 text-center align-middle ${i === last ? "rounded-b-3xl" : ""}`}
+                      className={`border-t border-fawn-deep/40 bg-fawn px-1 py-4 text-center align-middle ${i === last ? "rounded-b-2xl" : ""}`}
                     >
-                      <span className="inline-grid size-9 place-items-center rounded-full bg-cocoa text-white">
-                        <CheckIcon size={20} strokeWidth={2.5} />
+                      <span className="inline-grid size-8 place-items-center rounded-full bg-cocoa text-white">
+                        <CheckIcon size={18} strokeWidth={2.75} />
                       </span>
                       <span className="sr-only">Yes</span>
                     </td>
-                    <td
-                      className={`border-t border-line px-1.5 py-5 text-center align-middle sm:pl-7 sm:text-left ${i === last ? "border-b" : ""}`}
-                    >
-                      <span className="inline-flex items-center gap-2 text-ink-soft">
-                        <span className="inline-grid size-9 shrink-0 place-items-center rounded-full bg-fawn-soft text-ink-soft">
-                          <CloseIcon size={18} strokeWidth={2.25} />
-                        </span>
-                        <span className="sr-only sm:not-sr-only">{row.others}</span>
+                    <td className={`border-t border-line px-1 py-4 text-center align-middle ${i === last ? "border-b" : ""}`}>
+                      <span className="inline-grid size-8 place-items-center rounded-full bg-fawn-soft text-ink-soft">
+                        <CloseIcon size={16} strokeWidth={2.5} />
                       </span>
+                      <span className="sr-only">No</span>
                     </td>
                   </tr>
                 );
@@ -116,10 +103,10 @@ export function Comparison() {
           </table>
         </div>
 
-        <div className="mt-14 flex justify-center">
+        <div className="mt-12 flex justify-center">
           <BuyButton
             className="items-center text-center"
-            note={`${guarantee.days}-day money-back guarantee. Free shipping on 2 or more.`}
+            note={`Free shipping on every order. ${guarantee.days}-day returns.`}
           />
         </div>
       </div>

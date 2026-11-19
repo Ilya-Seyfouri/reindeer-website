@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import { useState } from "react";
+import { Snowfall } from "@/components/layout/Snowfall";
 import { blueprint } from "@/config/product";
 
 /** Drafting-paper grid in the brand's fawn, drawn on cocoa. */
@@ -28,7 +29,7 @@ export function Blueprint() {
   const [active, setActive] = useState<number | null>(null);
 
   return (
-    <section data-section="blueprint" aria-labelledby="blueprint-title" className="on-dark section bg-cocoa text-white" style={grid}>
+    <section data-section="blueprint" aria-labelledby="blueprint-title" className="on-dark section relative bg-cocoa text-white" style={grid}>
       <div className="wrap">
         <div className="mx-auto max-w-[40rem] text-center">
           <h2 id="blueprint-title" className="reveal h-section">
@@ -37,7 +38,8 @@ export function Blueprint() {
           <p className="reveal lead mx-auto mt-5 max-w-[36ch] text-on-cocoa-soft">{blueprint.intro}</p>
         </div>
 
-        <figure className="mx-auto mt-12 max-w-[64rem] sm:mt-16">
+        <figure className="mx-auto mt-10 max-w-[64rem] sm:mt-16">
+          {/* The full drawing with numbered callouts. */}
           <div className="reveal relative">
             <CornerMarks />
             {/* The drawing has no background, so it sits on the same soft fawn panel. */}
@@ -98,27 +100,28 @@ export function Blueprint() {
             </div>
           </div>
 
-          <figcaption className="mt-12 sm:mt-14">
-            <ol className="reveal-stagger grid gap-x-8 gap-y-7 sm:grid-cols-2 lg:grid-cols-4">
+          <figcaption className="mt-8 sm:mt-14">
+            {/* Phones: just the four names, two by two. Bigger screens add a line about each. */}
+            <ol className="reveal-stagger grid grid-cols-2 gap-x-4 gap-y-5 sm:gap-x-8 sm:gap-y-7 lg:grid-cols-4">
               {blueprint.parts.map((part, i) => (
                 <li
                   key={part.title}
                   onMouseEnter={() => setActive(i)}
                   onMouseLeave={() => setActive(null)}
-                  className="flex gap-4"
+                  className="flex items-center gap-3 sm:items-start sm:gap-4"
                   style={{ "--i": i } as React.CSSProperties}
                 >
                   <span
                     aria-hidden="true"
-                    className={`grid size-9 shrink-0 place-items-center rounded-full font-bold tabular-nums transition-colors duration-300 ${
+                    className={`grid size-8 shrink-0 place-items-center rounded-full text-[0.9375rem] sm:size-9 sm:text-base font-bold tabular-nums transition-colors duration-300 ${
                       active === i ? "bg-fawn text-cocoa" : "shadow-[inset_0_0_0_1.5px_var(--color-fawn)] text-fawn"
                     }`}
                   >
                     {i + 1}
                   </span>
                   <div>
-                    <p className="text-lg leading-snug font-bold">{part.title}</p>
-                    <p className="mt-1 text-on-cocoa-soft">{part.body}</p>
+                    <p className="text-[1.0625rem] leading-snug font-bold sm:text-lg">{part.title}</p>
+                    <p className="mt-1 hidden text-on-cocoa-soft sm:block">{part.body}</p>
                   </div>
                 </li>
               ))}
@@ -126,6 +129,7 @@ export function Blueprint() {
           </figcaption>
         </figure>
       </div>
+      <Snowfall />
     </section>
   );
 }

@@ -4,7 +4,6 @@ import { CartDrawer } from "@/components/cart/CartDrawer";
 import { CartProvider } from "@/components/cart/CartProvider";
 import { Footer } from "@/components/layout/Footer";
 import { AnnouncementBar, Header } from "@/components/layout/Header";
-import { Snowfall } from "@/components/layout/Snowfall";
 import { product, site } from "@/config/product";
 import "./globals.css";
 
@@ -66,7 +65,6 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
           </main>
           <Footer />
           <CartDrawer />
-          <Snowfall />
         </CartProvider>
       </body>
     </html>

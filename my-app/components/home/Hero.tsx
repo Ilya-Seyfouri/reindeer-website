@@ -87,7 +87,7 @@ export function Hero() {
           <p className="mt-3 flex items-center justify-center gap-1.5 text-base text-ink-soft">
             <ReturnIcon size={18} />
             <span>
-              <Ph>{guarantee.days}</Ph>-day money-back guarantee
+              Free shipping · <Ph>{guarantee.days}</Ph>-day returns
             </span>
           </p>
 

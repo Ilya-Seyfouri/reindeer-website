@@ -4,16 +4,16 @@ import { guarantee } from "@/config/product";
 /** Circumference of the r=72 text path, so the ring text closes without a gap or overlap. */
 const RING = 2 * Math.PI * 72;
 
-/** Round "30 days · 100% money-back guarantee" seal. */
+/** Round "30 days · returns · free shipping" seal. */
 export function GuaranteeSeal({ className = "" }: { className?: string }) {
   const pathId = useId();
-  const ring = "100% MONEY-BACK GUARANTEE • ";
+  const ring = "30-DAY RETURNS • FREE SHIPPING • ";
 
   return (
     <svg
       viewBox="0 0 200 200"
       role="img"
-      aria-label={`${guarantee.days}-day 100% money-back guarantee`}
+      aria-label={`${guarantee.days}-day returns and free shipping`}
       className={`shrink-0 ${className}`}
     >
       <defs>

@@ -47,7 +47,7 @@ export function StickyBuyBar() {
           </p>
           <p className="truncate text-ink-soft tabular-nums">
             <Ph>{formatMoney(priceFor(quantity))}</Ph>
-            {quantity > 1 ? " · free shipping" : ""}
+            {" · free shipping"}
           </p>
         </div>
         <button type="button" onClick={() => buy()} className="btn btn-primary shrink-0 px-6">

@@ -13,16 +13,19 @@ type Flake = {
 };
 
 /**
- * A quiet, decorative snowfall over the whole page.
- * Never blocks clicks, stays off for people who prefer reduced motion,
- * and pauses while the tab is hidden.
+ * A quiet, decorative snowfall over one area: drop it inside a positioned
+ * element (e.g. a `relative` section) and it fills that element.
+ * Never blocks clicks, stays off for people who prefer reduced motion, and
+ * only animates while its area is on screen and the tab is visible, so a
+ * page can have several without slowing down.
  */
-export function Snowfall() {
+export function Snowfall({ className = "" }: { className?: string }) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
   useEffect(() => {
     const canvas = canvasRef.current;
-    if (!canvas) return;
+    const area = canvas?.parentElement;
+    if (!canvas || !area) return;
     const motion = window.matchMedia("(prefers-reduced-motion: reduce)");
     if (motion.matches) return;
 
@@ -34,6 +37,7 @@ export function Snowfall() {
     let flakes: Flake[] = [];
     let frame = 0;
     let last = performance.now();
+    let onScreen = false;
 
     const makeFlake = (anywhere: boolean): Flake => ({
       x: Math.random() * width,
@@ -47,13 +51,13 @@ export function Snowfall() {
 
     const resize = () => {
       const dpr = Math.min(window.devicePixelRatio || 1, 2);
-      width = window.innerWidth;
-      height = window.innerHeight;
+      width = area.clientWidth;
+      height = area.clientHeight;
       canvas.width = Math.round(width * dpr);
       canvas.height = Math.round(height * dpr);
       ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
       // Keep it sparse: roughly one flake per 22,000px², capped.
-      const count = Math.min(70, Math.round((width * height) / 22000));
+      const count = Math.min(50, Math.round((width * height) / 22000));
       flakes = Array.from({ length: count }, () => makeFlake(true));
     };
 
@@ -70,7 +74,7 @@ export function Snowfall() {
         if (f.x < -6) f.x = width + 6;
         if (f.x > width + 6) f.x = -6;
 
-        // Soft grey halo so flakes read on the white page, white core for photos.
+        // Soft grey halo so flakes read on light backgrounds, white core for photos.
         ctx.globalAlpha = f.alpha * 0.35;
         ctx.fillStyle = "rgb(150, 160, 175)";
         ctx.beginPath();
@@ -87,32 +91,36 @@ export function Snowfall() {
       frame = requestAnimationFrame(draw);
     };
 
-    const onVisibility = () => {
+    // Runs only while the area is on screen and the tab is visible.
+    const update = () => {
       cancelAnimationFrame(frame);
-      if (!document.hidden) {
+      frame = 0;
+      if (onScreen && !document.hidden && !motion.matches) {
         last = performance.now();
         frame = requestAnimationFrame(draw);
-      }
-    };
-
-    const onMotionChange = () => {
-      if (motion.matches) {
-        cancelAnimationFrame(frame);
+      } else if (motion.matches) {
         ctx.clearRect(0, 0, width, height);
       }
     };
 
+    const visibility = new IntersectionObserver(([entry]) => {
+      onScreen = entry.isIntersecting;
+      update();
+    });
+    const sizing = new ResizeObserver(resize);
+
     resize();
-    frame = requestAnimationFrame(draw);
-    window.addEventListener("resize", resize);
-    document.addEventListener("visibilitychange", onVisibility);
-    motion.addEventListener("change", onMotionChange);
+    visibility.observe(area);
+    sizing.observe(area);
+    document.addEventListener("visibilitychange", update);
+    motion.addEventListener("change", update);
 
     return () => {
       cancelAnimationFrame(frame);
-      window.removeEventListener("resize", resize);
-      document.removeEventListener("visibilitychange", onVisibility);
-      motion.removeEventListener("change", onMotionChange);
+      visibility.disconnect();
+      sizing.disconnect();
+      document.removeEventListener("visibilitychange", update);
+      motion.removeEventListener("change", update);
     };
   }, []);
 
@@ -120,7 +128,7 @@ export function Snowfall() {
     <canvas
       ref={canvasRef}
       aria-hidden="true"
-      className="pointer-events-none fixed inset-0 z-(--z-snow) h-full w-full"
+      className={`pointer-events-none absolute inset-0 size-full ${className}`}
     />
   );
 }

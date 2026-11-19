@@ -26,7 +26,7 @@ export function CartDrawer() {
             </Link>
             <p className="flex items-center justify-center gap-2 text-center text-base text-ink-soft">
               <ReturnIcon size={18} />
-              {guarantee.days}-day money-back guarantee
+              {guarantee.days}-day returns
             </p>
           </div>
         )

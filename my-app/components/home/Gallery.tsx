@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import { useRef, useState } from "react";
+import { Snowfall } from "@/components/layout/Snowfall";
 import { GuaranteeSeal } from "@/components/ui/GuaranteeSeal";
 import { product } from "@/config/product";
 
@@ -20,43 +21,68 @@ export function Gallery() {
 
   return (
     <div className="flex flex-col gap-3 sm:gap-4">
-      <div
-        ref={trackRef}
-        onScroll={(e) => {
-          const el = e.currentTarget;
-          const i = Math.round(el.scrollLeft / el.clientWidth);
-          if (i !== active) setActive(i);
-        }}
-        className="-mx-(--safe-left) flex snap-x snap-mandatory overflow-x-auto overscroll-x-contain [scrollbar-width:none] sm:mx-0 sm:rounded-3xl [&::-webkit-scrollbar]:hidden"
-        aria-roledescription="carousel"
-        aria-label="Product photos"
-        tabIndex={0}
-      >
-        {images.map((img, i) => (
-          <div
-            key={img.label}
-            className="w-full shrink-0 snap-center snap-always"
-            aria-roledescription="slide"
-            aria-label={`${i + 1} of ${images.length}`}
-          >
-            <div className="relative">
-              <Image
-                src={img.src}
-                alt={img.alt}
-                placeholder="blur"
-                preload={i === 0}
-                sizes="(min-width: 1024px) 560px, (min-width: 640px) 90vw, 100vw"
-                className="aspect-square w-full bg-fawn-soft object-cover"
-              />
-              {i === 0 ? (
-                <GuaranteeSeal className="absolute top-3 right-3 size-24 drop-shadow-[0_8px_16px_oklch(0.22_0.035_50/0.3)] sm:top-4 sm:right-4 sm:size-28 lg:size-32" />
-              ) : null}
+      <div className="relative -mx-(--safe-left) sm:mx-0">
+        <div
+          ref={trackRef}
+          onScroll={(e) => {
+            const el = e.currentTarget;
+            const i = Math.round(el.scrollLeft / el.clientWidth);
+            if (i !== active) setActive(i);
+          }}
+          className="flex snap-x snap-mandatory overflow-x-auto overscroll-x-contain [scrollbar-width:none] sm:rounded-3xl [&::-webkit-scrollbar]:hidden"
+          aria-roledescription="carousel"
+          aria-label="Product photos"
+          tabIndex={0}
+        >
+          {images.map((img, i) => (
+            <div
+              key={img.label}
+              className="w-full shrink-0 snap-center snap-always"
+              aria-roledescription="slide"
+              aria-label={`${i + 1} of ${images.length}`}
+            >
+              <div className="relative">
+                <Image
+                  src={img.src}
+                  alt={img.alt}
+                  placeholder="blur"
+                  preload={i === 0}
+                  sizes="(min-width: 1024px) 560px, (min-width: 640px) 90vw, 100vw"
+                  className="aspect-square w-full bg-fawn-soft object-cover"
+                />
+                {i === 0 ? (
+                  <GuaranteeSeal className="absolute top-3 right-3 size-24 drop-shadow-[0_8px_16px_oklch(0.22_0.035_50/0.3)] sm:top-4 sm:right-4 sm:size-28 lg:size-32" />
+                ) : null}
+              </div>
             </div>
+          ))}
+        </div>
+        <Snowfall className="sm:rounded-3xl" />
+
+        {/* Phones swipe the photo, so dots on the photo stand in for the thumbnails. */}
+        <div className="pointer-events-none absolute inset-x-0 bottom-3 flex justify-center sm:hidden">
+          <div className="pointer-events-auto flex items-center rounded-full bg-white/85 px-1.5 shadow-[0_4px_14px_-6px_oklch(0.22_0.035_50/0.5)] backdrop-blur-sm">
+            {images.map((img, i) => (
+              <button
+                key={img.label}
+                type="button"
+                onClick={() => goTo(i)}
+                aria-label={`Show ${img.label.toLowerCase()}`}
+                aria-current={i === active}
+                className="grid h-8 w-7 place-items-center"
+              >
+                <span
+                  className={`block h-2 rounded-full transition-[width,background-color] duration-300 ${
+                    i === active ? "w-5 bg-cocoa" : "w-2 bg-ink/30"
+                  }`}
+                />
+              </button>
+            ))}
           </div>
-        ))}
+        </div>
       </div>
 
-      <div className="grid gap-2 sm:gap-3" style={{ gridTemplateColumns: `repeat(${images.length}, minmax(0, 1fr))` }}>
+      <div className="hidden gap-3 sm:grid" style={{ gridTemplateColumns: `repeat(${images.length}, minmax(0, 1fr))` }}>
         {images.map((img, i) => (
           <button
             key={img.label}

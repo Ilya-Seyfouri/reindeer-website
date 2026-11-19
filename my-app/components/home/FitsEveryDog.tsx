@@ -1,4 +1,5 @@
 import Image from "next/image";
+import { Snowfall } from "@/components/layout/Snowfall";
 import { fitShowcase } from "@/config/product";
 
 /**
@@ -9,7 +10,7 @@ export function FitsEveryDog() {
   const { dogs } = fitShowcase;
 
   return (
-    <section data-section="fits_every_dog" aria-labelledby="fits-title" className="section bg-fawn">
+    <section data-section="fits_every_dog" aria-labelledby="fits-title" className="section relative bg-fawn">
       <div className="wrap">
         <div className="mx-auto max-w-[40rem] text-center">
           <h2 id="fits-title" className="reveal h-section">
@@ -80,6 +81,7 @@ export function FitsEveryDog() {
           </ul>
         </div>
       </div>
+      <Snowfall />
     </section>
   );
 }

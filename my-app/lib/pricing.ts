@@ -1,15 +1,22 @@
-import { bundles, product, shipping, site } from "@/config/product";
+import { bundles, product, shipping, site, treat } from "@/config/product";
 
-const formatter = new Intl.NumberFormat(site.locale, {
+const wholeDollars = new Intl.NumberFormat(site.locale, {
   style: "currency",
   currency: site.currency,
   minimumFractionDigits: 0,
   maximumFractionDigits: 0,
 });
+const withCents = new Intl.NumberFormat(site.locale, {
+  style: "currency",
+  currency: site.currency,
+  minimumFractionDigits: 2,
+  maximumFractionDigits: 2,
+});
 
-/** Whole-dollar price, e.g. 3500 → "$35". */
+/** Price for display: whole dollars when there are no cents, e.g. 3500 → "$35", 999 → "$9.99". */
 export function formatMoney(cents: number) {
-  return formatter.format(Math.round(cents / 100));
+  const rounded = Math.round(cents);
+  return rounded % 100 === 0 ? wholeDollars.format(rounded / 100) : withCents.format(rounded / 100);
 }
 
 const largestFirst = [...bundles].sort((a, b) => b.quantity - a.quantity);
@@ -43,17 +50,21 @@ export function shippingFor(quantity: number) {
   return quantity >= shipping.freeFromQuantity ? 0 : shipping.flatRate;
 }
 
-export function cartTotals(quantity: number) {
+/** Totals for a cart of costumes plus treat add-ons. Treats don't affect the deals or shipping. */
+export function cartTotals(quantity: number, treats = 0) {
   const subtotal = product.price * quantity;
   const free = freeCostumesFor(quantity);
   const discount = free * product.price;
   const shippingCost = shippingFor(quantity);
+  const treatsTotal = treat.price * treats;
   return {
     quantity,
+    treats,
     subtotal,
     free,
     discount,
+    treatsTotal,
     shipping: shippingCost,
-    total: subtotal - discount + shippingCost,
+    total: subtotal - discount + treatsTotal + shippingCost,
   };
 }

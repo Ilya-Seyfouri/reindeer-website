@@ -4,6 +4,35 @@ import { Ph } from "@/components/ui/Placeholder";
 import { Stars } from "@/components/ui/Stars";
 import { product, reviews, type Review } from "@/config/product";
 
+/** The customer's profile picture, or their initials when there isn't one. */
+function Avatar({ review }: { review: Review }) {
+  if (review.avatar) {
+    return (
+      <Image
+        src={review.avatar}
+        alt=""
+        sizes="48px"
+        className="size-12 shrink-0 rounded-full bg-fawn-soft object-cover ring-2 ring-white"
+      />
+    );
+  }
+  const initials = review.name
+    .replace(/\./g, "")
+    .split(/\s+/)
+    .map((part) => part[0])
+    .join("")
+    .slice(0, 2)
+    .toUpperCase();
+  return (
+    <span
+      aria-hidden="true"
+      className="grid size-12 shrink-0 place-items-center rounded-full bg-fawn-soft text-[1.0625rem] font-bold text-cocoa"
+    >
+      {initials}
+    </span>
+  );
+}
+
 function ReviewCard({ review }: { review: Review }) {
   return (
     <figure className="flex h-full flex-col rounded-3xl bg-white p-3 shadow-[0_14px_34px_-24px_oklch(0.3_0.05_50/0.45)]">
@@ -22,7 +51,9 @@ function ReviewCard({ review }: { review: Review }) {
         <blockquote className="mt-3">
           <p>&ldquo;{review.body}&rdquo;</p>
         </blockquote>
-        <figcaption className="mt-auto flex flex-wrap items-center gap-x-4 gap-y-1 pt-5">
+        <figcaption className="mt-auto flex items-center gap-3.5 pt-5">
+          <Avatar review={review} />
+          <span className="flex min-w-0 flex-wrap items-center gap-x-4 gap-y-1">
           <span>
             <strong>{review.name}</strong>
             <span className="text-ink-soft"> | {review.dog}</span>
@@ -33,6 +64,7 @@ function ReviewCard({ review }: { review: Review }) {
             </span>
             Verified buyer
           </span>
+          </span>
         </figcaption>
       </div>
     </figure>
@@ -41,7 +73,7 @@ function ReviewCard({ review }: { review: Review }) {
 
 export function Reviews() {
   return (
-    <section id="reviews" data-section="reviews" aria-labelledby="reviews-title" className="section bg-fawn">
+    <section id="reviews" data-section="reviews" aria-labelledby="reviews-title" className="section print-toys print-toys-lg bg-fawn">
       <div className="wrap">
         <div className="mx-auto max-w-[48rem] text-center">
           <h2 id="reviews-title" className="reveal h-section">

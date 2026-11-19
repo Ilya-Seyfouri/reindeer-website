@@ -50,7 +50,7 @@ export function StickyBuyBar() {
             {" · free shipping"}
           </p>
         </div>
-        <button type="button" onClick={() => buy()} className="btn btn-primary shrink-0 px-6">
+        <button type="button" onClick={() => buy()} className="btn btn-primary btn-cart shrink-0 font-apple px-6">
           Add to cart
         </button>
       </div>

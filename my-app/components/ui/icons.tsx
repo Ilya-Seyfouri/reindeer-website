@@ -220,3 +220,52 @@ export const StarIcon =({ size = 20, ...p }: IconProps) => (
     />
   </svg>
 );
+
+/* ---- Cute dog-themed icons for the main navigation ---- */
+
+/** Shop: a chunky dog bone, tipped at a jaunty angle. */
+export const BoneIcon = (p: IconProps) => (
+  <Svg {...p}>
+    <g transform="rotate(-30 12 12)" fill="currentColor" stroke="none">
+      <circle cx="5.6" cy="9.7" r="2.5" />
+      <circle cx="5.6" cy="14.3" r="2.5" />
+      <circle cx="18.4" cy="9.7" r="2.5" />
+      <circle cx="18.4" cy="14.3" r="2.5" />
+      <rect x="5.6" y="10.3" width="12.8" height="3.4" rx="1.2" />
+    </g>
+  </Svg>
+);
+
+/** Track order: a little dog house with an arched door. */
+export const DogHouseIcon = (p: IconProps) => (
+  <Svg {...p}>
+    <path d="M2.8 11.2 12 3.8l9.2 7.4" />
+    <path d="M5.2 9.4V20h13.6V9.4" />
+    <path d="M9.4 20v-3.6a2.6 2.6 0 0 1 5.2 0V20" />
+    <circle cx="12" cy="9.6" r="1.1" fill="currentColor" stroke="none" />
+  </Svg>
+);
+
+/** Contact us: a happy dog face with floppy ears. */
+export const DogFaceIcon = (p: IconProps) => (
+  <Svg {...p}>
+    <ellipse cx="12" cy="13" rx="6" ry="6.3" />
+    <path d="M6.6 8.6C4.2 7.2 2.6 8.8 3.1 12.4c.3 2 1.8 2.6 3.1 1.3" />
+    <path d="M17.4 8.6c2.4-1.4 4 .2 3.5 3.8-.3 2-1.8 2.6-3.1 1.3" />
+    <circle cx="9.7" cy="12" r="0.95" fill="currentColor" stroke="none" />
+    <circle cx="14.3" cy="12" r="0.95" fill="currentColor" stroke="none" />
+    <ellipse cx="12" cy="14.7" rx="1.35" ry="0.95" fill="currentColor" stroke="none" />
+    <path d="M10.5 16.6q1.5 1.1 3 0" />
+  </Svg>
+);
+
+/** Waiting list: a dog bowl piled with kibble, waiting for dinner. */
+export const DogBowlIcon = (p: IconProps) => (
+  <Svg {...p}>
+    <path d="M3.4 13.2h17.2l-1.7 5.3a1.6 1.6 0 0 1-1.5 1.1H6.6a1.6 1.6 0 0 1-1.5-1.1z" />
+    <circle cx="8.6" cy="10.6" r="1.35" fill="currentColor" stroke="none" />
+    <circle cx="12" cy="9.6" r="1.45" fill="currentColor" stroke="none" />
+    <circle cx="15.4" cy="10.7" r="1.3" fill="currentColor" stroke="none" />
+    <circle cx="10.4" cy="7.4" r="1.1" fill="currentColor" stroke="none" />
+  </Svg>
+);

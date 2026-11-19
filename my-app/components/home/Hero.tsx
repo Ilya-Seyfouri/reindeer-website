@@ -11,7 +11,6 @@ import {
   LeafIcon,
   PackageIcon,
   PawIcon,
-  ReturnIcon,
   RulerIcon,
   ShieldIcon,
   TruckIcon,
@@ -89,7 +88,7 @@ export function Hero() {
           <AddToCartButton />
           <p className="mt-3 flex flex-wrap items-center justify-center gap-x-3 gap-y-1 text-base text-ink-soft">
             <span className="inline-flex items-center gap-1.5">
-              <ReturnIcon size={18} />
+              <TruckIcon size={18} />
               <span>
                 Free shipping · <Ph>{guarantee.days}</Ph>-day returns
               </span>

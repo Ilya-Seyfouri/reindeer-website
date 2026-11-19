@@ -131,7 +131,7 @@ export const product = {
   /** The quick lines under the product title */
   highlights: [
     { icon: "clock", strong: "On in 5 seconds", light: "no wrestling" },
-    { icon: "paw", strong: "One size fits most", light: "adjustable strap" },
+    { icon: "paw", strong: "One size fits all", light: "adjustable strap" },
     { icon: "wash", strong: "Machine washable", light: "cool wash, air dry" },
   ],
   /** Product gallery, in order. The first one is the big photo shoppers see first. */

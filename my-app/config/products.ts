@@ -40,7 +40,7 @@ export const otherProducts: OtherProduct[] = [
     photos: ["Front view", "Side view", "Hat and bells", "On a small dog"],
     highlights: [
       { icon: "clock", strong: "On in seconds", light: "slips over the head" },
-      { icon: "paw", strong: "One size fits most", light: "adjustable strap" },
+      { icon: "paw", strong: "One size fits all", light: "adjustable strap" },
       { icon: "wash", strong: "Machine washable", light: "cool wash, air dry" },
     ],
     description:
@@ -61,7 +61,7 @@ export const otherProducts: OtherProduct[] = [
     photos: ["Front view", "Side view", "Hat close-up", "On a large dog"],
     highlights: [
       { icon: "feather", strong: "Soft velvet", light: "cosy and light" },
-      { icon: "paw", strong: "One size fits most", light: "adjustable strap" },
+      { icon: "paw", strong: "One size fits all", light: "adjustable strap" },
       { icon: "wash", strong: "Machine washable", light: "cool wash, air dry" },
     ],
     description:

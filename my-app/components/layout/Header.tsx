@@ -36,7 +36,7 @@ export function Header() {
   const { totals, openCart } = useCart();
   const [menuOpen, setMenuOpen] = useState(false);
   const pathname = usePathname();
-  const count = totals.quantity;
+  const count = totals.count;
 
   return (
     <header className="sticky top-0 z-(--z-header) border-b border-line bg-white">

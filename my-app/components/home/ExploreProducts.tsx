@@ -14,23 +14,33 @@ export function ExploreProducts({
   if (products.length === 0) return null;
 
   return (
-    <section data-section="explore_products" aria-labelledby="explore-title" className="section bg-fawn-soft">
+    <section
+      data-section="explore_products"
+      aria-labelledby="explore-title"
+      className="section bg-fawn-soft"
+    >
       <div className="wrap">
         <div className="mx-auto max-w-[40rem] text-center">
           <h2 id="explore-title" className="reveal h-section">
             {title}
           </h2>
-          <p className="reveal lead mx-auto mt-4 max-w-[36ch] text-ink-soft">{intro}</p>
+          <p className="reveal lead mx-auto mt-4 max-w-[36ch] text-ink-soft">
+            {intro}
+          </p>
         </div>
 
         {/* Phones: swipe through, with the next card peeking in. Tablet and up: side by side. */}
         <ul
           aria-label={title}
-          className="-mx-(--safe-left) mt-10 flex snap-x snap-mandatory gap-4 overflow-x-auto px-(--safe-left) pt-1 pb-4 [scrollbar-width:none] md:mx-0 md:grid md:grid-cols-3 md:gap-5 md:overflow-visible md:px-0 md:pb-0 lg:gap-7 [&::-webkit-scrollbar]:hidden"
+          className={`-mx-(--safe-left) mt-10 flex snap-x snap-mandatory gap-4 overflow-x-auto px-(--safe-left) pt-1 pb-4 [scrollbar-width:none] md:mx-0 md:grid ${products.length > 3 ? "md:grid-cols-2 lg:grid-cols-4" : "md:grid-cols-3"} md:gap-5 md:overflow-visible md:px-0 md:pb-0 lg:gap-7 [&::-webkit-scrollbar]:hidden`}
           style={{ scrollPaddingInline: "var(--safe-left)" }}
         >
           {products.map((product, i) => (
-            <li key={product.slug} className="reveal w-[78%] shrink-0 snap-start md:w-auto" style={{ "--i": i } as React.CSSProperties}>
+            <li
+              key={product.slug}
+              className="reveal w-[78%] shrink-0 snap-start md:w-auto"
+              style={{ "--i": i } as React.CSSProperties}
+            >
               <ProductCard product={product} />
             </li>
           ))}

@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { useState } from "react";
 import { useCart } from "@/components/cart/CartProvider";
-import { BundleNudge, CartLines, CartSummary, TreatLine, TreatUpsell } from "@/components/cart/CartLines";
+import { BundleNudge, CartLines, CartSummary, ItemLines, TreatLine, TreatUpsell } from "@/components/cart/CartLines";
 import { PaymentIcons } from "@/components/layout/PaymentIcons";
 import { LockIcon, PawIcon, ReturnIcon, TruckIcon } from "@/components/ui/icons";
 import { Ph } from "@/components/ui/Placeholder";
@@ -13,9 +13,9 @@ import { track } from "@/lib/analytics";
 type Status = { kind: "idle" } | { kind: "loading" } | { kind: "error"; message: string };
 
 export function CheckoutView() {
-  const { quantity, treats } = useCart();
+  const { quantity, treats, items, totals } = useCart();
   const [status, setStatus] = useState<Status>({ kind: "idle" });
-  const empty = quantity === 0;
+  const empty = totals.count === 0;
 
   async function startCheckout() {
     track("checkout_started", { quantity, treats });
@@ -24,7 +24,7 @@ export function CheckoutView() {
       const res = await fetch("/api/checkout", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ quantity, treats }),
+        body: JSON.stringify({ quantity, treats, items }),
       });
       const data: { url?: string; error?: string } = await res.json().catch(() => ({}));
       if (res.ok && data.url) {
@@ -67,6 +67,7 @@ export function CheckoutView() {
             <div className="border-y border-line">
               <CartLines />
               <TreatLine />
+              <ItemLines />
             </div>
             <div className="mt-5 flex flex-col gap-3">
               <BundleNudge />

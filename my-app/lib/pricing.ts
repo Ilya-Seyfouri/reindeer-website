@@ -1,4 +1,5 @@
 import { bundles, product, shipping, site, treat } from "@/config/product";
+import { getOtherProduct } from "@/config/products";
 
 const wholeDollars = new Intl.NumberFormat(site.locale, {
   style: "currency",
@@ -41,13 +42,23 @@ export function shippingFor(quantity: number) {
   return quantity >= shipping.freeFromQuantity ? 0 : shipping.flatRate;
 }
 
-/** Totals for a cart of costumes plus treat add-ons. Treats don't affect the deals or shipping. */
-export function cartTotals(quantity: number, treats = 0) {
+/** Price of one cart line for a product with options (e.g. the sweater). */
+export function itemPrice(item: { slug: string; quantity: number }) {
+  return (getOtherProduct(item.slug)?.price ?? 0) * item.quantity;
+}
+
+/**
+ * Totals for a cart of costumes, treat add-ons and other items. Treats and
+ * other items don't affect the costume deals. Shipping is free on everything.
+ */
+export function cartTotals(quantity: number, treats = 0, items: { slug: string; quantity: number }[] = []) {
   const subtotal = product.price * quantity;
   const discount = subtotal - priceFor(quantity);
   const freeTreats = freeTreatsFor(quantity);
   const shippingCost = shippingFor(quantity);
   const treatsTotal = treat.price * treats;
+  const itemsTotal = items.reduce((sum, item) => sum + itemPrice(item), 0);
+  const itemCount = items.reduce((sum, item) => sum + item.quantity, 0);
   return {
     quantity,
     treats,
@@ -56,6 +67,9 @@ export function cartTotals(quantity: number, treats = 0) {
     discount,
     treatsTotal,
     shipping: shippingCost,
-    total: subtotal - discount + treatsTotal + shippingCost,
+    itemsTotal,
+    /** Everything in the cart that counts as a product (not treats), for the bag badge */
+    count: quantity + itemCount,
+    total: subtotal - discount + treatsTotal + itemsTotal + shippingCost,
   };
 }

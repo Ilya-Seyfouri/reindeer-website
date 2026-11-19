@@ -2,14 +2,14 @@
 
 import Link from "next/link";
 import { useCart } from "@/components/cart/CartProvider";
-import { BundleNudge, CartLines, CartSummary, TreatLine, TreatUpsell } from "@/components/cart/CartLines";
+import { BundleNudge, CartLines, CartSummary, ItemLines, TreatLine, TreatUpsell } from "@/components/cart/CartLines";
 import { Drawer } from "@/components/ui/Drawer";
 import { LockIcon, PawIcon, ReturnIcon } from "@/components/ui/icons";
 import { guarantee } from "@/config/product";
 
 export function CartDrawer() {
-  const { isOpen, closeCart, quantity } = useCart();
-  const empty = quantity === 0;
+  const { isOpen, closeCart, totals } = useCart();
+  const empty = totals.count === 0;
 
   return (
     <Drawer
@@ -45,6 +45,7 @@ export function CartDrawer() {
         <div className="flex flex-col gap-2 pb-5">
           <CartLines />
           <TreatLine />
+          <ItemLines />
           <div className="flex flex-col gap-3">
             <BundleNudge />
             <TreatUpsell />

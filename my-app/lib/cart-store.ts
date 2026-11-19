@@ -1,19 +1,22 @@
 "use client";
 
 import { product, treat } from "@/config/product";
+import { cleanItems, itemKey, type CartItem } from "@/lib/cart-items";
+
+export { itemKey, type CartItem };
 
 /**
  * A tiny external store for the cart, persisted to localStorage.
- * The store sells one costume in one size plus a treat add-on, so the cart is
- * just two counts. Read it with useSyncExternalStore so server HTML (empty
- * cart) and the first client render always match, then the saved cart appears.
+ * The Rudy costume and its treat add-on are two counts. Other products with
+ * options (like the custom sweater) are lines: one per colour + size + name.
+ * Read it with useSyncExternalStore so server HTML (empty cart) and the first client render always match, then the saved cart appears.
  */
 
 const STORAGE_KEY = "rudy-cart-v2";
 
-export type CartState = { quantity: number; treats: number };
+export type CartState = { quantity: number; treats: number; items: CartItem[] };
 
-const EMPTY: CartState = { quantity: 0, treats: 0 };
+const EMPTY: CartState = { quantity: 0, treats: 0, items: [] };
 
 let state: CartState = EMPTY;
 let loaded = false;
@@ -32,7 +35,8 @@ function load() {
     const raw = window.localStorage.getItem(STORAGE_KEY);
     if (raw) {
       const saved = JSON.parse(raw);
-      state = { quantity: clamp(saved?.quantity, product.maxQuantity), treats: clamp(saved?.treats, treat.maxQuantity) };
+      const quantity = clamp(saved?.quantity, product.maxQuantity);
+      state = { quantity, treats: quantity === 0 ? 0 : clamp(saved?.treats, treat.maxQuantity), items: cleanItems(saved?.items) };
     }
   } catch {
     // Private browsing or corrupt data: start with an empty cart.
@@ -43,8 +47,9 @@ function commit(next: Partial<CartState>) {
   const quantity = clamp(next.quantity ?? state.quantity, product.maxQuantity);
   // Treats are an add-on: they leave the cart with the last costume.
   const treats = quantity === 0 ? 0 : clamp(next.treats ?? state.treats, treat.maxQuantity);
+  const items = next.items ? cleanItems(next.items) : state.items;
   // A new object only when something changed, so useSyncExternalStore doesn't loop.
-  if (quantity !== state.quantity || treats !== state.treats) state = { quantity, treats };
+  if (quantity !== state.quantity || treats !== state.treats || items !== state.items) state = { quantity, treats, items };
   try {
     window.localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
   } catch {
@@ -88,7 +93,22 @@ export const cartStore = {
     load();
     commit({ treats: next });
   },
+  /** Clears the Rudy costume (and its treats); other items stay. */
   clear() {
     commit({ quantity: 0, treats: 0 });
+  },
+  addItem(item: CartItem) {
+    load();
+    const existing = state.items.find((x) => itemKey(x) === itemKey(item));
+    commit({
+      items: existing
+        ? state.items.map((x) => (x === existing ? { ...x, quantity: x.quantity + item.quantity } : x))
+        : [...state.items, item],
+    });
+  },
+  /** 0 removes the line */
+  setItemQuantity(key: string, next: number) {
+    load();
+    commit({ items: state.items.map((x) => (itemKey(x) === key ? { ...x, quantity: next } : x)) });
   },
 };

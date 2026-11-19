@@ -1,7 +1,7 @@
 "use client";
 
 import { createContext, useCallback, useContext, useMemo, useState, useSyncExternalStore } from "react";
-import { cartStore } from "@/lib/cart-store";
+import { cartStore, type CartItem } from "@/lib/cart-store";
 import { cartTotals } from "@/lib/pricing";
 
 type CartContextValue = {
@@ -9,6 +9,8 @@ type CartContextValue = {
   quantity: number;
   /** Treat add-ons in the cart */
   treats: number;
+  /** Other products with their options, e.g. personalised sweaters */
+  items: CartItem[];
   totals: ReturnType<typeof cartTotals>;
   isOpen: boolean;
   openCart: () => void;
@@ -17,12 +19,14 @@ type CartContextValue = {
   setQuantity: (quantity: number) => void;
   setTreats: (treats: number) => void;
   clear: () => void;
+  addItem: (item: CartItem) => void;
+  setItemQuantity: (key: string, quantity: number) => void;
 };
 
 const CartContext = createContext<CartContextValue | null>(null);
 
 export function CartProvider({ children }: { children: React.ReactNode }) {
-  const { quantity, treats } = useSyncExternalStore(cartStore.subscribe, cartStore.getSnapshot, cartStore.getServerSnapshot);
+  const { quantity, treats, items } = useSyncExternalStore(cartStore.subscribe, cartStore.getSnapshot, cartStore.getServerSnapshot);
   const [isOpen, setIsOpen] = useState(false);
 
   const openCart = useCallback(() => setIsOpen(true), []);
@@ -32,7 +36,8 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
     () => ({
       quantity,
       treats,
-      totals: cartTotals(quantity, treats),
+      items,
+      totals: cartTotals(quantity, treats, items),
       isOpen,
       openCart,
       closeCart,
@@ -40,8 +45,10 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
       setQuantity: cartStore.setQuantity,
       setTreats: cartStore.setTreats,
       clear: cartStore.clear,
+      addItem: cartStore.addItem,
+      setItemQuantity: cartStore.setItemQuantity,
     }),
-    [quantity, treats, isOpen, openCart, closeCart],
+    [quantity, treats, items, isOpen, openCart, closeCart],
   );
 
   return <CartContext.Provider value={value}>{children}</CartContext.Provider>;

@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 import { ArrowRightIcon } from "@/components/ui/icons";
 import { Ph, Placeholder } from "@/components/ui/Placeholder";
@@ -12,7 +13,16 @@ export function ProductCard({ product }: { product: OtherProduct }) {
       className="group flex h-full flex-col rounded-3xl bg-white p-3 shadow-[0_14px_30px_-22px_oklch(0.3_0.05_50/0.55)] ring-1 ring-line transition-transform duration-300 ease-(--ease-out-quart) hover:-translate-y-1"
     >
       <div className="relative overflow-hidden rounded-2xl">
-        <Placeholder label={product.photos[0] ?? product.name} ratio="4:5" className="rounded-2xl" />
+        {product.images?.[0] ? (
+          <Image
+            src={product.images[0].src}
+            alt={product.images[0].alt}
+            sizes="(min-width: 768px) 25vw, 78vw"
+            className="aspect-[4/5] w-full rounded-2xl object-cover transition-transform duration-500 ease-(--ease-out-quart) group-hover:scale-[1.03]"
+          />
+        ) : (
+          <Placeholder label={product.photos[0] ?? product.name} ratio="4:5" className="rounded-2xl" />
+        )}
         {product.status === "coming-soon" ? (
           <span className="absolute top-3 left-3 rounded-full bg-cocoa px-3 py-1 text-[0.8125rem] font-bold tracking-wide text-white uppercase">
             Coming soon

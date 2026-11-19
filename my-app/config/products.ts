@@ -2,12 +2,18 @@
  * Other products, shown in "Explore other products" on the homepage and each
  * given its own page at /products/{slug}.
  *
- * Everything here is [PLACEHOLDER] content: swap in your real names, prices,
- * photos and copy. They aren't for sale yet (the cart only sells the Rudy
- * costume), so each page shows "Coming soon" and points to the waiting list.
+ * Products marked "available" can be bought: their page shows the options
+ * (colour, size, pet name) and an Add to cart button. "coming-soon" products
+ * are [PLACEHOLDER] content that points to the waiting list instead.
  *
  * Money is in cents, like config/product.ts (1999 = $19.99).
  */
+
+import type { StaticImageData } from "next/image";
+import sweaterBack from "@/app/images/sweater-back.webp";
+import sweaterGreen from "@/app/images/sweater-green.webp";
+import sweaterPair from "@/app/images/sweater-pair.webp";
+import sweaterRed from "@/app/images/sweater-red.webp";
 
 export type HighlightIcon = "clock" | "paw" | "wash" | "feather" | "ruler" | "shield" | "package" | "truck" | "leaf";
 
@@ -20,16 +26,72 @@ export type OtherProduct = {
   price: number;
   /** Struck-through price; null hides it */
   compareAtPrice: number | null;
-  /** Shown on the card and the page while it can't be bought yet */
-  status: "coming-soon";
-  /** Labels for the photo placeholders, first one is the main photo */
+  /** "available" can be added to the cart; "coming-soon" points to the waiting list */
+  status: "available" | "coming-soon";
+  /** Labels for the photo placeholders, first one is the main photo. Used when there are no images. */
   photos: string[];
+  /** Real photos, first one is the main photo */
+  images?: { src: StaticImageData; alt: string }[];
+  /** Choices the shopper makes before adding to the cart */
+  options?: ProductOptions;
   highlights: { icon: HighlightIcon; strong: string; light: string }[];
   description: string;
   details: { icon: HighlightIcon; q: string; a: string }[];
 };
 
+export type ProductOptions = {
+  /** Each colour can point at the photo to show when it's picked (index into images) */
+  colors: { id: string; name: string; swatch: string; image?: number }[];
+  sizes: { id: string; name: string }[];
+  /** A free-text box, e.g. the pet's name stitched on the front */
+  personalise: { label: string; hint: string; maxLength: number };
+  maxQuantity: number;
+};
+
 export const otherProducts: OtherProduct[] = [
+  {
+    slug: "custom-christmas-sweater",
+    name: "Custom Christmas Dog Sweater",
+    tagline: "A cosy knit Christmas jumper with your pet's name stitched on the back.",
+    price: 2999, // [PLACEHOLDER] $29.99
+    compareAtPrice: null, // [PLACEHOLDER] add a was-price if you want one
+    status: "available",
+    photos: [],
+    images: [
+      { src: sweaterGreen, alt: "Poodle wearing the green Christmas sweater with Teddy stitched on the back" },
+      { src: sweaterRed, alt: "French bulldog wearing the red Christmas sweater with Charlie stitched on the back" },
+      { src: sweaterPair, alt: "Two dogs by the fire in the green and red sweaters" },
+      { src: sweaterBack, alt: "Doodle in the snow wearing the red sweater with Coco stitched on the back" },
+    ],
+    options: {
+      colors: [
+        { id: "green", name: "Green", swatch: "oklch(0.45 0.11 155)", image: 0 },
+        { id: "red", name: "Red", swatch: "oklch(0.55 0.2 25)", image: 1 },
+      ],
+      sizes: [
+        { id: "s", name: "S" },
+        { id: "m", name: "M" },
+        { id: "l", name: "L" },
+        { id: "xl", name: "XL" },
+        { id: "xxl", name: "XXL" },
+      ],
+      personalise: { label: "Your pet's name", hint: "Stitched on the back in chunky yarn. Up to 12 letters.", maxLength: 12 },
+      maxQuantity: 10,
+    },
+    highlights: [
+      { icon: "feather", strong: "Personalised", light: "your pet's name, hand stitched" },
+      { icon: "leaf", strong: "Soft cable knit", light: "warm, not itchy" },
+      { icon: "ruler", strong: "Sizes S to XXL", light: "for small to large dogs" },
+    ],
+    description:
+      "A classic Christmas jumper for your dog, with a festive fair isle pattern and your pet's name stitched in chunky yarn on the back. Pick green or red, choose a size, and tell us the name.", // [PLACEHOLDER] check the copy
+    details: [
+      { icon: "package", q: "What's in the box?", a: "One knitted sweater, personalised with the name you enter." }, // [PLACEHOLDER]
+      { icon: "ruler", q: "Which size should I pick?", a: "Measure around the widest part of your dog's chest and pick the size that matches. If they're between sizes, go up one." }, // [PLACEHOLDER] add the size chart
+      { icon: "clock", q: "When will it arrive?", a: "Each sweater is personalised to order, so allow a little extra time before it ships." }, // [PLACEHOLDER] add the real making time
+      { icon: "truck", q: "Shipping", a: "Free shipping on every order, like everything in our shop." },
+    ],
+  },
   {
     slug: "elf-costume",
     name: "The Jingle Elf Costume", // [PLACEHOLDER]
@@ -97,4 +159,13 @@ export const otherProducts: OtherProduct[] = [
 
 export function getOtherProduct(slug: string) {
   return otherProducts.find((p) => p.slug === slug);
+}
+
+/** Tidies a typed pet name: trims, squashes spaces, keeps letters, numbers, spaces, - . ' & */
+export function cleanPetName(value: string, maxLength: number) {
+  return value
+    .replace(/[^\p{L}\p{N} '&.-]/gu, "")
+    .replace(/\s+/g, " ")
+    .trimStart()
+    .slice(0, maxLength);
 }

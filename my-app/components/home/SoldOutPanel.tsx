@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import { ArrowRightIcon, CheckIcon, MailIcon } from "@/components/ui/icons";
@@ -229,7 +230,11 @@ export function SoldOutPanel({ open, nextDropAt }: { open: boolean; nextDropAt: 
                         className="flex items-center gap-3 rounded-2xl bg-white p-2.5 pr-4 shadow-[inset_0_0_0_1.5px_var(--color-line)] transition-colors hover:shadow-[inset_0_0_0_1.5px_var(--color-line-strong)]"
                       >
                         <div className="w-14 shrink-0 overflow-hidden rounded-xl">
-                          <Placeholder label={p.photos[0] ?? p.name} ratio="1:1" compact />
+                          {p.images?.[0] ? (
+                            <Image src={p.images[0].src} alt="" sizes="56px" className="aspect-square w-full object-cover" />
+                          ) : (
+                            <Placeholder label={p.photos[0] ?? p.name} ratio="1:1" compact />
+                          )}
                         </div>
                         <span className="min-w-0 flex-1">
                           <span className="block leading-snug font-bold">{p.name}</span>

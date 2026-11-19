@@ -1,10 +1,14 @@
 import { NextResponse } from "next/server";
 import { product, treat } from "@/config/product";
+import { cleanItems } from "@/lib/cart-items";
 import { cartTotals } from "@/lib/pricing";
 
 /**
  * POST /api/checkout
- * Body: { quantity: number, treats?: number }
+ * Body: { quantity: number, treats?: number, items?: { slug, color, size, name, quantity }[] }
+ *   items are personalised products like the sweater. Add one Stripe line per
+ *   item and put the colour, size and pet name in its product_data.description
+ *   (and metadata) so they show on the order.
  * Returns: { url: string } — the page to send the shopper to.
  *
  * TODO: connect Stripe.
@@ -46,13 +50,16 @@ import { cartTotals } from "@/lib/pricing";
  * from the browser.
  */
 export async function POST(request: Request) {
-  const body = (await request.json().catch(() => null)) as { quantity?: unknown; treats?: unknown } | null;
-  const quantity = body?.quantity;
+  const body = (await request.json().catch(() => null)) as { quantity?: unknown; treats?: unknown; items?: unknown } | null;
+  const quantity = body?.quantity ?? 0;
   const treats = body?.treats ?? 0;
+  // Re-checked against the catalogue: unknown products, colours or sizes are dropped
+  const items = cleanItems(body?.items);
   if (
     typeof quantity !== "number" ||
     !Number.isInteger(quantity) ||
-    quantity < 1 ||
+    quantity < 0 ||
+    quantity + items.length === 0 ||
     quantity > product.maxQuantity ||
     typeof treats !== "number" ||
     !Number.isInteger(treats) ||
@@ -62,7 +69,7 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: "Your cart looks empty or out of date. Please refresh the page." }, { status: 400 });
   }
 
-  const totals = cartTotals(quantity, treats);
+  const totals = cartTotals(quantity, treats, items);
   void totals; // used once Stripe is connected (see TODO above)
 
   return NextResponse.json(

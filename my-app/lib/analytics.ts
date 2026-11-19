@@ -14,6 +14,8 @@ type Events = {
   sold_out_viewed: { restocking: boolean };
   /** Tapped a "You might also like" product in the sold-out dropdown */
   sold_out_suggestion_clicked: { slug: string };
+  /** Added a product with options (e.g. the personalised sweater). The pet name is left out. */
+  item_added: { slug: string; color: string; size: string; quantity: number };
   /** Joined the waiting list */
   waitlist_joined: { source: "sold-out" | "waiting-list" };
   /** Added the gourmet treats from the "Gift for a furry friend?" upsell */

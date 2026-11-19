@@ -1,13 +1,16 @@
 "use client";
 
+import Image from "next/image";
 import { useCart } from "@/components/cart/CartProvider";
 import { PlusIcon } from "@/components/ui/icons";
 import { TreatArt } from "@/components/ui/TreatArt";
 import { Ph, Placeholder } from "@/components/ui/Placeholder";
 import { QuantityStepper } from "@/components/ui/QuantityStepper";
 import { bundles, product, treat } from "@/config/product";
+import { getOtherProduct } from "@/config/products";
 import { track } from "@/lib/analytics";
-import { formatMoney } from "@/lib/pricing";
+import { itemKey } from "@/lib/cart-items";
+import { formatMoney, itemPrice } from "@/lib/pricing";
 
 export function CartLines() {
   const { quantity, setQuantity, clear } = useCart();
@@ -47,6 +50,69 @@ export function CartLines() {
           </button>
       </div>
     </div>
+  );
+}
+
+/** Products with options (e.g. the personalised sweater): one line per colour + size + name. */
+export function ItemLines() {
+  const { items, setItemQuantity, quantity } = useCart();
+  return (
+    <>
+      {items.map((item, i) => {
+        const p = getOtherProduct(item.slug);
+        const o = p?.options;
+        if (!p || !o) return null;
+        const color = o.colors.find((c) => c.id === item.color);
+        const size = o.sizes.find((z) => z.id === item.size);
+        const photo = p.images?.[color?.image ?? 0];
+        const key = itemKey(item);
+        return (
+          <div
+            key={key}
+            className={`grid grid-cols-[auto_minmax(0,1fr)] gap-x-3 gap-y-3 py-5 sm:gap-x-4 ${quantity > 0 || i > 0 ? "border-t border-line" : ""}`}
+          >
+            <div className="w-[4.25rem] shrink-0 self-start overflow-hidden rounded-xl sm:w-24">
+              {photo ? (
+                <Image src={photo.src} alt="" sizes="96px" className="aspect-square w-full object-cover" />
+              ) : (
+                <Placeholder label={p.name} ratio="1:1" compact />
+              )}
+            </div>
+            <div className="flex min-w-0 flex-col gap-0.5 sm:flex-row sm:items-start sm:justify-between sm:gap-3">
+              <div className="min-w-0">
+                <p className="text-[0.9375rem] leading-snug font-bold sm:text-[1.0625rem]">{p.name}</p>
+                <p className="text-[0.875rem] text-ink-soft sm:text-base">
+                  {color?.name} · Size {size?.name}
+                </p>
+                <p className="text-[0.875rem] break-words text-ink-soft sm:text-base">
+                  Name: <strong className="text-ink">{item.name}</strong>
+                </p>
+              </div>
+              <p className="shrink-0 text-[0.9375rem] font-bold tabular-nums sm:text-[1.0625rem]">
+                <Ph>{formatMoney(itemPrice(item))}</Ph>
+              </p>
+            </div>
+            <div className="col-span-2 flex items-center gap-x-4 sm:col-span-1 sm:col-start-2">
+              <QuantityStepper
+                compact
+                value={item.quantity}
+                min={1}
+                max={o.maxQuantity}
+                label={`Quantity of ${p.name} for ${item.name}`}
+                onChange={(n) => setItemQuantity(key, n)}
+              />
+              <button
+                type="button"
+                onClick={() => setItemQuantity(key, 0)}
+                className="inline-flex min-h-11 items-center px-1 text-base font-bold text-ink-soft underline decoration-line-strong decoration-2 underline-offset-4 hover:text-ink hover:decoration-current"
+              >
+                Remove
+              </button>
+            </div>
+          </div>
+        );
+      })}
+    </>
   );
 }
 
@@ -184,12 +250,27 @@ export function CartSummary() {
   const { totals } = useCart();
   return (
     <dl className="grid grid-cols-[1fr_auto] gap-x-3 gap-y-2 text-[0.9375rem] sm:gap-x-4 sm:text-[1.0625rem]">
-      <dt>
-        Subtotal ({totals.quantity} {totals.quantity === 1 ? "costume" : "costumes"})
-      </dt>
-      <dd className="text-right tabular-nums">
-        <Ph>{formatMoney(totals.subtotal)}</Ph>
-      </dd>
+      {totals.quantity > 0 ? (
+        <>
+          <dt>
+            Subtotal ({totals.quantity} {totals.quantity === 1 ? "costume" : "costumes"})
+          </dt>
+          <dd className="text-right tabular-nums">
+            <Ph>{formatMoney(totals.subtotal)}</Ph>
+          </dd>
+        </>
+      ) : null}
+      {totals.itemsTotal > 0 ? (
+        <>
+          <dt>
+            {totals.quantity > 0 ? "Other items" : "Subtotal"} ({totals.count - totals.quantity}{" "}
+            {totals.count - totals.quantity === 1 ? "item" : "items"})
+          </dt>
+          <dd className="text-right tabular-nums">
+            <Ph>{formatMoney(totals.itemsTotal)}</Ph>
+          </dd>
+        </>
+      ) : null}
       {totals.discount > 0 ? (
         <>
           <dt className="font-bold text-success">2-pack saving</dt>

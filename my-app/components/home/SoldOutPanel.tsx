@@ -133,7 +133,7 @@ export function SoldOutPanel({ open, nextDropAt }: { open: boolean; nextDropAt: 
                 Sold out
               </span>
               <h3 id="sold-out-title" className="mt-3 font-display text-[1.75rem] leading-tight sm:text-[2rem]">
-                {ended ? "Restocking now" : "This item has sold out!"}
+                {ended ? "Restocking now" : "This drop has sold out"}
               </h3>
 
             </div>
@@ -205,7 +205,7 @@ export function SoldOutPanel({ open, nextDropAt }: { open: boolean; nextDropAt: 
                     ) : null}
                   </div>
                   <p id="sold-out-note" className="mt-2.5 text-center text-base text-ink-soft">
-                    One email when it&rsquo;s in stock.
+                    One email when it&rsquo;s live. No spam.
                   </p>
                 </form>
               )}
@@ -213,7 +213,7 @@ export function SoldOutPanel({ open, nextDropAt }: { open: boolean; nextDropAt: 
 
             <p className="mx-auto mt-5 max-w-[34ch] text-center text-ink-soft">
                 {ended
-                  ? "The next drop is on its way. Join above and we’ll email you the moment it’s in stock."
+                  ? "The next drop is on its way. Join the list and we’ll email you the moment it’s live."
                   : "The next drop goes live in"}
               </p>
 

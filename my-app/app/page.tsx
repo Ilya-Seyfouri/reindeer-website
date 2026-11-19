@@ -1,3 +1,4 @@
+import { Blueprint } from "@/components/home/Blueprint";
 import { Comparison } from "@/components/home/Comparison";
 import { Faq } from "@/components/home/Faq";
 import { FitsEveryDog } from "@/components/home/FitsEveryDog";
@@ -46,6 +47,7 @@ export default async function Home() {
       <FitsEveryDog />
       <Comparison />
       <Reviews />
+      <Blueprint />
       <Faq />
       <Guarantee />
       <StickyBuyBar />

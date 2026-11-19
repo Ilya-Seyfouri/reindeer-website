@@ -3,7 +3,7 @@
 import { Gallery } from "@/components/home/Gallery";
 import { useSelection } from "@/components/home/ProductSelection";
 import { track } from "@/lib/analytics";
-import { RestockIn, SoldOutPanel } from "@/components/home/SoldOutPanel";
+import { SoldOutPanel } from "@/components/home/SoldOutPanel";
 import {
   ChevronDownIcon,
   ClockIcon,
@@ -67,17 +67,16 @@ export function Hero() {
             {product.tagline}
           </p>
 
-          <ul className="enter mt-6 grid grid-cols-3 gap-2 sm:gap-4" style={{ "--i": 4 } as React.CSSProperties}>
+          <ul className="enter mt-6 flex flex-col gap-3.5" style={{ "--i": 4 } as React.CSSProperties}>
             {product.highlights.map((item) => {
               const Icon = icons[item.icon];
               return (
-                <li key={item.strong} className="flex flex-col items-center gap-2 text-center">
-                  <span className="grid size-10 shrink-0 place-items-center rounded-full bg-fawn-soft text-caramel-deep">
+                <li key={item.strong} className="flex items-center gap-3.5">
+                  <span className="grid size-9 shrink-0 place-items-center rounded-full bg-fawn-soft text-caramel-deep">
                     <Icon size={20} />
                   </span>
-                  <span className="text-[0.875rem] leading-snug sm:text-[0.9375rem]">
-                    <strong className="block">{item.strong}</strong>
-                    <span className="text-ink-soft">{item.light}</span>
+                  <span>
+                    <strong>{item.strong}</strong> <span className="text-ink-soft">· {item.light}</span>
                   </span>
                 </li>
               );
@@ -143,19 +142,18 @@ function PurchaseOptions() {
   );
 }
 
-/**
- * A bundle's price against buying the same number of costumes at the regular
- * price, so every figure adds up: e.g. 6 costumes: $119.94 → $59.97, save $59.97 (50%).
- */
-function bundlePricing(quantity: number) {
-  const regular = product.price * quantity;
-  const total = priceFor(quantity);
-  const saved = regular - total;
-  return { regular, total, saved, percent: Math.round((saved / regular) * 100) };
+/** Price per costume, the "was" price per costume, and the saving against it. */
+function unitPricing(quantity: number) {
+  const each = priceFor(quantity) / quantity;
+  const was = product.compareAtPrice ?? product.price;
+  const save = Math.round((1 - each / was) * 100);
+  // Shown in whole dollars, as before cents were supported for the treat add-on
+  return { each: Math.round(each / 100) * 100, was, save };
 }
 
 function Option({ bundle, selected, onSelect }: { bundle: Bundle; selected: boolean; onSelect: () => void }) {
-  const { regular, total, saved, percent } = bundlePricing(bundle.quantity);
+  const { each, was, save } = unitPricing(bundle.quantity);
+  const suffix = bundle.quantity > 1 ? " each" : "";
 
   return (
     <label
@@ -197,20 +195,18 @@ function Option({ bundle, selected, onSelect }: { bundle: Bundle; selected: bool
       </span>
 
       <span className="shrink-0 text-right leading-snug tabular-nums">
-        {saved > 0 ? (
+        {save > 0 ? (
           <s className="block text-[0.875rem] font-bold text-danger decoration-2 sm:text-[0.9375rem]">
-            <span className="sr-only">Regular price </span>
-            {formatMoney(regular)}
+            <span className="sr-only">Was </span>
+            {formatMoney(was)}
+            {suffix}
           </s>
         ) : null}
         <span className="block text-[1.0625rem] font-bold whitespace-nowrap sm:text-[1.125rem]">
-          <Ph>{formatMoney(total)}</Ph>
+          <Ph>{formatMoney(each)}</Ph>
+          {suffix}
         </span>
-        {saved > 0 ? (
-          <span className="block text-[0.9375rem] font-bold whitespace-nowrap text-success sm:text-[1rem]">
-            Save {formatMoney(saved)} ({percent}%)
-          </span>
-        ) : null}
+        {save > 0 ? <span className="block text-[0.9375rem] font-bold whitespace-nowrap text-success sm:text-[1rem]">You Save {save}%</span> : null}
       </span>
     </label>
   );
@@ -219,8 +215,7 @@ function Option({ bundle, selected, onSelect }: { bundle: Bundle; selected: bool
 function AddToCartButton() {
   const { quantity, buy, soldOutOpen, setSoldOutOpen, settings } = useSelection();
   const total = priceFor(quantity);
-  // What the same costumes cost at the regular price, so the strike-through matches the bundle cards
-  const was = product.price * quantity;
+  const was = (product.compareAtPrice ?? product.price) * quantity;
 
   return (
     <>
@@ -236,9 +231,7 @@ function AddToCartButton() {
         {soldOutOpen ? (
           <span key="sold-out" className="inline-flex items-center gap-3" style={{ animation: "fade-in 300ms var(--ease-out-quart)" }}>
             Sold out
-            <span className="font-normal tracking-normal text-on-cocoa-soft normal-case">
-              <RestockIn nextDropAt={settings.nextDropAt} />
-            </span>
+            <span className="font-normal tracking-normal text-on-cocoa-soft normal-case">· next drop soon</span>
           </span>
         ) : (
           <span key="add" className="inline-flex items-center gap-3">

@@ -6,7 +6,7 @@ import { shipping, site } from "@/config/product";
 
 export const metadata: Metadata = {
   title: "Track your order",
-  description: "Follow your Rudy & Co. order on our live sleigh tracker.",
+  description: "Check where your Rudy & Co. order is.",
 };
 
 export default function TrackPage() {
@@ -20,8 +20,8 @@ export default function TrackPage() {
             Can&rsquo;t find your order number?
           </h2>
           <p className="mt-2">
-            It starts with <strong>RC-</strong> and is in the subject line of your confirmation email. Check your spam or
-            promotions folder too.
+            It starts with <strong>RC-</strong> and is in the subject line of your order confirmation email. Check your
+            spam or promotions folder too.
           </p>
         </div>
         <div className="rounded-3xl bg-fawn-soft p-6 sm:p-7">

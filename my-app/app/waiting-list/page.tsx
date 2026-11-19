@@ -6,8 +6,8 @@ import { CheckIcon } from "@/components/ui/icons";
 import { comparison, waitlist } from "@/config/product";
 
 export const metadata: Metadata = {
-  title: "Christmas waiting list",
-  description: "Join the Rudy & Co. Christmas waiting list and be first to hear when reindeer costumes are back in stock.",
+  title: "Waiting list",
+  description: "Be first to hear about Rudy & Co. restocks and new designs.",
 };
 
 export default function WaitingListPage() {

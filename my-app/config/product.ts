@@ -7,7 +7,7 @@
  * Anything marked [PLACEHOLDER] is sample content. Replace it before launch.
  * Search this file for "[PLACEHOLDER]" to find every one.
  *
- * Money is stored in cents (1999 = $19.99) to avoid rounding errors. Prices are
+ * Money is stored in cents (3500 = $35) to avoid rounding errors. Prices are
  * shown in whole dollars, so keep them to round amounts.
  *
  * Photos live in app/images/. Swap a file there (same name) to change a photo.
@@ -91,7 +91,7 @@ export const product = {
   shortName: "Reindeer Costume",
   tagline: "The cosy reindeer outfit your dog won't mind wearing.",
   description:
-    "A soft sherpa fleece reindeer suit with a breathable lining, a snug hood, plush ears and antlers that stand up on their own, and a nose that glows in the dark. It slips over the head and fastens under the tummy, so it's on in seconds and stays put through walks, zoomies and photo shoots.",
+    "A soft fleece reindeer suit with a snug hood and plush antlers that stand up on their own. It slips over the head and fastens under the tummy, so it's on in seconds and stays put through walks, zoomies and photo shoots.",
   /** Colours the costume comes in. */
   colours: [
     { name: "Classic brown", swatch: "oklch(0.5 0.08 50)" },
@@ -185,7 +185,7 @@ export const productFaqs = [
   {
     icon: "package",
     q: "What's in the box?",
-    a: "One reindeer costume per pack: a soft sherpa fleece suit with a hood, plush ears and antlers, a glow-in-the-dark nose and an adjustable tummy strap. It arrives ready to wear.", // [PLACEHOLDER] packaging details
+    a: "One reindeer costume per pack: a soft fleece suit with a hood and plush antlers, and an adjustable tummy strap. It arrives ready to wear.", // [PLACEHOLDER] packaging details
   },
   {
     icon: "leaf",
@@ -267,7 +267,7 @@ export const faqs = [
   },
   {
     q: "How do the bundle deals work?",
-    a: `Buy 2 and get a 3rd free, or buy 3 and get 3 more free. The deals apply automatically in your cart, so 3 costumes always include 1 free and 6 include 3 free. They're perfect for multi-dog homes or as gifts, and 2 or more costumes ship free.`,
+    a: `Buy 2 and get a 3rd free, or buy 3 and get 3 more free. The deals apply automatically in your cart, so 3 costumes always include 1 free and 6 include 3 free. They're perfect for multi-dog homes or as gifts, and every order ships free.`,
   },
   {
     q: "Can I add a treat for my dog?",
@@ -275,7 +275,7 @@ export const faqs = [
   },
   {
     q: "How long does shipping take?",
-    a: `We pack orders within ${shipping.processing}. Delivery in the US usually takes ${shipping.delivery} after that. You'll get a tracking link by email as soon as it ships, and you can check on it any time from our Track your order page.`,
+    a: `We pack orders within ${shipping.processing}. Delivery in the US usually takes ${shipping.delivery} after that. You'll get a tracking link by email as soon as it ships.`,
   },
   {
     q: "How much is shipping?",
@@ -340,9 +340,9 @@ export const comparison = {
   intro: "Most dog costumes are made to be cheap. Ours is made to be worn.",
   photo: { src: rudyVsImage, alt: "Smiling corgi in the reindeer hood" },
   rows: [
-    { icon: "leaf", feature: "OEKO-TEX® certified, pet-safe fabric", others: "Often untested" },
+    { icon: "leaf", feature: "Non-toxic, pet-safe fabric and dyes", others: "Often unknown" },
     { icon: "ruler", feature: "One adjustable size fits every dog", others: "Guess the size" },
-    { icon: "clock", feature: "On in about 5 seconds", others: "Fiddly zips and ties" },
+    { icon: "clock", feature: "On in about 5 seconds", others: "Buckles and zips" },
     { icon: "wash", feature: "Machine washable", others: "Hand wash only" },
     { icon: "antlers", feature: "Antlers that stay upright", others: "Droop and flop" },
     { icon: "shield", feature: `${guarantee.days}-day returns`, others: "Final sale" },
@@ -366,11 +366,11 @@ export const drop = {
 
 /** The waiting list page. [PLACEHOLDER] copy and perks */
 export const waitlist = {
-  title: "Join the Christmas waiting list",
+  title: "Join the waiting list",
   intro:
-    "Our reindeer costumes sell out fast in the run-up to Christmas. Join the list and we'll email you the moment they're back in stock, so your pup is dressed and ready for the big day.",
+    "Our costumes sell out quickly before the holidays. Join the list and we'll email you the moment new stock or a new design arrives.",
   perks: [
-    "First to know when we restock before Christmas",
+    "First to know when we restock",
     "Early access to new designs before anyone else",
     "A waiting-list-only discount on your next order", // [PLACEHOLDER] only promise what you'll honour
   ],

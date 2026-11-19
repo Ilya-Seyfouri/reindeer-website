@@ -92,10 +92,10 @@ export function TrackForm() {
         <div className="enter flex flex-col gap-7" style={{ "--i": 0 } as React.CSSProperties}>
           <div>
             <h1 id="track-title" className="font-display text-[clamp(2.5rem,1.8rem+3vw,4.25rem)] leading-[1.02]">
-              Where&rsquo;s my <span className="text-[oklch(0.86_0.12_85)]">Rudy?</span>
+              Track your order
             </h1>
             <p className="lead mt-4 max-w-[38ch] text-white/80">
-              Enter the order number from your confirmation email and watch the sleigh fly it home. Orders ship in{" "}
+              Enter the order number from your confirmation email and the email address you used. Orders ship in{" "}
               <Ph>{shipping.processing}</Ph>.
             </p>
           </div>
@@ -144,7 +144,7 @@ export function TrackForm() {
                 ) : null}
               </div>
               <button type="submit" disabled={state.kind === "loading"} className="btn btn-primary btn-cart btn-lg font-apple w-full">
-                {state.kind === "loading" ? "Checking the flight plan…" : "Track my sleigh"}
+                {state.kind === "loading" ? "Looking it up…" : "Track my order"}
               </button>
             </form>
 
@@ -174,7 +174,7 @@ function NotFound({ orderNumber }: { orderNumber: string }) {
       <span className="grid size-11 place-items-center rounded-full bg-cocoa text-white">
         <MailIcon size={22} />
       </span>
-      <p className="font-display text-[1.5rem] leading-tight">Hmm, that sleigh isn&rsquo;t on our flight list</p>
+      <p className="font-display text-[1.5rem] leading-tight">Hmm, that isn&rsquo;t an order we recognise</p>
       <p>
         We couldn&rsquo;t find an order matching <strong className="break-all">{orderNumber}</strong>. Get in touch and
         we&rsquo;ll look it up for you.

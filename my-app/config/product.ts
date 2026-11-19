@@ -117,7 +117,7 @@ export const product = {
     "Adjustable strap that holds it securely in place",
   ],
   /** One size for every dog. Describe the fit range here. */
-  fit: "One size with a roomy hood and an adjustable tummy strap that closes anywhere along its length, so it fits most small, medium and large dogs, from little pugs to big huskies.",
+  fit: "One size with a roomy hood and an adjustable tummy strap that closes anywhere along its length, so it fits all small, medium and large dogs, from little pugs to big huskies.",
   // Set from the UK prices at about $1.32 to the pound (Nov 2026), rounded to shop prices:
   // £14.99 → $19.99 for one, £24.99 → $32.99 for two, £21.99 was-price → $28.99
   price: 1999, // $19.99 for one costume

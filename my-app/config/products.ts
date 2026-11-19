@@ -47,7 +47,7 @@ export const otherProducts: OtherProduct[] = [
       "A soft green elf suit with a striped collar and a floppy hat with a jingle bell. Same easy fit as Rudy, so it's on in seconds and stays put.", // [PLACEHOLDER]
     details: [
       { icon: "package", q: "What's in the box?", a: "One elf costume with an attached hat and an adjustable tummy strap." }, // [PLACEHOLDER]
-      { icon: "ruler", q: "Will it fit my dog?", a: "One adjustable size for most small, medium and large dogs." }, // [PLACEHOLDER]
+      { icon: "ruler", q: "Will it fit my dog?", a: "One adjustable size for all small, medium and large dogs." }, // [PLACEHOLDER]
       { icon: "truck", q: "Shipping", a: "Free shipping on every order, like everything in our shop." },
     ],
   },
@@ -68,7 +68,7 @@ export const otherProducts: OtherProduct[] = [
       "A classic Santa suit in soft red velvet with fluffy white trim and a matching hat on a gentle chin strap. Made for Christmas cards and family photos.", // [PLACEHOLDER]
     details: [
       { icon: "package", q: "What's in the box?", a: "One Santa suit and a matching hat with a soft chin strap." }, // [PLACEHOLDER]
-      { icon: "ruler", q: "Will it fit my dog?", a: "One adjustable size for most small, medium and large dogs." }, // [PLACEHOLDER]
+      { icon: "ruler", q: "Will it fit my dog?", a: "One adjustable size for all small, medium and large dogs." }, // [PLACEHOLDER]
       { icon: "truck", q: "Shipping", a: "Free shipping on every order, like everything in our shop." },
     ],
   },

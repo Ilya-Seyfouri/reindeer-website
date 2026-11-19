@@ -23,6 +23,11 @@ import knitCat from "@/app/images/knit-cat.webp";
 import knitFrenchie from "@/app/images/knit-frenchie.webp";
 import knitRange from "@/app/images/knit-range.webp";
 import knitSizes from "@/app/images/knit-sizes.webp";
+import knitYorkie1 from "@/app/images/reviews/knit-yorkie-1.webp";
+import knitYorkie2 from "@/app/images/reviews/knit-yorkie-2.webp";
+import knitYorkie3 from "@/app/images/reviews/knit-yorkie-3.webp";
+import knitYorkie4 from "@/app/images/reviews/knit-yorkie-4.webp";
+import knitYorkie5 from "@/app/images/reviews/knit-yorkie-5.webp";
 import ropeToy from "@/app/images/rope-toy.webp";
 import ropeToyGift from "@/app/images/rope-toy-gift.webp";
 import ropeToyPuppy from "@/app/images/rope-toy-puppy.webp";
@@ -53,6 +58,21 @@ export type OtherProduct = {
   highlights: { icon: HighlightIcon; strong: string; light: string }[];
   description: string;
   details: { icon: HighlightIcon; q: string; a: string }[];
+  /** Customer reviews shown under the product */
+  reviews?: ProductReview[];
+  /** A short line under the reviews heading, e.g. where the reviews come from */
+  reviewsNote?: string;
+};
+
+export type ProductReview = {
+  rating: number;
+  /** ISO date, e.g. "2026-01-20" */
+  date: string;
+  author: string;
+  /** e.g. "Colour: Red · Size: M" */
+  variant: string;
+  text: string;
+  photos: { src: StaticImageData; alt: string }[];
 };
 
 export type ProductOptions = {
@@ -339,6 +359,31 @@ export const otherProducts: OtherProduct[] = [
       },
       { icon: "package", q: "What's in the box?", a: "One knitted sweater in the colour and size you choose." },
       { icon: "truck", q: "Shipping", a: "Free shipping on every order, like everything in our shop." },
+    ],
+    reviewsNote: "From shoppers who bought this same sweater from another retailer.",
+    reviews: [
+      {
+        rating: 5,
+        date: "2026-01-26",
+        author: "M***o",
+        variant: "Colour: Blue · Size: M",
+        text: "I liked it a lot, it's warm, well-made, the fabric doesn't distort or stretch too much, and it has cuffs. Same as advertised in terms of colour and measurements, although I made a mistake by choosing size M; I should have chosen L. My fault, it turned out a bit tight, considering that it doesn't stretch much. My dog weighs almost 2 kg. I bought it in the two available colours. I recommend.",
+        photos: [], // [ADD] the 3 photos from this review
+      },
+      {
+        rating: 5,
+        date: "2026-01-20",
+        author: "Shopper",
+        variant: "Colour: Red · Size: M",
+        text: "Good day! The sweater matches the sizes on the website. The size for a 2.6 kg Yorkie is just right. A cool feature that I haven't seen before is the straps on the back legs, so the sweater doesn't slip and doesn't get wrinkled.",
+        photos: [
+          { src: knitYorkie1, alt: "Yorkie wearing the red sweater on a bed" },
+          { src: knitYorkie2, alt: "Yorkie in the red sweater looking up" },
+          { src: knitYorkie3, alt: "Yorkie in the red sweater sitting on a bed" },
+          { src: knitYorkie4, alt: "Back view of the red sweater on a Yorkie" },
+          { src: knitYorkie5, alt: "Yorkie in the red sweater lying down" },
+        ],
+      },
     ],
   },
 ];

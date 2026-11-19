@@ -3,6 +3,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { ExploreProducts } from "@/components/home/ExploreProducts";
 import { ProductPurchase } from "@/components/products/ProductPurchase";
+import { ProductReviews } from "@/components/products/ProductReviews";
 import {
   ArrowRightIcon,
   ChevronDownIcon,
@@ -255,6 +256,8 @@ export default async function ProductPage({
           </div>
         )}
       </section>
+
+      <ProductReviews product={product} />
 
       <ExploreProducts
         products={otherProducts.filter((p) => p.slug !== product.slug)}

@@ -48,8 +48,8 @@ export function Drawer({
         <div
           className="flex items-center justify-between gap-4 border-b border-line py-3"
           style={{
-            paddingLeft: side === "left" ? "var(--safe-left)" : "1.25rem",
-            paddingRight: side === "right" ? "var(--safe-right)" : "1.25rem",
+            paddingLeft: side === "left" ? "var(--safe-left)" : "var(--drawer-pad)",
+            paddingRight: side === "right" ? "max(var(--drawer-pad), env(safe-area-inset-right))" : "var(--drawer-pad)",
             paddingTop: "max(0.75rem, env(safe-area-inset-top))",
           }}
         >
@@ -68,8 +68,8 @@ export function Drawer({
         <div
           className="min-h-0 flex-1 overflow-y-auto overscroll-contain"
           style={{
-            paddingLeft: side === "left" ? "var(--safe-left)" : "1.25rem",
-            paddingRight: side === "right" ? "var(--safe-right)" : "1.25rem",
+            paddingLeft: side === "left" ? "var(--safe-left)" : "var(--drawer-pad)",
+            paddingRight: side === "right" ? "max(var(--drawer-pad), env(safe-area-inset-right))" : "var(--drawer-pad)",
           }}
         >
           {children}
@@ -78,8 +78,8 @@ export function Drawer({
           <div
             className="border-t border-line bg-white pt-4"
             style={{
-              paddingLeft: side === "left" ? "var(--safe-left)" : "1.25rem",
-              paddingRight: side === "right" ? "var(--safe-right)" : "1.25rem",
+              paddingLeft: side === "left" ? "var(--safe-left)" : "var(--drawer-pad)",
+              paddingRight: side === "right" ? "max(var(--drawer-pad), env(safe-area-inset-right))" : "var(--drawer-pad)",
               paddingBottom: "max(1rem, var(--safe-bottom))",
             }}
           >

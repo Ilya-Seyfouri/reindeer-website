@@ -19,7 +19,7 @@ export function CartLines() {
         <Placeholder label="CART THUMBNAIL" ratio="1:1" compact />
       </div>
       <div className="flex min-w-0 flex-1 flex-col gap-3">
-        <div className="flex items-start justify-between gap-3">
+        <div className="flex flex-col gap-0.5 sm:flex-row sm:items-start sm:justify-between sm:gap-3">
           <div>
             <p className="text-[0.9375rem] leading-snug font-bold sm:text-[1.0625rem]">{product.name}</p>
             <p className="text-[0.875rem] text-ink-soft sm:text-base">One size · adjustable fit</p>
@@ -28,7 +28,7 @@ export function CartLines() {
             <Ph>{formatMoney(product.price * quantity)}</Ph>
           </p>
         </div>
-        <div className="flex flex-wrap items-center gap-x-4 gap-y-2">
+        <div className="flex flex-wrap items-center gap-x-3 gap-y-1 sm:gap-x-4">
           <QuantityStepper
             compact
             value={quantity}
@@ -76,7 +76,7 @@ function FreeTreatLine({ count }: { count: number }) {
   return (
     <div className="flex gap-3 border-t border-line py-5 sm:gap-4">
       <TreatTile />
-      <div className="flex min-w-0 flex-1 items-start justify-between gap-3">
+      <div className="flex min-w-0 flex-1 flex-col gap-0.5 sm:flex-row sm:items-start sm:justify-between sm:gap-3">
         <div>
           <p className="text-[0.9375rem] leading-snug font-bold sm:text-[1.0625rem]">{treat.name}</p>
           <p className="text-[0.875rem] text-ink-soft sm:text-base">
@@ -94,7 +94,7 @@ function PaidTreatLine({ treats, setTreats }: { treats: number; setTreats: (n: n
     <div className="flex gap-3 border-t border-line py-5 sm:gap-4">
       <TreatTile />
       <div className="flex min-w-0 flex-1 flex-col gap-3">
-        <div className="flex items-start justify-between gap-3">
+        <div className="flex flex-col gap-0.5 sm:flex-row sm:items-start sm:justify-between sm:gap-3">
           <div>
             <p className="text-[0.9375rem] leading-snug font-bold sm:text-[1.0625rem]">{treat.name}</p>
             <p className="text-[0.875rem] text-ink-soft sm:text-base">Gift add-on</p>
@@ -103,7 +103,7 @@ function PaidTreatLine({ treats, setTreats }: { treats: number; setTreats: (n: n
             <Ph>{formatMoney(treat.price * treats)}</Ph>
           </p>
         </div>
-        <div className="flex flex-wrap items-center gap-x-4 gap-y-2">
+        <div className="flex flex-wrap items-center gap-x-3 gap-y-1 sm:gap-x-4">
           <QuantityStepper
             compact
             value={treats}
@@ -199,7 +199,8 @@ export function CartSummary() {
       {totals.freeTreats > 0 ? (
         <>
           <dt className="font-bold text-success">
-            {treat.name} (×{totals.freeTreats}), free with your 2-pack
+            {treat.name}
+            {totals.freeTreats > 1 ? ` (×${totals.freeTreats})` : ""}
           </dt>
           <dd className="text-right font-bold text-success">Free</dd>
         </>

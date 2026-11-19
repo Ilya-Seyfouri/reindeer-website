@@ -612,6 +612,7 @@ details[open] > summary .faq-icon {
 
 /* Cart drawer and menu (native <dialog>) */
 dialog.drawer {
+  --drawer-pad: 1.25rem;
   margin: 0 0 0 auto;
   height: 100dvh;
   max-height: 100dvh;
@@ -647,9 +648,10 @@ dialog.drawer.drawer-left[open] {
   dialog.drawer.drawer-left {
     width: 70vw;
   }
-  /* The cart slides in from the right and takes 75% */
+  /* The cart slides in from the right and takes 75%, with slimmer side padding */
   dialog.drawer:not(.drawer-left) {
     width: 75vw;
+    --drawer-pad: 1rem;
   }
 }
 @starting-style {

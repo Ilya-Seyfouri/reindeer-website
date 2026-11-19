@@ -14,11 +14,11 @@ export function CartLines() {
   if (quantity === 0) return null;
 
   return (
-    <div className="flex gap-3 py-5 sm:gap-4">
+    <div className="grid grid-cols-[auto_minmax(0,1fr)] gap-x-3 gap-y-3 py-5 sm:gap-x-4">
       <div className="w-[4.25rem] shrink-0 self-start overflow-hidden rounded-xl sm:w-24">
         <Placeholder label="CART THUMBNAIL" ratio="1:1" compact />
       </div>
-      <div className="flex min-w-0 flex-1 flex-col gap-3">
+      <div className="flex min-w-0 flex-col gap-3">
         <div className="flex flex-col gap-0.5 sm:flex-row sm:items-start sm:justify-between sm:gap-3">
           <div>
             <p className="text-[0.9375rem] leading-snug font-bold sm:text-[1.0625rem]">{product.name}</p>
@@ -28,7 +28,8 @@ export function CartLines() {
             <Ph>{formatMoney(product.price * quantity)}</Ph>
           </p>
         </div>
-        <div className="flex flex-wrap items-center gap-x-3 gap-y-1 sm:gap-x-4">
+      </div>
+      <div className="col-span-2 flex items-center gap-x-4 sm:col-span-1 sm:col-start-2">
           <QuantityStepper
             compact
             value={quantity}
@@ -44,7 +45,6 @@ export function CartLines() {
           >
             Remove
           </button>
-        </div>
       </div>
     </div>
   );
@@ -91,9 +91,9 @@ function FreeTreatLine({ count }: { count: number }) {
 
 function PaidTreatLine({ treats, setTreats }: { treats: number; setTreats: (n: number) => void }) {
   return (
-    <div className="flex gap-3 border-t border-line py-5 sm:gap-4">
+    <div className="grid grid-cols-[auto_minmax(0,1fr)] gap-x-3 gap-y-3 border-t border-line py-5 sm:gap-x-4">
       <TreatTile />
-      <div className="flex min-w-0 flex-1 flex-col gap-3">
+      <div className="flex min-w-0 flex-col gap-3">
         <div className="flex flex-col gap-0.5 sm:flex-row sm:items-start sm:justify-between sm:gap-3">
           <div>
             <p className="text-[0.9375rem] leading-snug font-bold sm:text-[1.0625rem]">{treat.name}</p>
@@ -103,7 +103,8 @@ function PaidTreatLine({ treats, setTreats }: { treats: number; setTreats: (n: n
             <Ph>{formatMoney(treat.price * treats)}</Ph>
           </p>
         </div>
-        <div className="flex flex-wrap items-center gap-x-3 gap-y-1 sm:gap-x-4">
+      </div>
+      <div className="col-span-2 flex items-center gap-x-4 sm:col-span-1 sm:col-start-2">
           <QuantityStepper
             compact
             value={treats}
@@ -119,7 +120,6 @@ function PaidTreatLine({ treats, setTreats }: { treats: number; setTreats: (n: n
           >
             Remove
           </button>
-        </div>
       </div>
     </div>
   );

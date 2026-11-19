@@ -134,7 +134,7 @@ export const otherProducts: OtherProduct[] = [
     slug: "plaid-bow-tie-collar",
     name: "Snowflake Plaid Bow Tie Collar",
     tagline: "A festive plaid collar with a snowflake bow tie, for dogs and cats.",
-    price: 1499, // [PLACEHOLDER] $14.99
+    price: 1499, // $14.99
     compareAtPrice: null,
     status: "available",
     photos: [],
@@ -236,7 +236,7 @@ export const otherProducts: OtherProduct[] = [
     slug: "snowflake-scarf",
     name: "The Snowflake Scarf", // [PLACEHOLDER]
     tagline: "A knitted winter scarf for chilly walks.", // [PLACEHOLDER]
-    price: 1499, // [PLACEHOLDER] $14.99
+    price: 1499, // $14.99
     compareAtPrice: null,
     status: "coming-soon",
     photos: ["Front view", "Snowflake pattern", "On a walk", "Folded"],

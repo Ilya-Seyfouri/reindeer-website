@@ -61,7 +61,7 @@ export default function RefundPolicyPage() {
 
       <h2>Bundles and offers</h2>
       <p>
-        Bundle offers such as &ldquo;Buy 3, Get 3 FREE&rdquo; apply to the order as a whole. If part of a bundle is
+        Bundle offers such as &ldquo;Buy 2 + FREE Treats&rdquo; apply to the order as a whole. If part of a bundle is
         returned, the offer no longer applies to the order: the costumes you keep are re-priced at the single-costume
         price, and the difference is deducted from your refund. This can mean that no refund is due.
       </p>

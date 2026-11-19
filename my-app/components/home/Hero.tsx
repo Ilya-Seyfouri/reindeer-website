@@ -133,7 +133,7 @@ function PurchaseOptions() {
             selected={quantity === bundle.quantity}
             onSelect={() => {
               setQuantity(bundle.quantity);
-              track("bundle_selected", { quantity: bundle.quantity, free: bundle.free });
+              track("bundle_selected", { quantity: bundle.quantity, freeTreats: bundle.freeTreats });
             }}
           />
         ))}
@@ -142,18 +142,18 @@ function PurchaseOptions() {
   );
 }
 
-/** Price per costume, the "was" price per costume, and the saving against it. */
-function unitPricing(quantity: number) {
-  const each = priceFor(quantity) / quantity;
-  const was = product.compareAtPrice ?? product.price;
+/** The option's price, its struck-through "was" price, and the saving against it. */
+function optionPricing(quantity: number) {
+  const each = priceFor(quantity);
+  const was = (product.compareAtPrice ?? product.price) * quantity;
   const save = Math.round((1 - each / was) * 100);
-  // Shown in whole dollars, as before cents were supported for the treat add-on
-  return { each: Math.round(each / 100) * 100, was, save };
+  return { each, was, save };
 }
 
 function Option({ bundle, selected, onSelect }: { bundle: Bundle; selected: boolean; onSelect: () => void }) {
-  const { each, was, save } = unitPricing(bundle.quantity);
-  const suffix = bundle.quantity > 1 ? " each" : "";
+  // Whole-option prices ($24.99 for the 2-pack), so they match the offer as advertised
+  const { each, was, save } = optionPricing(bundle.quantity);
+
 
   return (
     <label
@@ -199,12 +199,12 @@ function Option({ bundle, selected, onSelect }: { bundle: Bundle; selected: bool
           <s className="block text-[0.875rem] font-bold text-danger decoration-2 sm:text-[0.9375rem]">
             <span className="sr-only">Was </span>
             {formatMoney(was)}
-            {suffix}
+            
           </s>
         ) : null}
         <span className="block text-[1.0625rem] font-bold whitespace-nowrap sm:text-[1.125rem]">
           <Ph>{formatMoney(each)}</Ph>
-          {suffix}
+          
         </span>
         {save > 0 ? <span className="block text-[0.9375rem] font-bold whitespace-nowrap text-success sm:text-[1rem]">You Save {save}%</span> : null}
       </span>

@@ -7,7 +7,7 @@ import posthog from "posthog-js";
  */
 type Events = {
   /** Picked an offer in the purchase options */
-  bundle_selected: { quantity: number; free: number };
+  bundle_selected: { quantity: number; freeTreats: number };
   /** Pressed Add to cart (or Buy in the sticky bar) */
   add_to_cart_clicked: { quantity: number; sold_out: boolean };
   /** Saw the sold-out dropdown */

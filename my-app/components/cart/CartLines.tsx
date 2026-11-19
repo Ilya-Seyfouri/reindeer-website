@@ -4,9 +4,9 @@ import { useCart } from "@/components/cart/CartProvider";
 import { GiftIcon, PlusIcon } from "@/components/ui/icons";
 import { Ph, Placeholder } from "@/components/ui/Placeholder";
 import { QuantityStepper } from "@/components/ui/QuantityStepper";
-import { product, treat } from "@/config/product";
+import { bundles, product, treat } from "@/config/product";
 import { track } from "@/lib/analytics";
-import { formatMoney, freeCostumesFor, nextBundleFor, shippingFor } from "@/lib/pricing";
+import { formatMoney } from "@/lib/pricing";
 
 export function CartLines() {
   const { quantity, setQuantity, clear } = useCart();
@@ -91,10 +91,10 @@ export function TreatLine() {
   );
 }
 
-/** "Gift for a furry friend?" — offers the treat add-on until it's in the cart. */
+/** "Gift for a furry friend?" — offers the treat add-on until it's in the cart. Not shown once a 2-pack brings free treats. */
 export function TreatUpsell() {
-  const { quantity, treats, setTreats } = useCart();
-  if (quantity === 0 || treats > 0) return null;
+  const { quantity, treats, setTreats, totals } = useCart();
+  if (quantity === 0 || treats > 0 || totals.freeTreats > 0) return null;
 
   return (
     <div className="flex items-center gap-4 rounded-2xl border-2 border-dashed border-evergreen/40 bg-white p-4">
@@ -122,24 +122,25 @@ export function TreatUpsell() {
   );
 }
 
-/** "Add 1 more and save 15%" — shown while a better bundle is in reach. */
+const pair = bundles.find((b) => b.quantity === 2)!;
+
+/** "Add 1 more for just $10 and get free treats" — shown when an odd costume could make a 2-pack. */
 export function BundleNudge() {
   const { totals, add } = useCart();
-  const next = nextBundleFor(totals.quantity);
-  if (!next || totals.quantity === 0) return null;
-  const needed = next.quantity - totals.quantity;
+  if (totals.quantity % 2 === 0) return null;
+  const extra = pair.price - product.price;
 
   return (
     <div className="flex flex-col gap-3 rounded-2xl bg-fawn-soft p-4 sm:flex-row sm:items-center sm:justify-between">
       <p className="leading-snug">
         <strong>
-          Add {needed} more and get {freeCostumesFor(next.quantity)} free
-        </strong>
-        {totals.shipping > 0 && shippingFor(next.quantity) === 0 ? " plus free shipping." : "."}
+          Add 1 more for just <Ph>{formatMoney(extra)}</Ph>
+        </strong>{" "}
+        and get free {treat.name.toLowerCase()}.
         <span className="block text-base text-ink-soft">Great for a second dog or a gift.</span>
       </p>
-      <button type="button" onClick={() => add(needed)} className="btn btn-secondary min-h-12 shrink-0 px-5 text-base">
-        Add {needed} more
+      <button type="button" onClick={() => add(1)} className="btn btn-secondary min-h-12 shrink-0 px-5 text-base">
+        Add 1 more
       </button>
     </div>
   );
@@ -157,8 +158,16 @@ export function CartSummary() {
       </dd>
       {totals.discount > 0 ? (
         <>
-          <dt className="font-bold text-success">Free costumes (×{totals.free})</dt>
+          <dt className="font-bold text-success">2-pack saving</dt>
           <dd className="text-right font-bold text-success tabular-nums">−{formatMoney(totals.discount)}</dd>
+        </>
+      ) : null}
+      {totals.freeTreats > 0 ? (
+        <>
+          <dt className="font-bold text-success">
+            {treat.name} (×{totals.freeTreats}), free with your 2-pack
+          </dt>
+          <dd className="text-right font-bold text-success">Free</dd>
         </>
       ) : null}
       <dt>Shipping</dt>

@@ -26,7 +26,8 @@ import { cartTotals } from "@/lib/pricing";
  *         ? [{ quantity: treats, price_data: { currency: "usd", unit_amount: treat.price, product_data: { name: treat.name } } }]
  *         : []),
  *     ],
- *     // Free costumes from the Buy 2 Get 1 / Buy 3 Get 3 deals, as a one-off amount off:
+ *     // The 2-pack saving ($24.99 per pair instead of 2 x $14.99), as a one-off amount off.
+ *     // Also add totals.freeTreats bags of treats to the order for packing (no charge):
  *     discounts: totals.discount > 0
  *       ? [{ coupon: (await stripe.coupons.create({ amount_off: totals.discount, currency: "usd", duration: "once" })).id }]
  *       : undefined,

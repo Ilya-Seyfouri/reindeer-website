@@ -19,30 +19,21 @@ export function formatMoney(cents: number) {
   return rounded % 100 === 0 ? wholeDollars.format(rounded / 100) : withCents.format(rounded / 100);
 }
 
-const largestFirst = [...bundles].sort((a, b) => b.quantity - a.quantity);
-const smallestFirst = [...bundles].sort((a, b) => a.quantity - b.quantity);
+const pair = bundles.find((b) => b.quantity === 2)!;
 
-/** Free costumes earned by a cart of this size, using the biggest deals first. */
-export function freeCostumesFor(quantity: number) {
-  let free = 0;
-  let left = quantity;
-  for (const bundle of largestFirst) {
-    if (bundle.free === 0) continue;
-    free += Math.floor(left / bundle.quantity) * bundle.free;
-    left %= bundle.quantity;
-  }
-  return free;
+/** Costume pairs in the cart: every pair gets the 2-pack price. */
+export function pairsFor(quantity: number) {
+  return Math.floor(quantity / 2);
 }
 
-/** The next deal the shopper could reach, for "add 2 more and get 1 free" nudges. */
-export function nextBundleFor(quantity: number) {
-  const current = freeCostumesFor(quantity);
-  return smallestFirst.find((b) => b.quantity > quantity && freeCostumesFor(b.quantity) > current);
+/** Bags of treats included free: one with every 2-pack. */
+export function freeTreatsFor(quantity: number) {
+  return pairsFor(quantity) * pair.freeTreats;
 }
 
-/** Price of N costumes after free ones are taken off (no shipping). */
+/** What the shopper pays for this many costumes: $24.99 per pair, $14.99 for an odd one out. */
 export function priceFor(quantity: number) {
-  return (quantity - freeCostumesFor(quantity)) * product.price;
+  return pairsFor(quantity) * pair.price + (quantity % 2) * product.price;
 }
 
 export function shippingFor(quantity: number) {
@@ -53,15 +44,15 @@ export function shippingFor(quantity: number) {
 /** Totals for a cart of costumes plus treat add-ons. Treats don't affect the deals or shipping. */
 export function cartTotals(quantity: number, treats = 0) {
   const subtotal = product.price * quantity;
-  const free = freeCostumesFor(quantity);
-  const discount = free * product.price;
+  const discount = subtotal - priceFor(quantity);
+  const freeTreats = freeTreatsFor(quantity);
   const shippingCost = shippingFor(quantity);
   const treatsTotal = treat.price * treats;
   return {
     quantity,
     treats,
     subtotal,
-    free,
+    freeTreats,
     discount,
     treatsTotal,
     shipping: shippingCost,

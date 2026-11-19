@@ -647,6 +647,10 @@ dialog.drawer.drawer-left[open] {
   dialog.drawer.drawer-left {
     width: 70vw;
   }
+  /* The cart slides in from the right and takes 75% */
+  dialog.drawer:not(.drawer-left) {
+    width: 75vw;
+  }
 }
 @starting-style {
   dialog.drawer.drawer-left[open] {

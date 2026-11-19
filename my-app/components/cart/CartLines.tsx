@@ -14,17 +14,17 @@ export function CartLines() {
   if (quantity === 0) return null;
 
   return (
-    <div className="flex gap-4 py-5">
-      <div className="w-[5.5rem] shrink-0 overflow-hidden rounded-xl sm:w-24">
+    <div className="flex gap-3 py-5 sm:gap-4">
+      <div className="w-[4.25rem] shrink-0 self-start overflow-hidden rounded-xl sm:w-24">
         <Placeholder label="CART THUMBNAIL" ratio="1:1" compact />
       </div>
       <div className="flex min-w-0 flex-1 flex-col gap-3">
         <div className="flex items-start justify-between gap-3">
           <div>
-            <p className="font-bold leading-snug">{product.name}</p>
-            <p className="text-base text-ink-soft">One size · adjustable fit</p>
+            <p className="text-[0.9375rem] leading-snug font-bold sm:text-[1.0625rem]">{product.name}</p>
+            <p className="text-[0.875rem] text-ink-soft sm:text-base">One size · adjustable fit</p>
           </div>
-          <p className="shrink-0 font-bold tabular-nums">
+          <p className="shrink-0 text-[0.9375rem] font-bold tabular-nums sm:text-[1.0625rem]">
             <Ph>{formatMoney(product.price * quantity)}</Ph>
           </p>
         </div>
@@ -65,8 +65,8 @@ export function TreatLine() {
 
 function TreatTile() {
   return (
-    <div className="grid w-[5.5rem] shrink-0 place-items-center rounded-xl bg-fawn-soft text-caramel aspect-square sm:w-24">
-      <TreatArt className="treat-wiggle size-16 sm:size-[4.5rem]" />
+    <div className="grid w-[4.25rem] shrink-0 self-start place-items-center rounded-xl bg-fawn-soft text-caramel aspect-square sm:w-24">
+      <TreatArt className="treat-wiggle size-12 sm:size-[4.5rem]" />
     </div>
   );
 }
@@ -74,12 +74,12 @@ function TreatTile() {
 /** The treat(s) that come free: one with each 2-pack. */
 function FreeTreatLine({ count }: { count: number }) {
   return (
-    <div className="flex gap-4 border-t border-line py-5">
+    <div className="flex gap-3 border-t border-line py-5 sm:gap-4">
       <TreatTile />
       <div className="flex min-w-0 flex-1 items-start justify-between gap-3">
         <div>
-          <p className="font-bold leading-snug">{treat.name}</p>
-          <p className="text-base text-ink-soft">
+          <p className="text-[0.9375rem] leading-snug font-bold sm:text-[1.0625rem]">{treat.name}</p>
+          <p className="text-[0.875rem] text-ink-soft sm:text-base">
             Free with your 2-pack{count > 1 ? ` (×${count})` : ""}
           </p>
         </div>
@@ -91,13 +91,13 @@ function FreeTreatLine({ count }: { count: number }) {
 
 function PaidTreatLine({ treats, setTreats }: { treats: number; setTreats: (n: number) => void }) {
   return (
-    <div className="flex gap-4 border-t border-line py-5">
+    <div className="flex gap-3 border-t border-line py-5 sm:gap-4">
       <TreatTile />
       <div className="flex min-w-0 flex-1 flex-col gap-3">
         <div className="flex items-start justify-between gap-3">
           <div>
-            <p className="font-bold leading-snug">{treat.name}</p>
-            <p className="text-base text-ink-soft">Gift add-on</p>
+            <p className="text-[0.9375rem] leading-snug font-bold sm:text-[1.0625rem]">{treat.name}</p>
+            <p className="text-[0.875rem] text-ink-soft sm:text-base">Gift add-on</p>
           </div>
           <p className="shrink-0 font-bold tabular-nums">
             <Ph>{formatMoney(treat.price * treats)}</Ph>
@@ -183,7 +183,7 @@ export function BundleNudge() {
 export function CartSummary() {
   const { totals } = useCart();
   return (
-    <dl className="grid grid-cols-[1fr_auto] gap-x-4 gap-y-2 text-[1.0625rem]">
+    <dl className="grid grid-cols-[1fr_auto] gap-x-3 gap-y-2 text-[0.9375rem] sm:gap-x-4 sm:text-[1.0625rem]">
       <dt>
         Subtotal ({totals.quantity} {totals.quantity === 1 ? "costume" : "costumes"})
       </dt>

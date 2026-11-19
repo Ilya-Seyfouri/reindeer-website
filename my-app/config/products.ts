@@ -15,6 +15,10 @@ import collarChristmas from "@/app/images/collar-christmas.webp";
 import collarGreen from "@/app/images/collar-green.webp";
 import collarRed from "@/app/images/collar-red.webp";
 import collarSizes from "@/app/images/collar-sizes.webp";
+import hat from "@/app/images/hat.webp";
+import hatCollie from "@/app/images/hat-collie.webp";
+import hatDogCat from "@/app/images/hat-dog-cat.webp";
+import hatSize from "@/app/images/hat-size.webp";
 import ropeToy from "@/app/images/rope-toy.webp";
 import ropeToyGift from "@/app/images/rope-toy-gift.webp";
 import ropeToyPuppy from "@/app/images/rope-toy-puppy.webp";
@@ -232,6 +236,43 @@ export const otherProducts: OtherProduct[] = [
         q: "Which dogs is it for?",
         a: "Sized for small and medium dogs. Like any toy, supervise play and take it away if it becomes worn or frayed.",
       },
+      { icon: "truck", q: "Shipping", a: "Free shipping on every order, like everything in our shop." },
+    ],
+  },
+  {
+    slug: "plush-santa-hat",
+    name: "Plush Santa Hat for Dogs & Cats",
+    tagline: "The cutest finishing touch for Christmas photos, parties and cosy nights in.",
+    price: 999, // $9.99
+    compareAtPrice: null,
+    status: "available",
+    photos: [],
+    images: [
+      { src: hatCollie, alt: "Border collie wearing the red plush Santa hat" },
+      { src: hatDogCat, alt: "French bulldog and grey kitten both wearing the Santa hat" },
+      { src: hat, alt: "The red plush Santa hat with a white trim and pom-pom" },
+      { src: hatSize, alt: "The Santa hat measures 20 cm (7.87 in) tall and 14 cm (5.51 in) wide" },
+    ],
+    options: { colors: [], sizes: [], maxQuantity: 10 },
+    highlights: [
+      { icon: "feather", strong: "Ultra-soft plush", light: "comfy for long wear" },
+      { icon: "paw", strong: "Fits most dogs & cats", light: "flexible shape" },
+      { icon: "shield", strong: "Pet-safe material", light: "no harmful chemicals" },
+    ],
+    description:
+      "Turn every Christmas photo into a favourite. This classic Santa hat is made from ultra-soft red plush with a fluffy white trim and pom-pom, so it looks festive and feels cosy. The flexible shape sits snugly on most dogs and cats, making it perfect for holiday parties, family photos and Christmas morning.",
+    details: [
+      {
+        icon: "ruler",
+        q: "Size and fit",
+        a: "20 cm (7.87 in) tall and 14 cm (5.51 in) wide at the base. The soft, flexible shape adapts to different head shapes and fits most dogs and cats.",
+      },
+      {
+        icon: "shield",
+        q: "Materials and safety",
+        a: "Ultra-soft plush fabric made without high-concern chemicals, gentle enough for sensitive pets. Supervise your pet while they wear it.",
+      },
+      { icon: "package", q: "What's in the box?", a: "One Santa hat." },
       { icon: "truck", q: "Shipping", a: "Free shipping on every order, like everything in our shop." },
     ],
   },

@@ -57,7 +57,7 @@ type FormState = { kind: "idle" } | { kind: "sending" } | { kind: "joined"; emai
  * the next drop and a one-field waiting-list sign-up.
  */
 export function SoldOutPanel({ open, nextDropAt }: { open: boolean; nextDropAt: string | null }) {
-  const { ended, time } = useCountdown(open, nextDropAt);
+  const { ended } = useCountdown(open, nextDropAt);
 
   useEffect(() => {
     if (open) track("sold_out_viewed", { restocking: ended });
@@ -97,12 +97,6 @@ export function SoldOutPanel({ open, nextDropAt }: { open: boolean; nextDropAt: 
   }
 
   // Short labels fit the four boxes on the narrowest phones.
-  const units = [
-    { value: time?.days, label: "Days", short: "Days" },
-    { value: time?.hours, label: "Hours", short: "Hours" },
-    { value: time?.minutes, label: "Minutes", short: "Mins" },
-    { value: time?.seconds, label: "Seconds", short: "Secs" },
-  ];
 
   return (
     <div
@@ -211,43 +205,12 @@ export function SoldOutPanel({ open, nextDropAt }: { open: boolean; nextDropAt: 
               )}
             </div>
 
-            <p className="mx-auto mt-5 max-w-[34ch] text-center text-ink-soft">
-                {ended
-                  ? "The next drop is on its way. Join the list and we’ll email you the moment it’s live."
-                  : "The next drop goes live in"}
+            {/* The countdown itself lives on the red Sold out button, so it isn't repeated here */}
+            {ended ? (
+              <p className="mx-auto mt-5 max-w-[34ch] text-center text-ink-soft">
+                The next drop is on its way. Join the list and we’ll email you the moment it’s live.
               </p>
-
-            {ended ? null : (
-              <div
-                role="timer"
-                aria-live="off"
-                aria-label={
-                  time
-                    ? `Next drop in ${time.days} days, ${time.hours} hours and ${time.minutes} minutes`
-                    : "Next drop countdown"
-                }
-                className="mt-4 flex items-start justify-center gap-1 min-[400px]:gap-2 sm:gap-3"
-              >
-                {units.map((unit, i) => (
-                  <div key={unit.label} className="flex items-start gap-1 min-[400px]:gap-2 sm:gap-3">
-                    {i > 0 ? (
-                      <span aria-hidden="true" className="pt-2.5 font-display text-[1.75rem] leading-none text-caramel-deep">
-                        :
-                      </span>
-                    ) : null}
-                    <div className="flex w-[clamp(2.75rem,13.5vw,4.5rem)] flex-col items-center sm:w-[4.5rem]">
-                      <span className="grid h-16 w-full place-items-center rounded-xl bg-white font-display text-[1.75rem] leading-none tabular-nums shadow-[inset_0_0_0_1.5px_var(--color-line)] min-[400px]:text-[2.25rem] sm:h-[4.5rem] sm:text-[2.5rem]">
-                        {unit.value !== undefined ? pad(unit.value) : "--"}
-                      </span>
-                      <span className="mt-1.5 text-[0.875rem] font-bold text-ink-soft">
-                        <span className="min-[400px]:hidden">{unit.short}</span>
-                        <span className="hidden min-[400px]:inline">{unit.label}</span>
-                      </span>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            )}
+            ) : null}
 
           </section>
         </div>

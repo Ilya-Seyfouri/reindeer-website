@@ -311,7 +311,7 @@ export const otherProducts: OtherProduct[] = [
     images: [
       { src: knitFrenchie, alt: "French bulldog by the fire wearing the red fair isle Christmas sweater" },
       { src: knitCat, alt: "White cat wearing the red fair isle Christmas sweater" },
-      { src: knitRange, alt: "The knit sweaters laid out, including the red and the navy and cream designs" },
+      { src: knitRange, alt: "The blue and red knit sweaters side by side" },
       {
         src: knitSizes,
         alt: "Size chart: S 22 cm back, M 26 cm, L 32 cm, XL 35 cm, XXL 40 cm, with neck, leg spacing and weight for each",

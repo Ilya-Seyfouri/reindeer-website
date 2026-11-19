@@ -364,14 +364,6 @@ export const otherProducts: OtherProduct[] = [
     reviews: [
       {
         rating: 5,
-        date: "2026-01-26",
-        author: "M***o",
-        variant: "Colour: Blue · Size: M",
-        text: "I liked it a lot, it's warm, well-made, the fabric doesn't distort or stretch too much, and it has cuffs. Same as advertised in terms of colour and measurements, although I made a mistake by choosing size M; I should have chosen L. My fault, it turned out a bit tight, considering that it doesn't stretch much. My dog weighs almost 2 kg. I bought it in the two available colours. I recommend.",
-        photos: [], // [ADD] the 3 photos from this review
-      },
-      {
-        rating: 5,
         date: "2026-01-20",
         author: "Shopper",
         variant: "Colour: Red · Size: M",

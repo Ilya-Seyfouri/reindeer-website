@@ -6,7 +6,7 @@ import { useState } from "react";
 import { useCart } from "@/components/cart/CartProvider";
 import { Logo } from "@/components/layout/Logo";
 import { Drawer } from "@/components/ui/Drawer";
-import { ArrowRightIcon, BagIcon, BoneIcon, DogBowlIcon, DogFaceIcon, DogHouseIcon, MenuIcon, SparkleIcon } from "@/components/ui/icons";
+import { BagIcon, BoneIcon, DogBowlIcon, DogFaceIcon, DogHouseIcon, MenuIcon, SparkleIcon } from "@/components/ui/icons";
 import { site } from "@/config/product";
 
 const nav = [
@@ -112,12 +112,13 @@ export function Header() {
                   className="flex min-h-16 items-center justify-between text-[1.375rem] text-ink-soft aria-[current=page]:font-bold aria-[current=page]:text-ink"
                 >
                   {item.label}
-                  <ArrowRightIcon size={22} className="text-caramel-deep" />
+                  {/* Same dog icons as the desktop nav */}
+                  <item.Icon size={24} className="shrink-0 text-caramel" />
                 </Link>
               </li>
             ))}
           </ul>
-          <Link href="/#buy" onClick={() => setMenuOpen(false)} className="btn btn-primary btn-lg mt-4 mb-8 w-full">
+          <Link href="/#buy" onClick={() => setMenuOpen(false)} className="btn btn-primary btn-lg mt-4 mb-8 w-full px-4 whitespace-nowrap">
             Shop the costume
           </Link>
         </nav>

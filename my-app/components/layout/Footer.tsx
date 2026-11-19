@@ -2,7 +2,6 @@ import Link from "next/link";
 import { Logo } from "@/components/layout/Logo";
 import { PaymentIcons } from "@/components/layout/PaymentIcons";
 import { Snowfall } from "@/components/layout/Snowfall";
-import { ClockIcon, FeatherIcon, LockIcon, MailIcon, ReturnIcon, ShieldIcon, TruckIcon } from "@/components/ui/icons";
 import { ForestSkyline } from "@/components/ui/Prints";
 import { site } from "@/config/product";
 
@@ -10,19 +9,19 @@ const groups = [
   {
     title: "Help",
     links: [
-      { href: "/track", label: "Track your order", Icon: TruckIcon },
-      { href: "/returns", label: "Start a return", Icon: ReturnIcon },
-      { href: "/contact", label: "Contact us", Icon: MailIcon },
-      { href: "/waiting-list", label: "Waiting list", Icon: ClockIcon },
-      { href: "/#faq", label: "FAQ", Icon: FeatherIcon },
+      { href: "/track", label: "Track your order" },
+      { href: "/returns", label: "Start a return" },
+      { href: "/contact", label: "Contact us" },
+      { href: "/waiting-list", label: "Waiting list" },
+      { href: "/#faq", label: "FAQ" },
     ],
   },
   {
     title: "Policies",
     links: [
-      { href: "/refund-policy", label: "Refund policy", Icon: ReturnIcon },
-      { href: "/terms", label: "Terms of service", Icon: ShieldIcon },
-      { href: "/privacy", label: "Privacy policy", Icon: LockIcon },
+      { href: "/refund-policy", label: "Refund policy" },
+      { href: "/terms", label: "Terms of service" },
+      { href: "/privacy", label: "Privacy policy" },
     ],
   },
 ];
@@ -51,9 +50,8 @@ export function Footer() {
                 <li key={link.href}>
                   <Link
                     href={link.href}
-                    className="inline-flex min-h-12 items-center gap-2 text-white max-md:text-base max-md:leading-snug md:gap-2.5 underline decoration-transparent decoration-2 underline-offset-4 transition-colors hover:decoration-fawn"
+                    className="inline-flex min-h-12 items-center text-white underline decoration-transparent decoration-2 underline-offset-4 transition-colors hover:decoration-fawn"
                   >
-                    <link.Icon size={18} className="shrink-0 text-fawn" aria-hidden="true" />
                     {link.label}
                   </Link>
                 </li>

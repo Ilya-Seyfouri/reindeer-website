@@ -236,7 +236,7 @@ export const otherProducts: OtherProduct[] = [
     slug: "snowflake-scarf",
     name: "The Snowflake Scarf", // [PLACEHOLDER]
     tagline: "A knitted winter scarf for chilly walks.", // [PLACEHOLDER]
-    price: 1499, // $14.99
+    price: 1499, // [PLACEHOLDER] $14.99
     compareAtPrice: null,
     status: "coming-soon",
     photos: ["Front view", "Snowflake pattern", "On a walk", "Folded"],

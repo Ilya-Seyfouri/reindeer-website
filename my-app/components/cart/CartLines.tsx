@@ -84,9 +84,11 @@ export function ItemLines() {
                 <p className="text-[0.875rem] text-ink-soft sm:text-base">
                   {color?.name} · Size {size?.name}
                 </p>
-                <p className="text-[0.875rem] break-words text-ink-soft sm:text-base">
-                  Name: <strong className="text-ink">{item.name}</strong>
-                </p>
+                {item.name ? (
+                  <p className="text-[0.875rem] break-words text-ink-soft sm:text-base">
+                    Name: <strong className="text-ink">{item.name}</strong>
+                  </p>
+                ) : null}
               </div>
               <p className="shrink-0 text-[0.9375rem] font-bold tabular-nums sm:text-[1.0625rem]">
                 <Ph>{formatMoney(itemPrice(item))}</Ph>
@@ -98,7 +100,7 @@ export function ItemLines() {
                 value={item.quantity}
                 min={1}
                 max={o.maxQuantity}
-                label={`Quantity of ${p.name} for ${item.name}`}
+                label={item.name ? `Quantity of ${p.name} for ${item.name}` : `Quantity of ${p.name}`}
                 onChange={(n) => setItemQuantity(key, n)}
               />
               <button

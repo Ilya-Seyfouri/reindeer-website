@@ -30,7 +30,7 @@ export function ProductPurchase({ product, intro, outro }: Props) {
   const id = useId();
 
   const [color, setColor] = useState(o.colors[0]!.id);
-  const [photo, setPhoto] = useState(o.colors[0]!.image ?? 0);
+  const [photo, setPhoto] = useState(0);
   const [size, setSize] = useState<string | null>(null);
   const [name, setName] = useState("");
   const [quantity, setQuantity] = useState(1);
@@ -39,7 +39,7 @@ export function ProductPurchase({ product, intro, outro }: Props) {
   const colorName = o.colors.find((c) => c.id === color)?.name;
   const trimmed = name.trim();
   const sizeMissing = tried && !size;
-  const nameMissing = tried && !trimmed;
+  const nameMissing = tried && !!o.personalise && !trimmed;
   const main = images[photo] ?? images[0];
 
   function pickColor(next: string) {
@@ -50,11 +50,11 @@ export function ProductPurchase({ product, intro, outro }: Props) {
 
   function add() {
     setTried(true);
-    if (!size || !trimmed) {
+    if (!size || (o.personalise && !trimmed)) {
       document.getElementById(!size ? `${id}-size` : `${id}-name`)?.focus();
       return;
     }
-    addItem({ slug: product.slug, color, size, name: trimmed, quantity });
+    addItem({ slug: product.slug, color, size, name: o.personalise ? trimmed : "", quantity });
     track("item_added", { slug: product.slug, color, size, quantity });
     setTried(false);
     setName("");
@@ -160,7 +160,7 @@ export function ProductPurchase({ product, intro, outro }: Props) {
           ) : null}
         </fieldset>
 
-        {o.sizes.some((z) => z.chest) ? (
+        {o.sizeGuide ? (
           <details className="group mt-3">
             <summary className="inline-flex min-h-11 cursor-pointer items-center gap-2 font-bold text-caramel-deep underline decoration-2 underline-offset-4 [&::-webkit-details-marker]:hidden">
               <RulerIcon size={20} />
@@ -172,26 +172,30 @@ export function ProductPurchase({ product, intro, outro }: Props) {
                 <thead className="bg-fawn-soft">
                   <tr>
                     <th scope="col" className="py-2.5 pl-3 font-bold">Size</th>
-                    <th scope="col" className="py-2.5 font-bold">Chest</th>
-                    <th scope="col" className="py-2.5 font-bold">Back</th>
-                    <th scope="col" className="py-2.5 pr-3 font-bold">Weight</th>
+                    {o.sizeGuide.columns.map((c, i, all) => (
+                      <th key={c} scope="col" className={`py-2.5 font-bold ${i === all.length - 1 ? "pr-3" : ""}`}>
+                        {c}
+                      </th>
+                    ))}
                   </tr>
                 </thead>
                 <tbody>
                   {o.sizes.map((z) => (
                     <tr key={z.id} className={`border-t border-line ${z.id === size ? "bg-fawn-soft/60 font-bold" : ""}`}>
                       <th scope="row" className="py-2.5 pl-3 font-bold">{z.name}</th>
-                      <td className="py-2.5">{z.chest}</td>
-                      <td className="py-2.5">{z.back}</td>
-                      <td className="py-2.5 pr-3 whitespace-nowrap">{z.weight}</td>
+                      {(z.measures ?? []).map((m, i, all) => (
+                        <td key={i} className={`py-2.5 whitespace-nowrap ${i === all.length - 1 ? "pr-3" : ""}`}>
+                          {m}
+                        </td>
+                      ))}
                     </tr>
                   ))}
                 </tbody>
               </table>
             </div>
-            {o.sizeTips ? (
+            {o.sizeGuide.tips ? (
               <ul className="mt-3 flex list-disc flex-col gap-1 pl-5 text-base text-ink-soft">
-                {o.sizeTips.map((tip) => (
+                {o.sizeGuide.tips.map((tip) => (
                   <li key={tip}>{tip}</li>
                 ))}
               </ul>
@@ -199,7 +203,8 @@ export function ProductPurchase({ product, intro, outro }: Props) {
           </details>
         ) : null}
 
-        {/* Pet name */}
+        {/* Pet name, for personalised products */}
+        {o.personalise ? (
         <div className="mt-6">
           <div className="flex items-baseline justify-between gap-3">
             <label htmlFor={`${id}-name`} className="font-bold">
@@ -213,7 +218,7 @@ export function ProductPurchase({ product, intro, outro }: Props) {
             id={`${id}-name`}
             type="text"
             value={name}
-            onChange={(e) => setName(cleanPetName(e.target.value, o.personalise.maxLength))}
+            onChange={(e) => setName(cleanPetName(e.target.value, o.personalise?.maxLength ?? 0))}
             maxLength={o.personalise.maxLength}
             autoComplete="off"
             autoCapitalize="words"
@@ -234,6 +239,7 @@ export function ProductPurchase({ product, intro, outro }: Props) {
             </p>
           ) : null}
         </div>
+        ) : null}
 
         {/* Price + quantity */}
         <div className="mt-7 flex items-center justify-between gap-4 rounded-xl border-2 border-cocoa bg-fawn-soft px-4 py-4 sm:px-6">
@@ -254,10 +260,12 @@ export function ProductPurchase({ product, intro, outro }: Props) {
           <BagIcon size={22} />
           Add to cart
         </button>
-        <p className="mt-3 flex items-center justify-center gap-2 text-center text-base text-ink-soft">
-          <CheckIcon size={18} className="text-success" />
-          Made to order with your pet&rsquo;s name
-        </p>
+        {o.personalise ? (
+          <p className="mt-3 flex items-center justify-center gap-2 text-center text-base text-ink-soft">
+            <CheckIcon size={18} className="text-success" />
+            Made to order with your pet&rsquo;s name
+          </p>
+        ) : null}
 
         {outro}
       </div>

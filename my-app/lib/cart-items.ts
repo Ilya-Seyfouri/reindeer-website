@@ -26,9 +26,9 @@ export function cleanItems(value: unknown): CartItem[] {
     if (!p || !o) continue;
     const color = String(raw?.color);
     const size = String(raw?.size);
-    const name = cleanPetName(String(raw?.name ?? ""), o.personalise.maxLength).trim();
+    const name = o.personalise ? cleanPetName(String(raw?.name ?? ""), o.personalise.maxLength).trim() : "";
     const quantity = clamp(raw?.quantity, o.maxQuantity);
-    if (!o.colors.some((c) => c.id === color) || !o.sizes.some((z) => z.id === size) || !name || quantity === 0) continue;
+    if (!o.colors.some((c) => c.id === color) || !o.sizes.some((z) => z.id === size) || (o.personalise && !name) || quantity === 0) continue;
     const item = { slug: p.slug, color, size, name, quantity };
     const same = out.find((x) => itemKey(x) === itemKey(item));
     if (same) same.quantity = Math.min(o.maxQuantity, same.quantity + quantity);

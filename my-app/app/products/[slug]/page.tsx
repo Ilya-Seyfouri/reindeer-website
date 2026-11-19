@@ -14,6 +14,7 @@ import {
   ReturnIcon,
   RulerIcon,
   ShieldIcon,
+  SnowflakeIcon,
   TruckIcon,
   WashIcon,
 } from "@/components/ui/icons";
@@ -36,6 +37,7 @@ const icons: Record<HighlightIcon, typeof ClockIcon> = {
   package: PackageIcon,
   truck: TruckIcon,
   leaf: LeafIcon,
+  snowflake: SnowflakeIcon,
 };
 
 export function generateStaticParams() {

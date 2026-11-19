@@ -10,12 +10,16 @@
  */
 
 import type { StaticImageData } from "next/image";
+import collarBoth from "@/app/images/collar-both.webp";
+import collarGreen from "@/app/images/collar-green.webp";
+import collarRed from "@/app/images/collar-red.webp";
+import collarSizes from "@/app/images/collar-sizes.webp";
 import sweaterBack from "@/app/images/sweater-back.webp";
 import sweaterGreen from "@/app/images/sweater-green.webp";
 import sweaterPair from "@/app/images/sweater-pair.webp";
 import sweaterRed from "@/app/images/sweater-red.webp";
 
-export type HighlightIcon = "clock" | "paw" | "wash" | "feather" | "ruler" | "shield" | "package" | "truck" | "leaf";
+export type HighlightIcon = "clock" | "paw" | "wash" | "feather" | "ruler" | "shield" | "package" | "truck" | "leaf" | "snowflake";
 
 export type OtherProduct = {
   /** The page address: /products/{slug} */
@@ -42,12 +46,12 @@ export type OtherProduct = {
 export type ProductOptions = {
   /** Each colour can point at the photo to show when it's picked (index into images) */
   colors: { id: string; name: string; swatch: string; image?: number }[];
-  /** Measurements are shown in the size guide under the size buttons */
-  sizes: { id: string; name: string; chest?: string; back?: string; weight?: string }[];
-  /** Tips shown under the size guide table */
-  sizeTips?: string[];
-  /** A free-text box, e.g. the pet's name stitched on the front */
-  personalise: { label: string; hint: string; maxLength: number };
+  /** measures line up with sizeGuide.columns */
+  sizes: { id: string; name: string; measures?: string[] }[];
+  /** A table under the size buttons, plus measuring tips */
+  sizeGuide?: { columns: string[]; tips?: string[] };
+  /** A free-text box, e.g. the pet's name stitched on. Leave out for products without one. */
+  personalise?: { label: string; hint: string; maxLength: number };
   maxQuantity: number;
 };
 
@@ -72,19 +76,22 @@ export const otherProducts: OtherProduct[] = [
         { id: "red", name: "Red", swatch: "oklch(0.55 0.2 25)", image: 1 },
       ],
       sizes: [
-        { id: "xs", name: "XS", chest: "12.6 in", back: "7.9 in", weight: "1–3 lb" },
-        { id: "s", name: "S", chest: "14.6 in", back: "9.8 in", weight: "3–5 lb" },
-        { id: "m", name: "M", chest: "16.5 in", back: "11.8 in", weight: "5–8 lb" },
-        { id: "l", name: "L", chest: "18.5 in", back: "13.8 in", weight: "8–11 lb" },
-        { id: "xl", name: "XL", chest: "20.5 in", back: "15.7 in", weight: "11–15 lb" },
-        { id: "xxl", name: "XXL", chest: "22.4 in", back: "17.7 in", weight: "15–20 lb" },
+        { id: "xs", name: "XS", measures: ["12.6 in", "7.9 in", "1–3 lb"] },
+        { id: "s", name: "S", measures: ["14.6 in", "9.8 in", "3–5 lb"] },
+        { id: "m", name: "M", measures: ["16.5 in", "11.8 in", "5–8 lb"] },
+        { id: "l", name: "L", measures: ["18.5 in", "13.8 in", "8–11 lb"] },
+        { id: "xl", name: "XL", measures: ["20.5 in", "15.7 in", "11–15 lb"] },
+        { id: "xxl", name: "XXL", measures: ["22.4 in", "17.7 in", "15–20 lb"] },
       ],
-      sizeTips: [
-        "Chest: measure around the widest part of your pet's chest.",
-        "Back length: measure from the base of the neck to the base of the tail.",
-        "Weight is a guide only, as every pet is a different shape.",
-        "Between sizes? Pick the larger one for a comfier fit.",
-      ],
+      sizeGuide: {
+        columns: ["Chest", "Back", "Weight"],
+        tips: [
+          "Chest: measure around the widest part of your pet's chest.",
+          "Back length: measure from the base of the neck to the base of the tail.",
+          "Weight is a guide only, as every pet is a different shape.",
+          "Between sizes? Pick the larger one for a comfier fit.",
+        ],
+      },
       personalise: {
         label: "Your pet's name",
         hint: "Chain-stitched onto the sweater. Please double-check the spelling.",
@@ -119,6 +126,66 @@ export const otherProducts: OtherProduct[] = [
         icon: "package",
         q: "A perfect Christmas gift",
         a: "A thoughtful present for dog moms, cat moms, pet lovers and Christmas-loving families, and lovely for festive family photos.",
+      },
+      { icon: "truck", q: "Shipping", a: "Free shipping on every order, like everything in our shop." },
+    ],
+  },
+  {
+    slug: "plaid-bow-tie-collar",
+    name: "Snowflake Plaid Bow Tie Collar",
+    tagline: "A festive plaid collar with a snowflake bow tie, for dogs and cats.",
+    price: 1499, // [PLACEHOLDER] $14.99
+    compareAtPrice: null,
+    status: "available",
+    photos: [],
+    images: [
+      { src: collarBoth, alt: "Chocolate Labrador in the red plaid bow tie collar, next to the red and green collars" },
+      { src: collarRed, alt: "Yellow Labrador on the grass wearing the red plaid bow tie collar" },
+      { src: collarGreen, alt: "Labrador puppy wearing a green snowflake bow tie collar" },
+      { src: collarSizes, alt: "Size chart: S 1.5 cm wide fits 25 to 35 cm, M 2 cm fits 30 to 40 cm, L 2.5 cm fits 40 to 50 cm, XL 3 cm fits 50 to 60 cm" },
+    ],
+    options: {
+      colors: [
+        { id: "red", name: "Red", swatch: "oklch(0.55 0.2 25)", image: 1 },
+        { id: "green", name: "Green", swatch: "oklch(0.45 0.11 155)", image: 2 },
+      ],
+      sizes: [
+        { id: "s", name: "S", measures: ["1.5 cm", "25–35 cm (10–14 in)"] },
+        { id: "m", name: "M", measures: ["2 cm", "30–40 cm (12–16 in)"] },
+        { id: "l", name: "L", measures: ["2.5 cm", "40–50 cm (16–20 in)"] },
+        { id: "xl", name: "XL", measures: ["3 cm", "50–60 cm (20–24 in)"] },
+      ],
+      sizeGuide: {
+        columns: ["Width", "Fits neck"],
+        tips: [
+          "Measure around your pet's neck where the collar sits, then add two fingers' width for comfort.",
+          "Between sizes? Pick the larger one: the buckle adjusts down.",
+        ],
+      },
+      maxQuantity: 10,
+    },
+    highlights: [
+      { icon: "snowflake", strong: "Festive plaid", light: "snowflake bow tie" },
+      { icon: "clock", strong: "Quick-release buckle", light: "on and off in seconds" },
+      { icon: "paw", strong: "Sizes S to XL", light: "for small to large dogs and cats" },
+    ],
+    description:
+      "Dress your pet up for the holidays with this Christmas plaid collar and matching bow tie, printed with little white snowflakes. Strong nylon webbing, an adjustable quick-release buckle and a metal D-ring for the lead make it as practical as it is cute. Perfect for Christmas photos, parties and festive walks.",
+    details: [
+      {
+        icon: "leaf",
+        q: "Materials and design",
+        a: "Nylon webbing with a plaid fabric cover and a matching bow tie, an adjustable quick-release buckle and a metal D-ring for attaching a lead or ID tag.",
+      },
+      {
+        icon: "ruler",
+        q: "Which size should I pick?",
+        a: "Measure around your pet's neck where the collar sits and check the size guide above. Each size adjusts across a 10 cm range, so pick the one your measurement falls inside.",
+      },
+      {
+        icon: "package",
+        q: "A perfect Christmas gift",
+        a: "A cheerful stocking filler for dog and cat lovers, and lovely for festive family photos.",
       },
       { icon: "truck", q: "Shipping", a: "Free shipping on every order, like everything in our shop." },
     ],

@@ -47,7 +47,8 @@ export function Hero() {
         <div className="flex min-w-0 flex-col">
           <a
             href="#reviews"
-            className="enter inline-flex w-fit flex-wrap items-center gap-x-2.5 gap-y-1 rounded-md py-1"
+            // One line on phones: slightly smaller stars and text until there's room
+            className="enter inline-flex w-fit items-center gap-x-2 rounded-md py-1 text-[0.875rem] whitespace-nowrap sm:gap-x-2.5 sm:text-base [&_svg]:size-[17px] sm:[&_svg]:size-5"
             style={{ "--i": 1 } as React.CSSProperties}
           >
             <Stars rating={product.rating} />

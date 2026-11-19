@@ -50,9 +50,9 @@ export type Bundle = {
   quantity: number;
   /** Price for the whole bundle, in cents */
   price: number;
-  /** Bags of gourmet treats included free */
+  /** Gourmet dog treats included free */
   freeTreats: number;
-  /** Shown as the option title, e.g. "Buy 2 + FREE Treats" */
+  /** Shown as the option title, e.g. "Buy 2 + FREE Dog Treat" */
   title: string;
   /** Short line under the title */
   note: string;
@@ -150,10 +150,10 @@ const dollars = (cents: number) => `$${(cents / 100).toFixed(2)}`;
 /**
  * Purchase options, shown biggest first on the product section.
  * The same deal applies in the cart: every pair is $32.99 with free treats, any
- * odd one out is $19.99, e.g. 3 costumes = $52.98 with one bag of treats.
+ * odd one out is $19.99, e.g. 3 costumes = $52.98 with one free treat.
  */
 export const bundles: Bundle[] = [
-  { quantity: 2, price: 3299, freeTreats: 1, title: "Buy 2 + FREE Treats", note: "2 Rudy Costumes + gourmet dog treats", popular: true },
+  { quantity: 2, price: 3299, freeTreats: 1, title: "Buy 2 + FREE Dog Treat", note: "2 Rudy Costumes + 1 free gourmet dog treat", popular: true },
   { quantity: 1, price: 1999, freeTreats: 0, title: "Buy Once", note: "1 Rudy Costume" },
 ];
 
@@ -176,8 +176,8 @@ export const guarantee = {
  * Not part of the costume deals and doesn't count towards free shipping.
  */
 export const treat = {
-  name: "Gourmet Dog Treats",
-  blurb: "A bag of gourmet treats, ready to gift.", // [PLACEHOLDER] describe the treats
+  name: "Gourmet Dog Treat",
+  blurb: "A gourmet dog treat, ready to gift.", // [PLACEHOLDER] describe the treat
   price: 999, // $9.99
   maxQuantity: 10,
 };
@@ -273,11 +273,11 @@ export const faqs = [
   },
   {
     q: "How do the bundle deals work?",
-    a: `Buy 2 costumes for ${dollars(bundles[0].price)} instead of ${dollars(product.price * 2)}, and we'll add a free bag of ${treat.name.toLowerCase()} for your furry little friend. The deal applies automatically in your cart. It's perfect for multi-dog homes or as a gift, and every order ships free.`,
+    a: `Buy 2 costumes for ${dollars(bundles[0].price)} instead of ${dollars(product.price * 2)}, and we'll add a free ${treat.name.toLowerCase()} for your furry little friend. The deal applies automatically in your cart. It's perfect for multi-dog homes or as a gift, and every order ships free.`,
   },
   {
     q: "Can I add a treat for my dog?",
-    a: `Yes. Buy 2 costumes and a bag of ${treat.name.toLowerCase()} comes free. With a single costume you can add a bag in your cart for $${(treat.price / 100).toFixed(2)}, which is a nice touch if the costume is a gift.`,
+    a: `Yes. Buy 2 costumes and a ${treat.name.toLowerCase()} comes free. With a single costume you can add one in your cart for $${(treat.price / 100).toFixed(2)}, which is a nice touch if the costume is a gift.`,
   },
   {
     q: "How long does shipping take?",

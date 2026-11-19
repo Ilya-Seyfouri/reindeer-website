@@ -26,7 +26,7 @@ export function pairsFor(quantity: number) {
   return Math.floor(quantity / 2);
 }
 
-/** Bags of treats included free: one with every 2-pack. */
+/** Treats included free: one with every 2-pack. */
 export function freeTreatsFor(quantity: number) {
   return pairsFor(quantity) * pair.freeTreats;
 }

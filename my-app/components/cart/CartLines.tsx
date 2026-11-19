@@ -71,7 +71,7 @@ function TreatTile() {
   );
 }
 
-/** The bag(s) of treats that come free with each 2-pack. */
+/** The treat(s) that come free: one with each 2-pack. */
 function FreeTreatLine({ count }: { count: number }) {
   return (
     <div className="flex gap-4 border-t border-line py-5">
@@ -138,7 +138,7 @@ export function TreatUpsell() {
       <p className="min-w-0 flex-1 leading-snug">
         <strong className="block">Gift for a furry friend?</strong>
         <span className="text-base text-ink-soft">
-          Add {treat.name.toLowerCase()} for <Ph>{formatMoney(treat.price)}</Ph>
+          Add a {treat.name.toLowerCase()} for <Ph>{formatMoney(treat.price)}</Ph>
         </span>
       </p>
       <button
@@ -158,7 +158,7 @@ export function TreatUpsell() {
 
 const pair = bundles.find((b) => b.quantity === 2)!;
 
-/** "Add 1 more for just $13 and get free treats" — shown when an odd costume could make a 2-pack. */
+/** "Add 1 more for just $13 and get a free treat" — shown when an odd costume could make a 2-pack. */
 export function BundleNudge() {
   const { totals, add } = useCart();
   if (totals.quantity % 2 === 0) return null;
@@ -170,7 +170,7 @@ export function BundleNudge() {
         <strong>
           Add 1 more for just <Ph>{formatMoney(extra)}</Ph>
         </strong>{" "}
-        and get free {treat.name.toLowerCase()}.
+        and get a free {treat.name.toLowerCase()}.
         <span className="block text-base text-ink-soft">Great for a second dog or a gift.</span>
       </p>
       <button type="button" onClick={() => add(1)} className="btn btn-secondary min-h-12 shrink-0 px-5 text-base">

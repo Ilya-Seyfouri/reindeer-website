@@ -133,7 +133,7 @@ export function SoldOutPanel({ open, nextDropAt }: { open: boolean; nextDropAt: 
                 Sold out
               </span>
               <h3 id="sold-out-title" className="mt-3 font-display text-[1.75rem] leading-tight sm:text-[2rem]">
-                {ended ? "Restocking now" : "This drop has sold out"}
+                {ended ? "Restocking now" : "This item has sold out!"}
               </h3>
 
             </div>

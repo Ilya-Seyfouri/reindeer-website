@@ -3,7 +3,6 @@
 import { useRouter } from "next/navigation";
 import { createContext, useCallback, useContext, useMemo, useState } from "react";
 import { useCart } from "@/components/cart/CartProvider";
-import { bundles } from "@/config/product";
 import { track } from "@/lib/analytics";
 import type { StoreSettings } from "@/lib/store-settings";
 
@@ -30,7 +29,8 @@ type SelectionContextValue = {
 
 const SelectionContext = createContext<SelectionContextValue | null>(null);
 
-const DEFAULT_QUANTITY = bundles.find((b) => b.popular)?.quantity ?? 1;
+// Start on the single costume; the bigger bundles are one tap away.
+const DEFAULT_QUANTITY = 1;
 
 export function ProductSelectionProvider({
   settings,

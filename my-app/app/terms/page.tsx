@@ -22,8 +22,7 @@ export default function TermsPage() {
     >
       <h2>1. Who we are</h2>
       <p>
-        {site.name} is a trading name of {legal.businessName}, a company registered in {legal.registeredIn}, based in{" "}
-        {legal.location} (&ldquo;we&rdquo;, &ldquo;us&rdquo;). By using this site or placing an order, you agree to
+        This website is run by {legal.businessName}, based in {legal.location} (&ldquo;we&rdquo;, &ldquo;us&rdquo;). By using this site or placing an order, you agree to
         these terms. If you don&rsquo;t agree, please don&rsquo;t use the site.
       </p>
 

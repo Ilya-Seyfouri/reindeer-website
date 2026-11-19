@@ -72,10 +72,8 @@ export const site = {
     replyTime: "within 1 business day", // [PLACEHOLDER]
   },
   legal: {
-    /** The company behind the store; Rudy & Co. is its trading name. */
-    businessName: "Incognito Labs Limited",
-    registeredIn: "England & Wales",
-    location: "Newcastle upon Tyne, United Kingdom",
+    businessName: "Rudy & Co.",
+    location: "the United Kingdom",
     governingLaw: "England and Wales",
     lastUpdated: "November 19, 2026",
     copyrightYear: 2026,

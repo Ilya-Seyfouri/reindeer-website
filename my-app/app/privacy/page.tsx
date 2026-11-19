@@ -23,8 +23,7 @@ export default function PrivacyPage() {
     >
       <h2>1. Who we are</h2>
       <p>
-        {site.name} is a trading name of {legal.businessName}, a company registered in {legal.registeredIn}, based in{" "}
-        {legal.location}. We are the &ldquo;controller&rdquo; of the personal information described here. You can
+        This website is run by {legal.businessName}, based in {legal.location}. We are the &ldquo;controller&rdquo; of the personal information described here. You can
         reach us about anything in this policy at {email}.
       </p>
 

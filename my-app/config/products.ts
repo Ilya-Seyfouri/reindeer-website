@@ -53,7 +53,7 @@ export const otherProducts: OtherProduct[] = [
     slug: "custom-christmas-sweater",
     name: "Custom Christmas Dog Sweater",
     tagline: "A cosy knit Christmas jumper with your pet's name stitched on the back.",
-    price: 2999, // [PLACEHOLDER] $29.99
+    price: 2999, // $29.99
     compareAtPrice: null, // [PLACEHOLDER] add a was-price if you want one
     status: "available",
     photos: [],

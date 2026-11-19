@@ -70,13 +70,13 @@ export function Comparison() {
                       <span className="flex items-center gap-2.5">
                         <span
                           aria-hidden="true"
-                          className="grid size-8 shrink-0 place-items-center rounded-full bg-fawn-soft text-cocoa"
+                          className="grid size-8 shrink-0 place-items-center rounded-full bg-success/12 text-success"
                         >
                           <Icon size={17} />
                         </span>
                         <span>
                           <span className="block text-[1.0625rem] leading-snug font-bold">{row.feature}</span>
-                          <span className="mt-0.5 block text-[0.9375rem] leading-snug text-ink-soft">
+                          <span className="mt-0.5 block text-[0.9375rem] leading-snug font-semibold text-danger">
                             Others: {row.others}
                           </span>
                         </span>
@@ -85,13 +85,13 @@ export function Comparison() {
                     <td
                       className={`border-t border-fawn-deep/40 bg-fawn px-1 py-4 text-center align-middle ${i === last ? "rounded-b-2xl" : ""}`}
                     >
-                      <span className="inline-grid size-8 place-items-center rounded-full bg-cocoa text-white">
+                      <span className="inline-grid size-8 place-items-center rounded-full bg-success text-white shadow-[0_4px_10px_-4px_var(--color-success)]">
                         <CheckIcon size={18} strokeWidth={2.75} />
                       </span>
                       <span className="sr-only">Yes</span>
                     </td>
                     <td className={`border-t border-line px-1 py-4 text-center align-middle ${i === last ? "border-b" : ""}`}>
-                      <span className="inline-grid size-8 place-items-center rounded-full bg-fawn-soft text-ink-soft">
+                      <span className="inline-grid size-8 place-items-center rounded-full bg-danger/12 text-danger">
                         <CloseIcon size={16} strokeWidth={2.5} />
                       </span>
                       <span className="sr-only">No</span>

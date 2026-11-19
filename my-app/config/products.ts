@@ -19,6 +19,10 @@ import hat from "@/app/images/hat.webp";
 import hatCollie from "@/app/images/hat-collie.webp";
 import hatDogCat from "@/app/images/hat-dog-cat.webp";
 import hatSize from "@/app/images/hat-size.webp";
+import knitCat from "@/app/images/knit-cat.webp";
+import knitFrenchie from "@/app/images/knit-frenchie.webp";
+import knitRange from "@/app/images/knit-range.webp";
+import knitSizes from "@/app/images/knit-sizes.webp";
 import ropeToy from "@/app/images/rope-toy.webp";
 import ropeToyGift from "@/app/images/rope-toy-gift.webp";
 import ropeToyPuppy from "@/app/images/rope-toy-puppy.webp";
@@ -273,6 +277,67 @@ export const otherProducts: OtherProduct[] = [
         a: "Ultra-soft plush fabric made without high-concern chemicals, gentle enough for sensitive pets. Supervise your pet while they wear it.",
       },
       { icon: "package", q: "What's in the box?", a: "One Santa hat." },
+      { icon: "truck", q: "Shipping", a: "Free shipping on every order, like everything in our shop." },
+    ],
+  },
+  {
+    slug: "fair-isle-knit-sweater",
+    name: "Fair Isle Christmas Knit Sweater",
+    tagline: "A cosy reindeer and snowflake turtleneck for small dogs and cats.",
+    price: 1499, // $14.99
+    compareAtPrice: null,
+    status: "available",
+    photos: [],
+    images: [
+      { src: knitFrenchie, alt: "French bulldog by the fire wearing the red fair isle Christmas sweater" },
+      { src: knitCat, alt: "White cat wearing the red fair isle Christmas sweater" },
+      { src: knitRange, alt: "The knit sweaters laid out, including the red and the navy and cream designs" },
+      {
+        src: knitSizes,
+        alt: "Size chart: S 22 cm back, M 26 cm, L 32 cm, XL 35 cm, XXL 40 cm, with neck, leg spacing and weight for each",
+      },
+    ],
+    options: {
+      colors: [
+        { id: "red", name: "Red", swatch: "oklch(0.5 0.18 25)", image: 0 },
+        { id: "blue", name: "Blue", swatch: "oklch(0.32 0.08 260)", image: 2 },
+      ],
+      sizes: [
+        { id: "s", name: "S", measures: ["8.7 in", "3.5 in", "1–2 lb"] },
+        { id: "m", name: "M", measures: ["10.2 in", "3.7 in", "2–3 lb"] },
+        { id: "l", name: "L", measures: ["12.6 in", "4.3 in", "3–5.5 lb"] },
+        { id: "xl", name: "XL", measures: ["13.8 in", "4.3 in", "5.5–9 lb"] },
+        { id: "xxl", name: "XXL", measures: ["15.7 in", "4.7 in", "8–14 lb"] },
+      ],
+      sizeGuide: {
+        columns: ["Back", "Neck", "Weight"],
+        tips: [
+          "Back length: measure from the base of the neck to the base of the tail.",
+          "Neck: measure around where a collar would sit.",
+          "Weight is a guide only. Between sizes? Pick the larger one.",
+        ],
+      },
+      maxQuantity: 10,
+    },
+    highlights: [
+      { icon: "leaf", strong: "Soft knitted wool", light: "warm and stretchy" },
+      { icon: "snowflake", strong: "Classic fair isle", light: "reindeer and snowflakes" },
+      { icon: "paw", strong: "For small dogs & cats", light: "sizes S to XXL" },
+    ],
+    description:
+      "A timeless Christmas jumper for your furry friend, knitted with reindeer, snowflakes and a cosy ribbed turtleneck. The soft, stretchy knit slips on easily and keeps small dogs and cats warm on chilly days, from Bichons and Frenchies to Corgi puppies and house cats. Perfect for Christmas photos, family gatherings and winter walks.",
+    details: [
+      {
+        icon: "ruler",
+        q: "Which size should I pick?",
+        a: "Check your pet's back length and neck against the size guide above. These sweaters run small, made for pets up to about 14 lb, so if your pet is between sizes, pick the larger one.",
+      },
+      {
+        icon: "leaf",
+        q: "Materials",
+        a: "Soft, stretchy knitted wool with ribbed cuffs and a cosy turtleneck collar.",
+      },
+      { icon: "package", q: "What's in the box?", a: "One knitted sweater in the colour and size you choose." },
       { icon: "truck", q: "Shipping", a: "Free shipping on every order, like everything in our shop." },
     ],
   },

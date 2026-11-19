@@ -29,16 +29,17 @@ export function ProductPurchase({ product, intro, outro }: Props) {
   const { addItem, openCart } = useCart();
   const id = useId();
 
-  const [color, setColor] = useState(o.colors[0]!.id);
+  // Products without a colour or size choice use "" for that option
+  const [color, setColor] = useState(o.colors[0]?.id ?? "");
   const [photo, setPhoto] = useState(0);
-  const [size, setSize] = useState<string | null>(null);
+  const [size, setSize] = useState<string | null>(o.sizes.length === 0 ? "" : null);
   const [name, setName] = useState("");
   const [quantity, setQuantity] = useState(1);
   const [tried, setTried] = useState(false);
 
   const colorName = o.colors.find((c) => c.id === color)?.name;
   const trimmed = name.trim();
-  const sizeMissing = tried && !size;
+  const sizeMissing = tried && size === null;
   const nameMissing = tried && !!o.personalise && !trimmed;
   const main = images[photo] ?? images[0];
 
@@ -50,8 +51,8 @@ export function ProductPurchase({ product, intro, outro }: Props) {
 
   function add() {
     setTried(true);
-    if (!size || (o.personalise && !trimmed)) {
-      document.getElementById(!size ? `${id}-size` : `${id}-name`)?.focus();
+    if (size === null || (o.personalise && !trimmed)) {
+      document.getElementById(size === null ? `${id}-size` : `${id}-name`)?.focus();
       return;
     }
     addItem({ slug: product.slug, color, size, name: o.personalise ? trimmed : "", quantity });
@@ -99,6 +100,7 @@ export function ProductPurchase({ product, intro, outro }: Props) {
         {intro}
 
         {/* Colour */}
+        {o.colors.length > 0 ? (
         <fieldset className="mt-8">
           <legend className="font-bold">
             Colour: <span className="font-normal text-ink-soft">{colorName}</span>
@@ -121,8 +123,10 @@ export function ProductPurchase({ product, intro, outro }: Props) {
             })}
           </div>
         </fieldset>
+        ) : null}
 
         {/* Size */}
+        {o.sizes.length > 0 ? (
         <fieldset className="mt-6" aria-describedby={sizeMissing ? `${id}-size-error` : undefined}>
           <legend className="font-bold">
             Size{size ? <span className="font-normal text-ink-soft">: {o.sizes.find((z) => z.id === size)?.name}</span> : null}
@@ -159,6 +163,7 @@ export function ProductPurchase({ product, intro, outro }: Props) {
             </p>
           ) : null}
         </fieldset>
+        ) : null}
 
         {o.sizeGuide ? (
           <details className="group mt-3">
@@ -242,15 +247,15 @@ export function ProductPurchase({ product, intro, outro }: Props) {
         ) : null}
 
         {/* Price + quantity */}
-        <div className="mt-7 flex items-center justify-between gap-4 rounded-xl border-2 border-cocoa bg-fawn-soft px-4 py-4 sm:px-6">
+        <div className="mt-8 flex items-center justify-between gap-4 rounded-xl border-2 border-cocoa bg-fawn-soft px-4 py-4 sm:px-6">
           <span className="min-w-0">
             <span className="block text-[1.125rem] leading-tight font-bold sm:text-[1.25rem]">
               <Ph>{formatMoney(product.price * quantity)}</Ph>
             </span>
             <span className="mt-1 block truncate text-base text-ink-soft">
-              {colorName}
-              {size ? ` · ${o.sizes.find((z) => z.id === size)?.name}` : ""}
-              {trimmed ? ` · “${trimmed}”` : ""}
+              {[colorName, size ? o.sizes.find((z) => z.id === size)?.name : null, trimmed ? `“${trimmed}”` : null]
+                .filter(Boolean)
+                .join(" · ") || "Free shipping"}
             </span>
           </span>
           <QuantityStepper compact value={quantity} min={1} max={o.maxQuantity} label="Quantity" onChange={setQuantity} />

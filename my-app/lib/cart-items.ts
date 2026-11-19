@@ -24,11 +24,13 @@ export function cleanItems(value: unknown): CartItem[] {
     const p = getOtherProduct(String(raw?.slug));
     const o = p?.status === "available" ? p.options : undefined;
     if (!p || !o) continue;
-    const color = String(raw?.color);
-    const size = String(raw?.size);
+    const color = String(raw?.color ?? "");
+    const size = String(raw?.size ?? "");
     const name = o.personalise ? cleanPetName(String(raw?.name ?? ""), o.personalise.maxLength).trim() : "";
     const quantity = clamp(raw?.quantity, o.maxQuantity);
-    if (!o.colors.some((c) => c.id === color) || !o.sizes.some((z) => z.id === size) || (o.personalise && !name) || quantity === 0) continue;
+    const colorOk = o.colors.length === 0 ? color === "" : o.colors.some((c) => c.id === color);
+    const sizeOk = o.sizes.length === 0 ? size === "" : o.sizes.some((z) => z.id === size);
+    if (!colorOk || !sizeOk || (o.personalise && !name) || quantity === 0) continue;
     const item = { slug: p.slug, color, size, name, quantity };
     const same = out.find((x) => itemKey(x) === itemKey(item));
     if (same) same.quantity = Math.min(o.maxQuantity, same.quantity + quantity);

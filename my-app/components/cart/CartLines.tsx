@@ -81,9 +81,11 @@ export function ItemLines() {
             <div className="flex min-w-0 flex-col gap-0.5 sm:flex-row sm:items-start sm:justify-between sm:gap-3">
               <div className="min-w-0">
                 <p className="text-[0.9375rem] leading-snug font-bold sm:text-[1.0625rem]">{p.name}</p>
-                <p className="text-[0.875rem] text-ink-soft sm:text-base">
-                  {color?.name} · Size {size?.name}
-                </p>
+                {color || size ? (
+                  <p className="text-[0.875rem] text-ink-soft sm:text-base">
+                    {[color?.name, size ? `Size ${size.name}` : null].filter(Boolean).join(" · ")}
+                  </p>
+                ) : null}
                 {item.name ? (
                   <p className="text-[0.875rem] break-words text-ink-soft sm:text-base">
                     Name: <strong className="text-ink">{item.name}</strong>

@@ -32,7 +32,7 @@ export function ExploreProducts({
         {/* Phones: swipe through, with the next card peeking in. Tablet and up: side by side. */}
         <ul
           aria-label={title}
-          className={`-mx-(--safe-left) mt-10 flex snap-x snap-mandatory gap-4 overflow-x-auto px-(--safe-left) pt-1 pb-4 [scrollbar-width:none] md:mx-0 md:grid ${products.length > 3 ? "md:grid-cols-2 lg:grid-cols-4" : "md:grid-cols-3"} md:gap-5 md:overflow-visible md:px-0 md:pb-0 lg:gap-7 [&::-webkit-scrollbar]:hidden`}
+          className={`-mx-(--safe-left) mt-10 flex snap-x snap-mandatory gap-4 overflow-x-auto px-(--safe-left) pt-1 pb-4 [scrollbar-width:none] md:mx-0 md:grid ${products.length === 4 ? "md:grid-cols-2 lg:grid-cols-4" : "md:grid-cols-3"} md:gap-5 md:overflow-visible md:px-0 md:pb-0 lg:gap-7 [&::-webkit-scrollbar]:hidden`}
           style={{ scrollPaddingInline: "var(--safe-left)" }}
         >
           {products.map((product, i) => (

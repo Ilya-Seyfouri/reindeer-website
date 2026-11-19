@@ -15,6 +15,9 @@ import collarChristmas from "@/app/images/collar-christmas.webp";
 import collarGreen from "@/app/images/collar-green.webp";
 import collarRed from "@/app/images/collar-red.webp";
 import collarSizes from "@/app/images/collar-sizes.webp";
+import ropeToy from "@/app/images/rope-toy.webp";
+import ropeToyGift from "@/app/images/rope-toy-gift.webp";
+import ropeToyPuppy from "@/app/images/rope-toy-puppy.webp";
 import sweaterBack from "@/app/images/sweater-back.webp";
 import sweaterGreen from "@/app/images/sweater-green.webp";
 import sweaterPair from "@/app/images/sweater-pair.webp";
@@ -45,9 +48,9 @@ export type OtherProduct = {
 };
 
 export type ProductOptions = {
-  /** Each colour can point at the photo to show when it's picked (index into images) */
+  /** Each colour can point at the photo to show when it's picked (index into images). Empty: no colour choice. */
   colors: { id: string; name: string; swatch: string; image?: number }[];
-  /** measures line up with sizeGuide.columns */
+  /** measures line up with sizeGuide.columns. Empty: one size, no choice. */
   sizes: { id: string; name: string; measures?: string[] }[];
   /** A table under the size buttons, plus measuring tips */
   sizeGuide?: { columns: string[]; tips?: string[] };
@@ -188,6 +191,46 @@ export const otherProducts: OtherProduct[] = [
         icon: "package",
         q: "A perfect Christmas gift",
         a: "A cheerful stocking filler for dog and cat lovers, and lovely for festive family photos.",
+      },
+      { icon: "truck", q: "Shipping", a: "Free shipping on every order, like everything in our shop." },
+    ],
+  },
+  {
+    slug: "candy-cane-rope-toy",
+    name: "Hand-Braided Candy Cane Rope Toy",
+    tagline: "A tightly braided cotton rope toy for festive tug, fetch and chewing.",
+    price: 1199, // $11.99
+    compareAtPrice: null,
+    status: "available",
+    photos: [],
+    images: [
+      { src: ropeToyPuppy, alt: "Corgi puppy carrying the red and green candy cane rope toy" },
+      { src: ropeToy, alt: "The candy cane rope toy on a dark green background" },
+      { src: ropeToyGift, alt: "The candy cane rope toy on a cosy blanket next to a Christmas gift" },
+    ],
+    options: { colors: [], sizes: [], maxQuantity: 10 },
+    highlights: [
+      { icon: "leaf", strong: "Natural cotton rope", light: "hand-braided" },
+      { icon: "shield", strong: "Bite-resistant", light: "made for chewing" },
+      { icon: "paw", strong: "Small & medium dogs", light: "tug, fetch and chew" },
+    ],
+    description:
+      "Our festive candy cane, hand-braided from thick red and green cotton rope. The tight weave stands up to chewing, and the knotted texture helps clean teeth and soothe gums as your dog plays. Made for tug-of-war, fetch and quiet chews by the tree, it's the perfect stocking filler for small and medium dogs.",
+    details: [
+      {
+        icon: "leaf",
+        q: "Materials",
+        a: "Thick cotton rope, tightly braided into a candy cane shape in festive red and green.",
+      },
+      {
+        icon: "shield",
+        q: "Good for teeth",
+        a: "The braided texture helps clean teeth and massage gums while your dog chews, and gives teething puppies something safe to bite.",
+      },
+      {
+        icon: "paw",
+        q: "Which dogs is it for?",
+        a: "Sized for small and medium dogs. Like any toy, supervise play and take it away if it becomes worn or frayed.",
       },
       { icon: "truck", q: "Shipping", a: "Free shipping on every order, like everything in our shop." },
     ],

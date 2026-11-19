@@ -429,6 +429,33 @@
     }
   }
 
+  /* The dog treat picture gives a little wiggle now and then, like a treat being waved */
+  .treat-wiggle {
+    animation: treat-wiggle 3.2s var(--ease-out-quart) infinite;
+    transform-origin: 50% 60%;
+  }
+  @keyframes treat-wiggle {
+    0%,
+    78%,
+    100% {
+      transform: rotate(0);
+    }
+    84% {
+      transform: rotate(-9deg) scale(1.04);
+    }
+    90% {
+      transform: rotate(7deg) scale(1.04);
+    }
+    95% {
+      transform: rotate(-3deg);
+    }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .treat-wiggle {
+      animation: none;
+    }
+  }
+
   /* Dog toy and snack stencils (bones, balls, cookies, rope toys, treats),
      a faint repeating background for light sections like "Fits every dog". */
   .print-toys {

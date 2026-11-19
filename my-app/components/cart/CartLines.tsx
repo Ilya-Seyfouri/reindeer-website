@@ -1,7 +1,8 @@
 "use client";
 
 import { useCart } from "@/components/cart/CartProvider";
-import { GiftIcon, PlusIcon } from "@/components/ui/icons";
+import { PlusIcon } from "@/components/ui/icons";
+import { TreatArt } from "@/components/ui/TreatArt";
 import { Ph, Placeholder } from "@/components/ui/Placeholder";
 import { QuantityStepper } from "@/components/ui/QuantityStepper";
 import { bundles, product, treat } from "@/config/product";
@@ -51,14 +52,47 @@ export function CartLines() {
 
 /** The treats in the cart, once the shopper has added them from the upsell. */
 export function TreatLine() {
-  const { treats, setTreats } = useCart();
-  if (treats === 0) return null;
+  const { treats, setTreats, totals } = useCart();
+  if (treats === 0 && totals.freeTreats === 0) return null;
 
   return (
+    <>
+      {totals.freeTreats > 0 ? <FreeTreatLine count={totals.freeTreats} /> : null}
+      {treats > 0 ? <PaidTreatLine treats={treats} setTreats={setTreats} /> : null}
+    </>
+  );
+}
+
+function TreatTile() {
+  return (
+    <div className="grid w-[5.5rem] shrink-0 place-items-center rounded-xl bg-fawn-soft text-caramel aspect-square sm:w-24">
+      <TreatArt className="treat-wiggle size-16 sm:size-[4.5rem]" />
+    </div>
+  );
+}
+
+/** The bag(s) of treats that come free with each 2-pack. */
+function FreeTreatLine({ count }: { count: number }) {
+  return (
     <div className="flex gap-4 border-t border-line py-5">
-      <div className="grid w-[5.5rem] shrink-0 place-items-center rounded-xl bg-fawn-soft text-evergreen aspect-square sm:w-24">
-        <GiftIcon size={36} />
+      <TreatTile />
+      <div className="flex min-w-0 flex-1 items-start justify-between gap-3">
+        <div>
+          <p className="font-bold leading-snug">{treat.name}</p>
+          <p className="text-base text-ink-soft">
+            Free with your 2-pack{count > 1 ? ` (×${count})` : ""}
+          </p>
+        </div>
+        <p className="shrink-0 font-bold text-success">Free</p>
       </div>
+    </div>
+  );
+}
+
+function PaidTreatLine({ treats, setTreats }: { treats: number; setTreats: (n: number) => void }) {
+  return (
+    <div className="flex gap-4 border-t border-line py-5">
+      <TreatTile />
       <div className="flex min-w-0 flex-1 flex-col gap-3">
         <div className="flex items-start justify-between gap-3">
           <div>
@@ -98,8 +132,8 @@ export function TreatUpsell() {
 
   return (
     <div className="flex items-center gap-4 rounded-2xl border-2 border-dashed border-evergreen/40 bg-white p-4">
-      <span className="grid size-14 shrink-0 place-items-center rounded-full bg-fawn-soft text-evergreen">
-        <GiftIcon size={28} />
+      <span className="grid size-16 shrink-0 place-items-center rounded-full bg-fawn-soft text-caramel">
+        <TreatArt className="treat-wiggle size-12" />
       </span>
       <p className="min-w-0 flex-1 leading-snug">
         <strong className="block">Gift for a furry friend?</strong>

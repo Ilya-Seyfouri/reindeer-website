@@ -19,6 +19,7 @@ import {
 } from "@/components/ui/icons";
 import { Ph } from "@/components/ui/Placeholder";
 import { Stars } from "@/components/ui/Stars";
+import { TreatArt } from "@/components/ui/TreatArt";
 import { bundles, guarantee, product, productFaqs, type Bundle } from "@/config/product";
 import { SoldCounter } from "@/components/home/SoldCounter";
 import { formatMoney, priceFor } from "@/lib/pricing";
@@ -185,6 +186,12 @@ function Option({ bundle, selected, onSelect }: { bundle: Bundle; selected: bool
       <span className="min-w-0 flex-1">
         <span className="flex flex-wrap items-center gap-x-2.5 gap-y-1">
           <span className="text-[1.125rem] leading-tight font-bold whitespace-nowrap sm:text-[1.25rem]">{bundle.title}</span>
+          {bundle.freeTreats > 0 ? (
+            // A treat sticker peeking over the card's top-left corner
+            <span aria-hidden="true" className="absolute -top-5 -left-2 grid size-12 place-items-center rounded-full bg-white text-caramel shadow-[0_6px_14px_-6px_oklch(0.3_0.05_50/0.55)] ring-1 ring-line">
+              <TreatArt className="treat-wiggle size-10" />
+            </span>
+          ) : null}
           {bundle.popular ? (
             <span className="absolute -top-3 right-3 rounded-full bg-cocoa px-2.5 py-0.5 text-[0.75rem] leading-5 font-bold tracking-wide text-white uppercase sm:static">
               Most popular

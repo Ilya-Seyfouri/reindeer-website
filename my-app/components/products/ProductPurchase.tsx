@@ -3,7 +3,7 @@
 import Image from "next/image";
 import { useId, useState } from "react";
 import { useCart } from "@/components/cart/CartProvider";
-import { BagIcon, CheckIcon } from "@/components/ui/icons";
+import { BagIcon, CheckIcon, ChevronDownIcon, RulerIcon } from "@/components/ui/icons";
 import { Ph } from "@/components/ui/Placeholder";
 import { QuantityStepper } from "@/components/ui/QuantityStepper";
 import { cleanPetName, type OtherProduct, type ProductOptions } from "@/config/products";
@@ -127,7 +127,7 @@ export function ProductPurchase({ product, intro, outro }: Props) {
           <legend className="font-bold">
             Size{size ? <span className="font-normal text-ink-soft">: {o.sizes.find((z) => z.id === size)?.name}</span> : null}
           </legend>
-          <div className="mt-3 grid grid-cols-5 gap-2">
+          <div className="mt-3 grid grid-cols-[repeat(auto-fit,minmax(2.75rem,1fr))] gap-1.5 sm:gap-2">
             {o.sizes.map((z, i) => {
               const on = z.id === size;
               return (
@@ -159,6 +159,45 @@ export function ProductPurchase({ product, intro, outro }: Props) {
             </p>
           ) : null}
         </fieldset>
+
+        {o.sizes.some((z) => z.chest) ? (
+          <details className="group mt-3">
+            <summary className="inline-flex min-h-11 cursor-pointer items-center gap-2 font-bold text-caramel-deep underline decoration-2 underline-offset-4 [&::-webkit-details-marker]:hidden">
+              <RulerIcon size={20} />
+              Size guide
+              <ChevronDownIcon size={18} className="transition-transform duration-300 group-open:rotate-180" />
+            </summary>
+            <div className="mt-2 overflow-hidden rounded-xl bg-white shadow-[inset_0_0_0_1.5px_var(--color-line)]">
+              <table className="w-full text-left text-[0.875rem] tabular-nums sm:text-base">
+                <thead className="bg-fawn-soft">
+                  <tr>
+                    <th scope="col" className="py-2.5 pl-3 font-bold">Size</th>
+                    <th scope="col" className="py-2.5 font-bold">Chest</th>
+                    <th scope="col" className="py-2.5 font-bold">Back</th>
+                    <th scope="col" className="py-2.5 pr-3 font-bold">Weight</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {o.sizes.map((z) => (
+                    <tr key={z.id} className={`border-t border-line ${z.id === size ? "bg-fawn-soft/60 font-bold" : ""}`}>
+                      <th scope="row" className="py-2.5 pl-3 font-bold">{z.name}</th>
+                      <td className="py-2.5">{z.chest}</td>
+                      <td className="py-2.5">{z.back}</td>
+                      <td className="py-2.5 pr-3 whitespace-nowrap">{z.weight}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+            {o.sizeTips ? (
+              <ul className="mt-3 flex list-disc flex-col gap-1 pl-5 text-base text-ink-soft">
+                {o.sizeTips.map((tip) => (
+                  <li key={tip}>{tip}</li>
+                ))}
+              </ul>
+            ) : null}
+          </details>
+        ) : null}
 
         {/* Pet name */}
         <div className="mt-6">

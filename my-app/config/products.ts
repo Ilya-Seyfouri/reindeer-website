@@ -42,7 +42,10 @@ export type OtherProduct = {
 export type ProductOptions = {
   /** Each colour can point at the photo to show when it's picked (index into images) */
   colors: { id: string; name: string; swatch: string; image?: number }[];
-  sizes: { id: string; name: string }[];
+  /** Measurements are shown in the size guide under the size buttons */
+  sizes: { id: string; name: string; chest?: string; back?: string; weight?: string }[];
+  /** Tips shown under the size guide table */
+  sizeTips?: string[];
   /** A free-text box, e.g. the pet's name stitched on the front */
   personalise: { label: string; hint: string; maxLength: number };
   maxQuantity: number;
@@ -52,7 +55,7 @@ export const otherProducts: OtherProduct[] = [
   {
     slug: "custom-christmas-sweater",
     name: "Custom Christmas Dog Sweater",
-    tagline: "A cosy knit Christmas jumper with your pet's name stitched on the back.",
+    tagline: "A cosy cable-knit Christmas sweater with your pet's name chain-stitched on.",
     price: 2999, // $29.99
     compareAtPrice: null, // [PLACEHOLDER] add a was-price if you want one
     status: "available",
@@ -69,26 +72,54 @@ export const otherProducts: OtherProduct[] = [
         { id: "red", name: "Red", swatch: "oklch(0.55 0.2 25)", image: 1 },
       ],
       sizes: [
-        { id: "s", name: "S" },
-        { id: "m", name: "M" },
-        { id: "l", name: "L" },
-        { id: "xl", name: "XL" },
-        { id: "xxl", name: "XXL" },
+        { id: "xs", name: "XS", chest: "12.6 in", back: "7.9 in", weight: "1–3 lb" },
+        { id: "s", name: "S", chest: "14.6 in", back: "9.8 in", weight: "3–5 lb" },
+        { id: "m", name: "M", chest: "16.5 in", back: "11.8 in", weight: "5–8 lb" },
+        { id: "l", name: "L", chest: "18.5 in", back: "13.8 in", weight: "8–11 lb" },
+        { id: "xl", name: "XL", chest: "20.5 in", back: "15.7 in", weight: "11–15 lb" },
+        { id: "xxl", name: "XXL", chest: "22.4 in", back: "17.7 in", weight: "15–20 lb" },
       ],
-      personalise: { label: "Your pet's name", hint: "Stitched on the back in chunky yarn. Up to 12 letters.", maxLength: 12 },
+      sizeTips: [
+        "Chest: measure around the widest part of your pet's chest.",
+        "Back length: measure from the base of the neck to the base of the tail.",
+        "Weight is a guide only, as every pet is a different shape.",
+        "Between sizes? Pick the larger one for a comfier fit.",
+      ],
+      personalise: {
+        label: "Your pet's name",
+        hint: "Chain-stitched onto the sweater. Please double-check the spelling.",
+        maxLength: 12,
+      },
       maxQuantity: 10,
     },
     highlights: [
-      { icon: "feather", strong: "Personalised", light: "your pet's name, hand stitched" },
-      { icon: "leaf", strong: "Soft cable knit", light: "warm, not itchy" },
-      { icon: "ruler", strong: "Sizes S to XXL", light: "for small to large dogs" },
+      { icon: "feather", strong: "Personalised", light: "chain-stitched name" },
+      { icon: "leaf", strong: "Cosy cable knit", light: "warm for winter walks" },
+      { icon: "paw", strong: "For dogs & cats", light: "sizes XS to XXL" },
     ],
     description:
-      "A classic Christmas jumper for your dog, with a festive fair isle pattern and your pet's name stitched in chunky yarn on the back. Pick green or red, choose a size, and tell us the name.", // [PLACEHOLDER] check the copy
+      "Make your furry friend's Christmas extra special. This cosy cable-knit sweater has festive holiday details and your pet's name in textured chain-stitch embroidery, so it's an outfit that's truly their own. Perfect for Christmas photos, family gatherings, winter walks and cosy nights in.",
     details: [
-      { icon: "package", q: "What's in the box?", a: "One knitted sweater, personalised with the name you enter." }, // [PLACEHOLDER]
-      { icon: "ruler", q: "Which size should I pick?", a: "Measure around the widest part of your dog's chest and pick the size that matches. If they're between sizes, go up one." }, // [PLACEHOLDER] add the size chart
-      { icon: "clock", q: "When will it arrive?", a: "Each sweater is personalised to order, so allow a little extra time before it ships." }, // [PLACEHOLDER] add the real making time
+      {
+        icon: "feather",
+        q: "Personalisation",
+        a: "Your pet's name is chain-stitched onto the sweater for a handcrafted, textured look. Please enter the name carefully and double-check the spelling before checkout.",
+      },
+      {
+        icon: "leaf",
+        q: "Materials and design",
+        a: "Comfortable knitted fabric with a cable-knit texture and festive Christmas details, made to keep your pet warm in the cooler months.",
+      },
+      {
+        icon: "ruler",
+        q: "Which size should I pick?",
+        a: "Measure your pet's chest at the widest part and their back from the base of the neck to the base of the tail, then check the size guide above. Weight is a guide only. If your pet is between sizes, pick the larger one. Measurements may vary slightly as they're taken by hand.",
+      },
+      {
+        icon: "package",
+        q: "A perfect Christmas gift",
+        a: "A thoughtful present for dog moms, cat moms, pet lovers and Christmas-loving families, and lovely for festive family photos.",
+      },
       { icon: "truck", q: "Shipping", a: "Free shipping on every order, like everything in our shop." },
     ],
   },

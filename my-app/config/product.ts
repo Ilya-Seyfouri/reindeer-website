@@ -73,7 +73,7 @@ export const site = {
    */
   showPlaceholderMarkers: false,
   /** The bar under the header: a bold lead-in, then the offer. [PLACEHOLDER] */
-  announcement: { lead: "SALE:", text: "Up to 65% Off & FREE Shipping" },
+  announcement: { lead: "SALE:", text: "Up to 43% Off & FREE Shipping" },
   contact: {
     email: "rudycocostumes@gmail.com",
     hours: "Monday to Friday, 9am – 5pm ET", // [PLACEHOLDER]

@@ -3,7 +3,7 @@
 import { Gallery } from "@/components/home/Gallery";
 import { useSelection } from "@/components/home/ProductSelection";
 import { track } from "@/lib/analytics";
-import { SoldOutPanel } from "@/components/home/SoldOutPanel";
+import { RestockIn, SoldOutPanel } from "@/components/home/SoldOutPanel";
 import {
   ChevronDownIcon,
   ClockIcon,
@@ -87,7 +87,8 @@ export function Hero() {
           <PurchaseOptions />
 
           <AddToCartButton />
-          <p className="mt-3 flex flex-wrap items-center justify-center gap-x-3 gap-y-1 text-base text-ink-soft">
+          {/* One line on phones: tighter gaps, slightly smaller text and icons until there's room */}
+          <p className="mt-3 flex items-center justify-center gap-x-1.5 text-[0.8125rem] whitespace-nowrap text-ink-soft min-[400px]:text-[0.875rem] sm:gap-x-3 sm:text-base [&_svg]:size-[15px] sm:[&_svg]:size-[18px]">
             <span className="inline-flex items-center gap-1.5">
               <TruckIcon size={18} />
               <span>Free shipping</span>
@@ -239,13 +240,17 @@ function AddToCartButton() {
         onClick={() => (soldOutOpen ? setSoldOutOpen(false) : buy())}
         aria-expanded={settings.soldOut ? soldOutOpen : undefined}
         aria-controls={settings.soldOut ? "sold-out-panel" : undefined}
-        className="enter btn btn-primary btn-cart btn-lg font-apple mt-4 w-full gap-3 px-5 text-[1.125rem] tracking-[0.04em] whitespace-nowrap uppercase sm:px-14 sm:text-[1.3125rem]"
+        className={`enter btn btn-primary btn-cart btn-lg font-apple mt-4 w-full gap-3 px-5 text-[1.125rem] tracking-[0.04em] whitespace-nowrap uppercase sm:px-14 sm:text-[1.3125rem] ${
+          soldOutOpen ? "btn-soldout" : ""
+        }`}
         style={{ "--i": 6 } as React.CSSProperties}
       >
         {soldOutOpen ? (
-          <span key="sold-out" className="inline-flex items-center gap-3" style={{ animation: "fade-in 300ms var(--ease-out-quart)" }}>
-            Sold out
-            <span className="font-normal tracking-normal text-on-cocoa-soft normal-case">· next drop soon</span>
+          <span key="sold-out" className="inline-flex items-center gap-2.5" style={{ animation: "fade-in 300ms var(--ease-out-quart)" }}>
+            Sold out!
+            <span className="text-[0.85em] font-normal tracking-normal text-white/85 normal-case sm:text-[1em]">
+              <RestockIn nextDropAt={settings.nextDropAt} />
+            </span>
           </span>
         ) : (
           <span key="add" className="inline-flex items-center gap-3">

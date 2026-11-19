@@ -37,11 +37,11 @@ const pad = (n: number) => String(n).padStart(2, "0");
 /** "· restock in 2d 04:12:09" for the sold-out button, counting down to the same drop time. */
 export function RestockIn({ nextDropAt }: { nextDropAt: string | null }) {
   const { ended, time } = useCountdown(true, nextDropAt);
-  if (ended) return <>· restocking soon</>;
-  if (!time) return <>· restock in…</>;
+  if (ended) return <>Restocking soon</>;
+  if (!time) return <>Restock in…</>;
   return (
     <>
-      · restock in{" "}
+      Restock in{" "}
       <span className="tabular-nums">
         {time.days > 0 ? `${time.days}d ` : ""}
         {pad(time.hours)}:{pad(time.minutes)}:{pad(time.seconds)}

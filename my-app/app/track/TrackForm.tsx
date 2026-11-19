@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { useState } from "react";
+import { PageHeader } from "@/components/layout/PageHeader";
 import { CheckIcon, MailIcon } from "@/components/ui/icons";
 import { Ph } from "@/components/ui/Placeholder";
 import { shipping } from "@/config/product";
@@ -69,21 +70,21 @@ export function TrackForm() {
   const found = state.kind === "found" ? state.result : null;
 
   return (
-    <section aria-labelledby="track-title" className="track-sky relative isolate overflow-hidden text-white">
-      <div className="wrap pt-10 pb-16 md:pt-14 lg:pb-24">
-        <div className="enter mx-auto flex max-w-[36rem] flex-col gap-7" style={{ "--i": 0 } as React.CSSProperties}>
+    <>
+      {/* Same light page header and form styling as Contact and Returns */}
+      <PageHeader
+        title="Track your order"
+        intro={
+          <>
+            Enter the order number from your confirmation email and the email address you used. Orders ship in{" "}
+            <Ph>{shipping.processing}</Ph>.
+          </>
+        }
+      />
+      <div className="wrap">
+        <div className="enter flex max-w-[36rem] flex-col" style={{ "--i": 2 } as React.CSSProperties}>
           <div>
-            <h1 id="track-title" className="font-display text-[clamp(2.5rem,1.8rem+3vw,4.25rem)] leading-[1.02]">
-              Track your order
-            </h1>
-            <p className="lead mt-4 max-w-[38ch] text-white/80">
-              Enter the order number from your confirmation email and the email address you used. Orders ship in{" "}
-              <Ph>{shipping.processing}</Ph>.
-            </p>
-          </div>
-
-          <div className="rounded-3xl bg-white p-6 text-ink shadow-[0_30px_60px_-30px_oklch(0.08_0.04_265)] sm:p-7">
-            <form noValidate onSubmit={onSubmit} className="flex flex-col gap-5">
+            <form noValidate onSubmit={onSubmit} className="flex flex-col gap-6">
               <div>
                 <label htmlFor="orderNumber" className="text-lg font-bold">
                   Order number
@@ -125,7 +126,7 @@ export function TrackForm() {
                   </p>
                 ) : null}
               </div>
-              <button type="submit" disabled={state.kind === "loading"} className="btn btn-primary btn-cart btn-lg font-apple w-full">
+              <button type="submit" disabled={state.kind === "loading"} className="btn btn-primary btn-lg w-full sm:w-fit">
                 {state.kind === "loading" ? "Looking it up…" : "Track my order"}
               </button>
             </form>
@@ -142,7 +143,7 @@ export function TrackForm() {
           </div>
         </div>
       </div>
-    </section>
+    </>
   );
 }
 

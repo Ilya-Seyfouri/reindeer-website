@@ -13,7 +13,7 @@ export default function TrackPage() {
   return (
     <>
       <TrackForm />
-      <section aria-label="Help with tracking" className="wrap grid gap-5 py-14 sm:grid-cols-3 md:py-20">
+      <section aria-label="Help with tracking" className="wrap grid gap-5 pt-12 pb-20 sm:grid-cols-3 md:pt-16 md:pb-28">
         <div className="rounded-3xl bg-fawn-soft p-6 sm:p-7">
           <h2 className="flex items-center gap-3 font-display text-[1.5rem] leading-tight">
             <PackageIcon className="shrink-0 text-caramel-deep" />

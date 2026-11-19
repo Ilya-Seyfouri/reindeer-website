@@ -258,6 +258,19 @@
     }
   }
 
+  /* The Add to cart button once it's showing "Sold out!" */
+  .btn-soldout {
+    background: var(--color-danger);
+    box-shadow:
+      0 1px 0 oklch(1 0 0 / 0.12) inset,
+      0 6px 18px -8px oklch(0.5 0.17 28 / 0.6);
+  }
+  @media (hover: hover) {
+    .btn-soldout:hover:not(:disabled) {
+      background: oklch(0.55 0.18 28);
+    }
+  }
+
   .btn-secondary {
     background: var(--color-white);
     color: var(--color-ink);
@@ -628,6 +641,12 @@ dialog.drawer.drawer-left {
 }
 dialog.drawer.drawer-left[open] {
   transform: none;
+}
+/* On phones the menu takes 70% of the screen, leaving the page peeking out beside it */
+@media (max-width: 639px) {
+  dialog.drawer.drawer-left {
+    width: 70vw;
+  }
 }
 @starting-style {
   dialog.drawer.drawer-left[open] {

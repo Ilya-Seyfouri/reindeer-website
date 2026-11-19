@@ -12,6 +12,8 @@ type Events = {
   add_to_cart_clicked: { quantity: number; sold_out: boolean };
   /** Saw the sold-out dropdown */
   sold_out_viewed: { restocking: boolean };
+  /** Tapped a "You might also like" product in the sold-out dropdown */
+  sold_out_suggestion_clicked: { slug: string };
   /** Joined the waiting list */
   waitlist_joined: { source: "sold-out" | "waiting-list" };
   /** Added the gourmet treats from the "Gift for a furry friend?" upsell */

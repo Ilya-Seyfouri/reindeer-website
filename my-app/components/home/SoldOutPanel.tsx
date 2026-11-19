@@ -1,8 +1,12 @@
 "use client";
 
+import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
-import { CheckIcon, MailIcon } from "@/components/ui/icons";
+import { ArrowRightIcon, CheckIcon, MailIcon } from "@/components/ui/icons";
+import { Ph, Placeholder } from "@/components/ui/Placeholder";
 import { site } from "@/config/product";
+import { otherProducts } from "@/config/products";
+import { formatMoney } from "@/lib/pricing";
 import { track } from "@/lib/analytics";
 
 /** Counts down to the shared drop time. `ended` once it passes, or when no time is set. */
@@ -212,6 +216,37 @@ export function SoldOutPanel({ open, nextDropAt }: { open: boolean; nextDropAt: 
               </p>
             ) : null}
 
+            {/* While Rudy is sold out, point shoppers at the rest of the range */}
+            {otherProducts.length > 0 ? (
+              <div className="mt-5 border-t border-line-strong/50 pt-5">
+                <p className="text-center font-bold">You might also like</p>
+                <ul className="mt-3 flex flex-col gap-2.5">
+                  {otherProducts.map((p) => (
+                    <li key={p.slug}>
+                      <Link
+                        href={`/products/${p.slug}`}
+                        onClick={() => track("sold_out_suggestion_clicked", { slug: p.slug })}
+                        className="flex items-center gap-3 rounded-2xl bg-white p-2.5 pr-4 shadow-[inset_0_0_0_1.5px_var(--color-line)] transition-colors hover:shadow-[inset_0_0_0_1.5px_var(--color-line-strong)]"
+                      >
+                        <div className="w-14 shrink-0 overflow-hidden rounded-xl">
+                          <Placeholder label={p.photos[0] ?? p.name} ratio="1:1" compact />
+                        </div>
+                        <span className="min-w-0 flex-1">
+                          <span className="block leading-snug font-bold">{p.name}</span>
+                          <span className="mt-0.5 flex flex-wrap items-center gap-x-2 text-[0.9375rem] text-ink-soft">
+                            <strong className="text-ink tabular-nums">
+                              <Ph>{formatMoney(p.price)}</Ph>
+                            </strong>
+                            {p.status === "coming-soon" ? <span>· Coming soon</span> : null}
+                          </span>
+                        </span>
+                        <ArrowRightIcon size={20} className="shrink-0 text-caramel-deep" />
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            ) : null}
           </section>
         </div>
       </div>

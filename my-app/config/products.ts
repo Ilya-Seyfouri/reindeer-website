@@ -23,11 +23,6 @@ import knitCat from "@/app/images/knit-cat.webp";
 import knitFrenchie from "@/app/images/knit-frenchie.webp";
 import knitRange from "@/app/images/knit-range.webp";
 import knitSizes from "@/app/images/knit-sizes.webp";
-import knitYorkie1 from "@/app/images/reviews/knit-yorkie-1.webp";
-import knitYorkie2 from "@/app/images/reviews/knit-yorkie-2.webp";
-import knitYorkie3 from "@/app/images/reviews/knit-yorkie-3.webp";
-import knitYorkie4 from "@/app/images/reviews/knit-yorkie-4.webp";
-import knitYorkie5 from "@/app/images/reviews/knit-yorkie-5.webp";
 import ropeToy from "@/app/images/rope-toy.webp";
 import ropeToyGift from "@/app/images/rope-toy-gift.webp";
 import ropeToyPuppy from "@/app/images/rope-toy-puppy.webp";
@@ -359,23 +354,6 @@ export const otherProducts: OtherProduct[] = [
       },
       { icon: "package", q: "What's in the box?", a: "One knitted sweater in the colour and size you choose." },
       { icon: "truck", q: "Shipping", a: "Free shipping on every order, like everything in our shop." },
-    ],
-    reviewsNote: "From shoppers who bought this same sweater from another retailer.",
-    reviews: [
-      {
-        rating: 5,
-        date: "2026-01-20",
-        author: "Shopper",
-        variant: "Colour: Red · Size: M",
-        text: "Good day! The sweater matches the sizes on the website. The size for a 2.6 kg Yorkie is just right. A cool feature that I haven't seen before is the straps on the back legs, so the sweater doesn't slip and doesn't get wrinkled.",
-        photos: [
-          { src: knitYorkie1, alt: "Yorkie wearing the red sweater on a bed" },
-          { src: knitYorkie2, alt: "Yorkie in the red sweater looking up" },
-          { src: knitYorkie3, alt: "Yorkie in the red sweater sitting on a bed" },
-          { src: knitYorkie4, alt: "Back view of the red sweater on a Yorkie" },
-          { src: knitYorkie5, alt: "Yorkie in the red sweater lying down" },
-        ],
-      },
     ],
   },
 ];

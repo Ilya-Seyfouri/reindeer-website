@@ -26,7 +26,7 @@ import { cartTotals } from "@/lib/pricing";
  *         ? [{ quantity: treats, price_data: { currency: "usd", unit_amount: treat.price, product_data: { name: treat.name } } }]
  *         : []),
  *     ],
- *     // The 2-pack saving ($24.99 per pair instead of 2 x $14.99), as a one-off amount off.
+ *     // The 2-pack saving ($32.99 per pair instead of 2 x $19.99), as a one-off amount off.
  *     // Also add totals.freeTreats bags of treats to the order for packing (no charge):
  *     discounts: totals.discount > 0
  *       ? [{ coupon: (await stripe.coupons.create({ amount_off: totals.discount, currency: "usd", duration: "once" })).id }]

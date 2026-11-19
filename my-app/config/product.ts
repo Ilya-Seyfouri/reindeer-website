@@ -7,8 +7,8 @@
  * Anything marked [PLACEHOLDER] is sample content. Replace it before launch.
  * Search this file for "[PLACEHOLDER]" to find every one.
  *
- * Money is stored in cents (1499 = $14.99) to avoid rounding errors. Whole-dollar
- * amounts show without cents ($25), anything else with them ($14.99).
+ * Money is stored in cents (1999 = $19.99) to avoid rounding errors. Whole-dollar
+ * amounts show without cents ($25), anything else with them ($19.99).
  *
  * Photos live in app/images/. Swap a file there (same name) to change a photo.
  */
@@ -118,8 +118,10 @@ export const product = {
   ],
   /** One size for every dog. Describe the fit range here. */
   fit: "One size with a roomy hood and an adjustable tummy strap that closes anywhere along its length, so it fits most small, medium and large dogs, from little pugs to big huskies.",
-  price: 1499, // $14.99 for one costume
-  compareAtPrice: 2199, // $21.99 per costume, struck through; the same ~30% saving as before. Set to null to hide it
+  // Set from the UK prices at about $1.32 to the pound (Nov 2026), rounded to shop prices:
+  // £14.99 → $19.99 for one, £24.99 → $32.99 for two, £21.99 was-price → $28.99
+  price: 1999, // $19.99 for one costume
+  compareAtPrice: 2899, // $28.99 per costume, struck through. Set to null to hide it
   rating: 4.9, // [PLACEHOLDER]
   reviewCount: 1248, // [PLACEHOLDER]
   happyDogs: "1,000+", // [PLACEHOLDER]
@@ -142,14 +144,17 @@ export const product = {
   ],
 } as const;
 
+/** "$32.99" for FAQ copy. */
+const dollars = (cents: number) => `$${(cents / 100).toFixed(2)}`;
+
 /**
  * Purchase options, shown biggest first on the product section.
- * The same deal applies in the cart: every pair is $24.99 with free treats, any
- * odd one out is $14.99, e.g. 3 costumes = $39.98 with one bag of treats.
+ * The same deal applies in the cart: every pair is $32.99 with free treats, any
+ * odd one out is $19.99, e.g. 3 costumes = $52.98 with one bag of treats.
  */
 export const bundles: Bundle[] = [
-  { quantity: 2, price: 2499, freeTreats: 1, title: "Buy 2 + FREE Treats", note: "2 Rudy Costumes + gourmet dog treats", popular: true },
-  { quantity: 1, price: 1499, freeTreats: 0, title: "Buy Once", note: "1 Rudy Costume" },
+  { quantity: 2, price: 3299, freeTreats: 1, title: "Buy 2 + FREE Treats", note: "2 Rudy Costumes + gourmet dog treats", popular: true },
+  { quantity: 1, price: 1999, freeTreats: 0, title: "Buy Once", note: "1 Rudy Costume" },
 ];
 
 export const shipping = {
@@ -268,7 +273,7 @@ export const faqs = [
   },
   {
     q: "How do the bundle deals work?",
-    a: `Buy 2 costumes for $24.99 instead of $29.98, and we'll add a free bag of ${treat.name.toLowerCase()} for your furry little friend. The deal applies automatically in your cart. It's perfect for multi-dog homes or as a gift, and every order ships free.`,
+    a: `Buy 2 costumes for ${dollars(bundles[0].price)} instead of ${dollars(product.price * 2)}, and we'll add a free bag of ${treat.name.toLowerCase()} for your furry little friend. The deal applies automatically in your cart. It's perfect for multi-dog homes or as a gift, and every order ships free.`,
   },
   {
     q: "Can I add a treat for my dog?",

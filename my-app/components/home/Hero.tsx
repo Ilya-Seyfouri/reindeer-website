@@ -159,7 +159,7 @@ function optionPricing(quantity: number) {
 }
 
 function Option({ bundle, selected, onSelect }: { bundle: Bundle; selected: boolean; onSelect: () => void }) {
-  // Whole-option prices ($24.99 for the 2-pack), so they match the offer as advertised
+  // Whole-option prices ($32.99 for the 2-pack), so they match the offer as advertised
   const { each, was, save } = optionPricing(bundle.quantity);
 
 

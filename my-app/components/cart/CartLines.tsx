@@ -158,7 +158,7 @@ export function TreatUpsell() {
 
 const pair = bundles.find((b) => b.quantity === 2)!;
 
-/** "Add 1 more for just $10 and get free treats" — shown when an odd costume could make a 2-pack. */
+/** "Add 1 more for just $13 and get free treats" — shown when an odd costume could make a 2-pack. */
 export function BundleNudge() {
   const { totals, add } = useCart();
   if (totals.quantity % 2 === 0) return null;

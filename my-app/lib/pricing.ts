@@ -31,7 +31,7 @@ export function freeTreatsFor(quantity: number) {
   return pairsFor(quantity) * pair.freeTreats;
 }
 
-/** What the shopper pays for this many costumes: $24.99 per pair, $14.99 for an odd one out. */
+/** What the shopper pays for this many costumes: $32.99 per pair, $19.99 for an odd one out. */
 export function priceFor(quantity: number) {
   return pairsFor(quantity) * pair.price + (quantity % 2) * product.price;
 }

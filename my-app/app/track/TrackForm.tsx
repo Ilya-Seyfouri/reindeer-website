@@ -1,8 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useMemo, useState } from "react";
-import { DEFAULT_HOME, GlobeTracker } from "@/components/track/GlobeTracker";
+import { useState } from "react";
 import { CheckIcon, MailIcon } from "@/components/ui/icons";
 import { Ph } from "@/components/ui/Placeholder";
 import { shipping } from "@/config/product";
@@ -28,12 +27,6 @@ const STEPS: { key: TrackingResult["status"]; label: string; detail: string }[] 
   { key: "delivered", label: "Delivered", detail: "Time to dress up!" },
 ];
 
-const SLEIGH_CAPTIONS: Record<TrackingResult["status"], string> = {
-  processing: "Being packed at Rudy HQ, ready for take-off",
-  shipped: "The sleigh is on its way",
-  out_for_delivery: "Nearly there: out for delivery today",
-  delivered: "Delivered! Time to dress up",
-};
 
 type State =
   | { kind: "idle" }
@@ -74,22 +67,11 @@ export function TrackForm() {
   }
 
   const found = state.kind === "found" ? state.result : null;
-  const caption = found
-    ? SLEIGH_CAPTIONS[found.status]
-    : state.kind === "loading"
-      ? "Checking the sleigh's flight plan…"
-      : "Rudy's sleigh is out on a practice run.";
-  const destination = found?.destination;
-  // A stable object, so the globe only re-plans the route when the order changes
-  const home = useMemo(
-    () => (destination ? { label: destination.label, lat: destination.lat, lng: destination.lng } : DEFAULT_HOME),
-    [destination],
-  );
 
   return (
     <section aria-labelledby="track-title" className="track-sky relative isolate overflow-hidden text-white">
-      <div className="wrap grid items-center gap-10 pt-10 pb-16 md:pt-14 lg:grid-cols-[0.9fr_1.1fr] lg:gap-14 lg:pb-24">
-        <div className="enter flex flex-col gap-7" style={{ "--i": 0 } as React.CSSProperties}>
+      <div className="wrap pt-10 pb-16 md:pt-14 lg:pb-24">
+        <div className="enter mx-auto flex max-w-[36rem] flex-col gap-7" style={{ "--i": 0 } as React.CSSProperties}>
           <div>
             <h1 id="track-title" className="font-display text-[clamp(2.5rem,1.8rem+3vw,4.25rem)] leading-[1.02]">
               Track your order
@@ -158,10 +140,6 @@ export function TrackForm() {
               {found ? <Result result={found} /> : null}
             </div>
           </div>
-        </div>
-
-        <div className="enter" style={{ "--i": 1 } as React.CSSProperties}>
-          <GlobeTracker stage={found?.status ?? null} home={home} caption={caption} />
         </div>
       </div>
     </section>

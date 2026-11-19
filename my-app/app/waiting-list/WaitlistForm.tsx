@@ -66,7 +66,7 @@ export function WaitlistForm() {
   }
 
   return (
-    <form noValidate onSubmit={onSubmit} className="enter flex flex-col gap-6" style={{ "--i": 1 } as React.CSSProperties}>
+    <form noValidate onSubmit={onSubmit} className="enter flex flex-col gap-5 sm:gap-6" style={{ "--i": 1 } as React.CSSProperties}>
       <TextField name="email" label="Email address" type="email" autoComplete="email" error={emailError} />
       {/* Left empty by people; bots fill it in and their sign-up is dropped. */}
       <input
@@ -77,7 +77,7 @@ export function WaitlistForm() {
         aria-hidden="true"
         className="absolute -left-[9999px] size-px opacity-0"
       />
-      <div aria-live="polite">
+      <div aria-live="polite" className="empty:-my-2.5 sm:empty:-my-3">
         {state.kind === "error" ? (
           <p role="alert" className="rounded-2xl bg-fawn-soft p-5 font-bold text-danger">
             {state.message} You can also email us at{" "}

@@ -16,8 +16,6 @@ const nav = [
   { href: "/waiting-list", label: "Waiting List", Icon: DogBowlIcon },
 ];
 
-const menuExtra = [{ href: "/refund-policy", label: "Refund policy" }];
-
 export function AnnouncementBar() {
   return (
     <div className="wrapping-paper">
@@ -105,7 +103,7 @@ export function Header() {
       <Drawer open={menuOpen} onClose={() => setMenuOpen(false)} side="left" title="Menu">
         <nav aria-label="Mobile">
           <ul className="flex flex-col py-3">
-            {[...nav, ...menuExtra].map((item) => (
+            {nav.map((item) => (
               <li key={item.href} className="border-b border-line last:border-0">
                 <Link
                   href={item.href}
